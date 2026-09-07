@@ -1,5 +1,7 @@
 const REQUIRED = ['event_id','source_type','source_id','observed_at','received_at','event_type','confidence','subject','human_confirmed','privacy_level','provenance'];
 const RELATIONS = new Set(['supports','conflicts_with','same_episode','baseline_deviation','derived_from','uncertain_about']);
+const GAP_EVENT_TYPES = new Set(['sensor_status','source_status']);
+const SOURCE_GAP_VALUES = new Set(['sensor_offline','permission_unavailable','not_synced','no_event_observed']);
 
 export function median(values){
   const xs=values.filter(Number.isFinite).sort((a,b)=>a-b);
@@ -21,6 +23,7 @@ export function validateEvidenceEvent(event){
   if(typeof event.confidence!=='number' || event.confidence<0 || event.confidence>1) throw new Error('invalid confidence');
   if(typeof event.human_confirmed!=='boolean') throw new Error('invalid human_confirmed');
   if(!event.provenance || typeof event.provenance!=='object' || !event.provenance.adapter) throw new Error('invalid provenance');
+  if(GAP_EVENT_TYPES.has(event.event_type) && event.value!=='available' && !SOURCE_GAP_VALUES.has(event.value)) throw new Error('invalid source gap state');
   return event;
 }
 
@@ -108,8 +111,13 @@ export function detectConflicts(events){
   return edges;
 }
 
+export function sourceGapEvents(events,{after}={}){
+  const start=after?Date.parse(after):-Infinity;
+  return events.filter(event=>Date.parse(event.observed_at)>=start && GAP_EVENT_TYPES.has(event.event_type) && SOURCE_GAP_VALUES.has(event.value));
+}
+
 function noteworthy(event,deviationIds){
-  return deviationIds.has(event.event_id) || ['caregiver_observation','sensor_status','door_event','phone_activity'].includes(event.event_type) || Boolean(event.claim_key);
+  return deviationIds.has(event.event_id) || ['caregiver_observation','sensor_status','source_status','door_event','phone_activity','room_activity'].includes(event.event_type) || Boolean(event.claim_key);
 }
 
 export function reconstructEpisodes(events,{baseline,after,gapHours=18}={}){
@@ -128,7 +136,17 @@ export function reconstructEpisodes(events,{baseline,after,gapHours=18}={}){
     const ids=cluster.events.map(e=>e.event_id);
     const localDeviations=deviations.filter(d=>ids.includes(d.from));
     const localConflicts=conflicts.filter(c=>ids.includes(c.from)&&ids.includes(c.to));
-    const unknowns=cluster.events.filter(e=>e.event_type==='sensor_status' && e.value!=='available');
+    const unknowns=cluster.events.filter(e=>GAP_EVENT_TYPES.has(e.event_type)&&SOURCE_GAP_VALUES.has(e.value));
+    const unknownEdges=unknowns.map(event=>({
+      edge_id:`unknown:${event.event_id}`,
+      from:event.event_id,
+      to:`metric:${event.related_metric||event.source_id}`,
+      relation:'uncertain_about',
+      confidence:1,
+      proposed_by:'local_rules',
+      human_confirmed:false,
+      reason:`Source state ${event.value} leaves ${event.related_metric||event.source_id} unknown`
+    }));
     const claims=[];
     for(const d of localDeviations){
       claims.push({claim_type:'baseline_deviation',certainty:'supported',metric:d.metric,direction:d.direction,observed:d.observed,baseline_median:d.baseline_median,unit:d.unit,evidence_ids:[d.from]});
@@ -144,9 +162,14 @@ export function reconstructEpisodes(events,{baseline,after,gapHours=18}={}){
       status:'needs_review',
       evidence_ids:ids,
       claims,
-      edges:[...localDeviations,...localConflicts]
+      edges:[...localDeviations,...localConflicts,...unknownEdges]
     };
   });
+}
+
+function evidenceForClaim(claim,evidence){
+  const byId=new Map(evidence.map(e=>[e.event_id,e]));
+  return claim.evidence_ids.map(id=>byId.get(id)).filter(Boolean);
 }
 
 export function validateDerivedClaim(claim,evidence){
@@ -155,7 +178,29 @@ export function validateDerivedClaim(claim,evidence){
   const missing=claim.evidence_ids.filter(id=>!ids.has(id));
   if(missing.length) return {ok:false,reason:`unknown evidence IDs: ${missing.join(', ')}`};
   if(!['supported','unknown','conflicting'].includes(claim.certainty)) return {ok:false,reason:'invalid certainty'};
-  return {ok:true};
+  const refs=evidenceForClaim(claim,evidence);
+  if(claim.claim_type==='baseline_deviation'){
+    const match=refs.some(event=>event.baseline_metric===claim.metric && typeof event.value==='number');
+    if(!match || claim.certainty!=='supported') return {ok:false,reason:'baseline claim is not supported by matching baseline evidence'};
+    return {ok:true};
+  }
+  if(claim.claim_type==='unknown'){
+    const match=refs.some(event=>GAP_EVENT_TYPES.has(event.event_type)&&SOURCE_GAP_VALUES.has(event.value)&&(claim.metric===undefined||event.related_metric===claim.metric||event.source_id===claim.metric));
+    if(!match || claim.certainty!=='unknown') return {ok:false,reason:'unknown claim requires a matching source-gap event'};
+    return {ok:true};
+  }
+  if(claim.claim_type==='conflict'){
+    const grouped=new Map();
+    for(const event of refs){
+      if(!event.claim_key) continue;
+      if(!grouped.has(event.claim_key)) grouped.set(event.claim_key,[]);
+      grouped.get(event.claim_key).push(event.value);
+    }
+    const match=[...grouped.values()].some(values=>new Set(values.map(v=>JSON.stringify(v))).size>1);
+    if(!match || claim.certainty!=='conflicting') return {ok:false,reason:'conflict claim requires contradictory evidence for the same claim key'};
+    return {ok:true};
+  }
+  return {ok:false,reason:'unsupported derived claim type'};
 }
 
 export function validateGraphEdges(edges,evidence){
@@ -163,7 +208,8 @@ export function validateGraphEdges(edges,evidence){
   for(const edge of edges){
     if(!RELATIONS.has(edge.relation)) throw new Error(`invalid relation: ${edge.relation}`);
     if(!ids.has(edge.from)) throw new Error(`unknown edge source: ${edge.from}`);
-    if(!ids.has(edge.to) && !String(edge.to).startsWith('baseline:')) throw new Error(`unknown edge target: ${edge.to}`);
+    const pseudo=String(edge.to).startsWith('baseline:')||String(edge.to).startsWith('metric:');
+    if(!ids.has(edge.to) && !pseudo) throw new Error(`unknown edge target: ${edge.to}`);
   }
   return true;
 }
