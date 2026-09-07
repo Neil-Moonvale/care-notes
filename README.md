@@ -36,8 +36,10 @@ The current development line includes:
 - conservative **same-change-period candidates** with explicit **Link / Not the same period** controls;
 - a fully fictional phone-only multi-day evaluation fixture;
 - selected summaries and text handoff export;
-- Simplified Chinese, English and Spanish interface/help/examples;
+- Simplified Chinese, English, Spanish, French, Japanese and Korean interface/help/examples;
 - device-local browser storage and offline shell caching.
+
+The six interface translations are covered by dictionary, placeholder, demo and workflow regression checks. They have **not** received independent native-language or clinical translation validation; translation feedback is welcome. The current local drafting patterns remain primarily Chinese/English, so interface availability must not be confused with validated semantic classification in every language.
 
 The current hosted/static workflow uses local deterministic rules. It does **not** claim AI event understanding, diagnosis, treatment advice, medication adjustment, hospital-admission decisions or clinical validation.
 
@@ -64,7 +66,7 @@ Examples of unsupported upgrades that Care Notes must not make:
 5. Accept a candidate only after checking both source records, or dismiss it.
 6. Download the episode handoff or prepare a visit summary.
 
-Open **How to use** in the application for step-by-step instructions. Personal records keep their original language.
+Open **How to use** in the application for step-by-step instructions. Personal records keep their original language and are not automatically translated when the interface language changes.
 
 ## Run locally
 
