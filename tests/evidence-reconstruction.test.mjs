@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {buildPersonalBaseline,detectBaselineDeviations,detectConflicts,reconstructEpisodes,sourceGapEvents,validateDerivedClaim,validateEvidence,validateGraphEdges} from '../dist/evidence.js';
+import {buildPersonalBaseline,detectBaselineDeviations,detectConflicts,reconstructEpisodes,sourceGapEvents,validateDerivedClaim,validateEpisodeRecord,validateEvidence,validateGraphEdges} from '../dist/evidence.js';
 import {fictionalSevenDayEvidence} from '../dist/demo-evidence.js';
 
 const demo=JSON.parse(fs.readFileSync(new URL('../examples/fictional-7-day-evidence.json',import.meta.url),'utf8'));
@@ -42,7 +42,7 @@ test('source gaps remain explicit evidence context',()=>{
   assert.ok(gaps.some(g=>g.event_id==='ev_0505_med_status'&&g.value==='sensor_offline'));
 });
 
-test('reconstructs reviewable episodes with traceable claims',()=>{
+test('reconstructs reviewable episodes with traceable graph edges and claims',()=>{
   const baseline=buildPersonalBaseline(events,{before:demo.baseline_before});
   const episodes=reconstructEpisodes(events,{baseline,after:demo.baseline_before});
   assert.ok(episodes.length>=1);
@@ -50,9 +50,11 @@ test('reconstructs reviewable episodes with traceable claims',()=>{
   assert.ok(claims.some(c=>c.claim_type==='unknown'&&c.metric==='medication_status'));
   assert.ok(claims.some(c=>c.claim_type==='conflict'));
   assert.ok(episodes.flatMap(e=>e.edges).some(edge=>edge.relation==='uncertain_about'&&edge.to==='metric:medication_status'));
+  assert.ok(episodes.flatMap(e=>e.edges).some(edge=>edge.relation==='same_episode'));
   for(const episode of episodes){
     validateGraphEdges(episode.edges,events);
     for(const claim of episode.claims) assert.equal(validateDerivedClaim(claim,events).ok,true);
+    assert.equal(validateEpisodeRecord(episode,events).ok,true);
   }
 });
 
@@ -72,5 +74,10 @@ test('rejects a conflict claim when cited observations do not conflict',()=>{
 
 test('rejects semantic upgrade from phone activity to a baseline sleep claim',()=>{
   const result=validateDerivedClaim({claim_type:'baseline_deviation',certainty:'supported',metric:'sleep_duration',evidence_ids:['ev_0505_phone']},events);
+  assert.equal(result.ok,false);
+});
+
+test('rejects an episode with an unknown evidence ID',()=>{
+  const result=validateEpisodeRecord({episode_id:'bad',start_at:'2026-09-05T00:00:00Z',end_at:'2026-09-05T01:00:00Z',evidence_ids:['made-up'],claims:[],edges:[]},events);
   assert.equal(result.ok,false);
 });
