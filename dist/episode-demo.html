@@ -18,9 +18,19 @@
         <div><p class="eyebrow">ZERO-INPUT EPISODE RECONSTRUCTION</p><h1 data-i18n="title">发生了什么？</h1><p class="hero-copy" data-i18n="subtitle">当被照护者没有主动记录时，把家属观察与设备留下的碎片重新拼成可核对的时间线。</p></div>
         <div class="hero-note"><strong data-i18n="notDiagnosis">这不是诊断。</strong><span data-i18n="notDiagnosisBody">系统只整理证据、变化、冲突与未知，不把传感器信号升级成医学结论。</span></div>
       </section>
+      <section class="overview-grid" aria-label="Demo overview">
+        <article><span id="overviewEvidence" class="overview-number">0</span><small data-i18n="evidenceItems">条证据</small></article>
+        <article><span id="overviewSources" class="overview-number">0</span><small data-i18n="sourceKinds">类来源</small></article>
+        <article><span id="overviewGaps" class="overview-number">0</span><small data-i18n="dataGaps">处数据缺口</small></article>
+        <article><span id="overviewConflicts" class="overview-number">0</span><small data-i18n="conflictGroups">组冲突</small></article>
+      </section>
       <section class="baseline-panel">
         <div class="section-heading"><div><p class="eyebrow">PERSONAL BASELINE</p><h2 data-i18n="baselineTitle">先和这个人平时的状态比较</h2></div><span class="period" data-i18n="baselinePeriod">基线：前 4 天</span></div>
         <div id="baselineCards" class="baseline-grid"></div>
+      </section>
+      <section class="gaps-section">
+        <div class="section-heading"><div><p class="eyebrow">DATA COMPLETENESS</p><h2 data-i18n="gapsTitle">数据缺口也必须被记录</h2></div><p class="muted" data-i18n="gapsHint">传感器离线、权限不可用和“没有观察到事件”不是一回事。</p></div>
+        <div id="sourceGaps" class="gap-grid"></div>
       </section>
       <section class="episodes-section">
         <div class="section-heading"><div><p class="eyebrow">REVIEWABLE CHANGES</p><h2><span id="episodeCount">0</span> <span data-i18n="reviewTitle">段值得回顾的变化</span></h2></div><p class="muted" data-i18n="reviewHint">每一条结论都必须能回到原始证据。</p></div>
