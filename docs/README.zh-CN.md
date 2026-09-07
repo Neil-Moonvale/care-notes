@@ -140,16 +140,7 @@ v0.3 的虚构重建 Demo 完全不需要付费 API。
 npm test
 ```
 
-当前 v0.3 开发分支在 GitHub Actions 中 **44 项自动检查全部通过**。测试范围包括原来的记录/备份/AI 适配器保护，以及新增的：
-
-- evidence adapter；
-- 个人基线；
-- 数据源缺口；
-- Evidence Graph；
-- Episode Reconstruction；
-- 家属冲突；
-- 错误 evidence ID；
-- 不符合语义的结论拒绝。
+当前 v0.3 开发分支在 GitHub Actions 中 **49 项自动检查全部通过**。测试范围包括原来的记录/备份/AI 适配器保护，以及新增的 evidence adapter、个人基线、数据源缺口、Evidence Graph、Episode Reconstruction、家属冲突、错误 evidence ID、不符合语义的结论拒绝，以及静态移动端/无障碍保护。
 
 这些测试只能证明软件契约行为，不证明临床正确性。现在还没有真实模型准确率、真实穿戴设备、真实摄像头或 Android 端到端验证结论。
 
