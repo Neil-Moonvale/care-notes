@@ -6,3 +6,7 @@ node_modules/
 *.tgz
 *.zip
 .DS_Store
+
+
+# Evaluation outputs can include raw source text and model responses.
+evaluation-results/

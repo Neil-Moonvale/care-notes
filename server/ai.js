@@ -1,5 +1,7 @@
 import { CATEGORIES, SOURCES, CERTAINTIES } from '../dist/core.js';
 import { segmentText, validateSuggestions } from '../dist/draft.js';
+import { reconstructWithOpenAI } from './reconstruction.js';
+import { validateAnalysis } from '../dist/reconstruction-core.js';
 
 export const CLASSIFICATION_SCHEMA = {
   type: 'object', additionalProperties: false, required: ['suggestions'],
@@ -38,27 +40,30 @@ export function createApiHandler({ env = {}, fetchImpl = fetch, clock = Date.now
   const json = (data, status = 200) => new Response(JSON.stringify(data), { status, headers:{ 'Content-Type':'application/json', 'Cache-Control':'no-store', 'X-Content-Type-Options':'nosniff' } });
   return async request => {
     const url = new URL(request.url);
-    if (url.pathname === '/api/status' && request.method === 'GET') return json({ aiConfigured:Boolean(env.OPENAI_API_KEY && env.OPENAI_MODEL) });
-    if (url.pathname !== '/api/draft') return json({ error:'not_found' },404);
+    if (url.pathname === '/api/status' && request.method === 'GET') return json({ aiConfigured:Boolean(env.OPENAI_API_KEY && env.OPENAI_MODEL),reconstructionConfigured:Boolean(env.OPENAI_API_KEY && env.OPENAI_MODEL) });
+    if (!['/api/draft','/api/reconstruct'].includes(url.pathname)) return json({ error:'not_found' },404);
+    const reconstructing=url.pathname==='/api/reconstruct';
     if (request.method !== 'POST') return json({ error:'method_not_allowed' },405);
     // Same-origin explicit UI requests only. No CORS or cross-site form submissions.
-    if (request.headers.get('origin') !== url.origin || request.headers.get('x-care-notes') !== 'draft' || !request.headers.get('content-type')?.startsWith('application/json')) return json({ error:'forbidden' },403);
+    if (request.headers.get('origin') !== url.origin || request.headers.get('x-care-notes') !== (reconstructing?'reconstruct':'draft') || !request.headers.get('content-type')?.startsWith('application/json')) return json({ error:'forbidden' },403);
     if (!env.OPENAI_API_KEY || !env.OPENAI_MODEL) return json({ error:'not_configured' },503);
     if (clock() - windowStart >= 60000) { windowStart = clock(); count = 0; }
     if (active || count >= 10) return json({ error:'rate_limited' },429);
-    if (Number(request.headers.get('content-length') || 0) > 32000) return json({error:'too_large'},413);
+    const bodyLimit=reconstructing?128000:32000;
+    if (Number(request.headers.get('content-length') || 0) > bodyLimit) return json({error:'too_large'},413);
     let input;
     try {
       const reader = request.body?.getReader(); if (!reader) throw new Error();
       let size = 0; const chunks = [];
-      while (true) { const {done,value} = await reader.read(); if (done) break; size += value.length; if (size > 32000) { await reader.cancel(); return json({error:'too_large'},413); } chunks.push(value); }
+      while (true) { const {done,value} = await reader.read(); if (done) break; size += value.length; if (size > bodyLimit) { await reader.cancel(); return json({error:'too_large'},413); } chunks.push(value); }
       const joined = new Uint8Array(size); let offset = 0; for (const chunk of chunks) { joined.set(chunk,offset); offset += chunk.length; }
       input = JSON.parse(new TextDecoder().decode(joined));
-      if (!input || input.consent !== true || Object.keys(input).sort().join(',') !== 'consent,text') return json({error:'consent_required'},400);
-      segmentText(input.text);
+      if (!input || input.consent !== true || Object.keys(input).sort().join(',') !== (reconstructing?'consent,sources':'consent,text')) return json({error:'consent_required'},400);
+      if(reconstructing){validateAnalysis(input.sources,{claims:[],relations:[]});if(input.sources.reduce((n,s)=>n+s.text.length,0)>24000)return json({error:'too_large'},413);}
+      else segmentText(input.text);
     } catch { return json({error:'invalid_input'},400); }
     active = true; count++;
-    try { return json(await classifyWithOpenAI(input.text, {apiKey:env.OPENAI_API_KEY,model:env.OPENAI_MODEL,fetchImpl})); }
+    try { return json(await (reconstructing?reconstructWithOpenAI(input.sources,{apiKey:env.OPENAI_API_KEY,model:env.OPENAI_MODEL,fetchImpl}):classifyWithOpenAI(input.text, {apiKey:env.OPENAI_API_KEY,model:env.OPENAI_MODEL,fetchImpl}))); }
     catch { return json({error:'classification_failed'},502); }
     finally { active = false; }
   };

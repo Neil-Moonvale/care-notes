@@ -48,3 +48,12 @@ The candidate rule is intentionally weak and review-only. Same category + close 
 6. After mobile acceptance, decide whether the next capability should be better review-question ranking, richer phone-only reconstruction, or the Android native shell. Do not add hardware integrations merely to make the project look advanced.
 
 See [User guide](USER_GUIDE.md), [Roadmap](ROADMAP.md) and [Validation](VALIDATION.md).
+
+
+## Evidence revision branch — 2026-09-07
+
+`feature/evidence-revision-core` builds on `feature/v0.3-phone-first-reconstruction`. It adds immutable evidence revisions, attributed claims, typed relations, temporal and lineage constraints, stale-analysis rejection and a change report. The original overlay that only revealed a list while announcing reconstruction has been removed.
+
+A six-language correction example is available at `reconstruction.html`. Its source annotations are authored; its changes and relations are computed locally. The optional server can request real structured extraction with explicit consent, and a separate model-summary baseline is available in the comparison CLI. No live model request or comparative usefulness measurement has been completed.
+
+Next: review the phone example, run the model comparison with an explicitly configured budget, prepare an independent held-out set, and measure review effort. Preserve PR #3's main-release gate. Pause additional languages, native packaging, device integration and baseline-risk scoring. See [Reconstruction experiment](RECONSTRUCTION.md).

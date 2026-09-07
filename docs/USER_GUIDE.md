@@ -121,3 +121,10 @@ Care Notes는 돌봄에 관한 여러 진술을 정리하고 비교해 인계 �
 기기나 브라우저를 바꾸기 전에는 **설정 → 백업 내보내기**를 사용하세요. 기록은 한 브라우저에 암호화되지 않은 상태로 저장되며 자동 동기화되지 않습니다.
 
 현재 시험 버전은 로컬 규칙을 사용하며 진단, 치료·복약 조언, 입원 결정, 임상 검증을 제공하지 않습니다. 요약을 공유하기 전에 원본 기록을 확인하세요.
+
+
+## Try a correction / 体验一次更正
+
+From the episode page, open **Try evidence correction / 体验更正后的变化**. Read the fictional accounts, then use the date-correction button. The old same-event proposal is withdrawn while the original remains in version history. Editing any original text withdraws its old analysis until it is analysed again. This is a separate temporary workspace; reload resets it. Download the review JSON if needed. The static page uses local computation and authored example annotations, with no live model.
+
+在“整理经过”页面打开“体验更正后的变化”。点击日期更正后，查看被撤回的暂定关联和保留的旧原文。自由修改文字后，原来依赖它的分析会失效，不能冒充已经理解新内容。本页是临时试验，不改变原有照护记录；刷新会重置，需要保留请下载材料。

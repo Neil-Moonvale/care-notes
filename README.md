@@ -8,6 +8,13 @@ Care Notes is an early open-source, phone-first caregiving project for turning f
 
 The core workflow must be useful with **one Android phone and one caregiver**. No wearable, smart home, camera, pillbox sensor or other extra hardware is required. Optional evidence sources may improve a future reconstruction, but they must never be prerequisites.
 
+## Evidence revision experiment
+
+The current development branch includes a [source-version and event-relation core](docs/RECONSTRUCTION.md). Open **Try evidence correction** in the web app: correcting a date withdraws an old tentative link, preserves the original account, and shows which output changed. Free edits invalidate old extraction instead of silently retaining it. The six-language example uses authored fictional annotations and local computation; it is not a live AI demonstration.
+
+An optional OpenAI reconstruction endpoint and a separate strong-prompt comparison runner are included. Live-model results and independent user evaluation are still pending. See the [experiment, limitations and reproduction steps](docs/RECONSTRUCTION.md).
+
+
 ## The problem it is trying to solve
 
 The hardest periods are often the ones nobody documents well. The cared-for person may be unable or unwilling to keep a diary, caregivers may remember different pieces, dates may be uncertain, and “no record” may simply mean nobody knows.
@@ -84,7 +91,7 @@ For the optional personal AI classification server, see [AI setup](docs/AI.md). 
 
 Records are stored unencrypted in the current browser, without cross-device sync. Export a backup before clearing browser data or changing devices. Backups include original paragraphs and corrections; check files before sharing. [Security and privacy](SECURITY.md).
 
-The long-term product shape is **Android app first, web demo/dashboard second, reusable reconstruction core underneath both**. Native Android storage, Health Connect and other optional integrations are later work; the core experience must remain useful without buying extra hardware.
+The current priority is a reusable evidence-revision core and a phone-usable web workflow. Native Android packaging, additional languages and device integrations are paused while the core is evaluated.
 
 ## Development
 
@@ -93,3 +100,4 @@ Run `npm test` with Node.js 22 or later. [Validation notes](docs/VALIDATION.md) 
 The repository intentionally uses feature branches, automated checks and review gates. Real bugs, fixes, releases and outside feedback should remain visible as normal open-source maintenance history.
 
 Maintained by [Neil-Moonvale](https://github.com/Neil-Moonvale). MIT license; see [LICENSE](LICENSE).
+

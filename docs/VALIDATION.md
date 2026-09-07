@@ -20,3 +20,10 @@ Eight episode regression checks added; all 35 local checks pass. Coverage includ
 ## v0.3.1
 
 39 local checks pass, including four new localization and demo-storage checks. Each shipped language has a full interface dictionary, help and episode labels. Language switching preserves separate demo edits and leaves personal data unchanged. Independent Spanish-language review and browser end-to-end testing have not been performed.
+
+
+## Evidence revision experiment — 2026-09-07
+
+The development checks exercise source revisions, exact quotations, non-observation, hearsay lineage, proposed conflicts, separate occurrences, ambiguous dates, temporal and lineage cycles, shared-time constraints, stale provider responses, source removal, declared cross-source dependencies, interpretation changes, and the six-language correction example. Packaging checks cover both entry pages and offline imports. Mock-provider checks cover consent, scoped input, refusals and invalid quotations.
+
+The comparison runner completed a local fixture replay of 12 public development cases across 15 stages, with zero model calls and no kernel errors. This tests authored fault injections, not model performance. Real-model comparison, independent held-out cases, native-language review and caregiver task-time measurements remain pending. See [Reconstruction experiment](RECONSTRUCTION.md).

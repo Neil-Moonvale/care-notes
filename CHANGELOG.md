@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0-dev.1 — Evidence revision experiment
+
+- Add a shared browser/Node core for source versions, attributed claims, relation constraints and dependent-output invalidation.
+- Add a six-language correction example with exact original references and visible change reports.
+- Remove the entry overlay that announced reconstruction without semantic processing.
+- Add opt-in structured reconstruction and a strong-prompt baseline, with a reproducible development-case replay.
+- No live-model performance or clinical validity claim.
+
 ## 0.3.1 — 2026-09-07
 
 - Spanish interface, help and fictional examples.
@@ -30,3 +38,4 @@
 
 - Initial public import of the previously built private prototype.
 - Local records, fictional demo, linking, corrections, summaries, backup/restore and ten core checks.
+

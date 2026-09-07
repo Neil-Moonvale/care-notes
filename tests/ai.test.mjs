@@ -21,7 +21,7 @@ test('provider failures, refusals, truncation and malformed classifications prod
 });
 test('absent configuration never invokes a provider or reports a working AI service',async()=>{
   let calls=0;const handler=createApiHandler({fetchImpl:async()=>{calls++;throw Error();}});
-  assert.deepEqual(await (await handler(new Request('http://localhost:8787/api/status'))).json(),{aiConfigured:false});
+  assert.deepEqual(await (await handler(new Request('http://localhost:8787/api/status'))).json(),{aiConfigured:false,reconstructionConfigured:false});
   assert.equal((await handler(request({text:'Had lunch.',consent:true}))).status,503);assert.equal(calls,0);
 });
 test('consent and same-origin checks run before any data can leave',async()=>{

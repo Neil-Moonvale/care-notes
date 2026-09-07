@@ -22,3 +22,8 @@ Hosted AI requires a separate authenticated backend, per-user quotas, operationa
 [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs) · [Responses API and storage](https://developers.openai.com/api/docs/guides/migrate-to-responses)
 
 `store: false` disables stored Responses state, not every form of infrastructure/provider retention. Review current policies before sensitive use.
+
+
+## Experimental reconstruction
+
+The same local configuration enables `/api/reconstruct` on the [evidence revision page](RECONSTRUCTION.md). It sends only the explicitly consented current accounts, source names and recording timestamps. The API validates exact quotation references, while the client rejects responses to old source versions. The public static demo does not expose this server or a paid model service.

@@ -1,1 +1,14 @@
-{"name":"care-notes","version":"0.3.1","private":true,"type":"module","engines":{"node":">=22"},"scripts":{"start":"node server/index.mjs","test":"node --test tests/*.test.mjs"}}
+{
+  "name": "care-notes",
+  "version": "0.4.0-dev.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server/index.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "eval:reconstruction": "node scripts/evaluate-reconstruction.mjs"
+  }
+}
