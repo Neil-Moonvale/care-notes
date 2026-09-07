@@ -4,6 +4,7 @@ import {suggestEpisodeLinks} from './episode.js';
 import {chooseLanguage} from './locales.js';
 
 const PERSONAL_KEY='care-notes.records.v1';
+const SKIP={zh:'跳到内容',en:'Skip to content',es:'Ir al contenido',fr:'Aller au contenu',ja:'本文へ移動',ko:'본문으로 이동'};
 const COPY={
  zh:{title:'可能属于同一段变化',hint:'Care Notes 只根据“同一类别 + 时间接近”提出候选。它不会自动合并，也不代表两条记录一定说的是同一件事。',accept:'关联这两条',reject:'不是同一段',accepted:'已关联。两条原始记录仍会分别保留。',rejected:'已忽略这个候选。',source:'原始记录'},
  en:{title:'May belong to the same change period',hint:'Care Notes only uses a conservative same-category + close-time rule here. It never merges records automatically and this is not a claim that the accounts describe the same event.',accept:'Link these records',reject:'Not the same period',accepted:'Linked. Both source records remain separate and reviewable.',rejected:'Candidate dismissed.',source:'Source record'},
@@ -59,6 +60,7 @@ function currentSuggestions(){
 }
 
 function render(){
+ const lang=language(),skip=document.querySelector('.skip');if(skip)skip.textContent=SKIP[lang]||SKIP.en;
  const mount=document.querySelector('.episode-questions .panel-body');
  const old=document.querySelector('#care-notes-link-suggestions');
  if(!mount){old?.remove();return;}
