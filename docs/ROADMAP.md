@@ -1,11 +1,11 @@
 # Roadmap / 开发路线
 
-Read [PROJECT_STATE.md](PROJECT_STATE.md) before continuing across chats.
+See [Project status](PROJECT_STATE.md) and [User guide](USER_GUIDE.md).
 
 ## Working prototype
 
 - [x] Local recording, paragraph capture, original evidence, corrections and backups.
-- [x] Chinese/English interface; optional AI classification adapter, mocked tests only.
+- [x] Chinese/English/Spanish interface; optional AI classification adapter, mocked tests only.
 - [x] v0.3 event workspace: explicit selection, linked accounts, missing-information prompts, incomplete-group warnings, handoff export.
 - [x] 35 local regression checks, public MIT source.
 
@@ -21,6 +21,3 @@ Read [PROJECT_STATE.md](PROJECT_STATE.md) before continuing across chats.
 
 Evidence-based change summaries; user-confirmed care-plan handoff; multi-provider/BYOK; optional consented device events. No extra hardware required for the core workflow. No zero-input promise when no data source exists. No inferred diagnosis, medication adjustment, hospital-admission decision, or automatic crisis score.
 
-## Open-source application
-
-Prepare honest implementation, maintenance and usefulness evidence. Application remains unsubmitted. Do not manufacture stars, users, issues or clinical outcomes. Extra UI languages follow native review and demand; device connector count and language count are not success measures.

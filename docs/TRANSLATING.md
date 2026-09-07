@@ -1,6 +1,6 @@
 # Translation guide / 翻译指南
 
-Shipped UI languages: Simplified Chinese (`zh`) and English (`en`). Other-language notes remain verbatim; classification quality outside Chinese/English is not validated.
+Shipped UI languages: Simplified Chinese (`zh`), English (`en`) and Spanish (`es`). Other-language notes remain verbatim; classification quality outside Chinese/English is not validated.
 
 1. Create a complete dictionary matching the English keys in `dist/i18n.js`. Separate modules are welcome.
 2. Register it in `dist/locales.js` with code, native label, locale, direction and messages. Extend locale matching explicitly for script/region distinctions when required.
@@ -12,3 +12,7 @@ Shipped UI languages: Simplified Chinese (`zh`) and English (`en`). Other-langua
 Never translate or overwrite original records when changing interface language. Optional record translation would need separate consent and preserved originals. Machine translation alone is insufficient for medical terminology and privacy copy.
 
 中文：新增语言需要完整字典、语言注册、缓存更新、键名与占位符检查，以及重要文案的母语审核。界面翻译不能覆盖原始记录。当前没有宣称其他语言已完成验证。
+
+## Current interface languages
+
+Simplified Chinese, English and Spanish. Include the help dictionary, episode labels and fictional examples when adding a language. Demo edits are stored per language. Switching language must not translate or overwrite personal notes. Spanish translations have not received independent native-language or clinical review. Local classification patterns remain Chinese/English; interface availability is not semantic-model language validation.

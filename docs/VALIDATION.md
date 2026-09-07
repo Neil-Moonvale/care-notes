@@ -16,3 +16,7 @@ Run `npm test` or `node --test tests/*.test.mjs`. Test inputs and credentials ar
 ## v0.3.0
 
 Eight episode regression checks added; all 35 local checks pass. Coverage includes excluded related accounts, no text leakage from excluded items, exact quotes, unknown dates, review changes, empty selection, no automatic association, immutability and language coverage. No browser end-to-end or live-model evaluation was performed.
+
+## v0.3.1
+
+39 local checks pass, including four new localization and demo-storage checks. Each shipped language has a full interface dictionary, help and episode labels. Language switching preserves separate demo edits and leaves personal data unchanged. Independent Spanish-language review and browser end-to-end testing have not been performed.

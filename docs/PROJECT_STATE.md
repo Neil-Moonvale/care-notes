@@ -1,45 +1,22 @@
-# Care Notes — 项目方向与接力记录
+# Project status
 
-Updated: 2026-09-07 · Working code: v0.3.0
+Care Notes 0.3.1 · 2026-09-07
 
-## 每次继续任务先读这里
+Care Notes helps families review care accounts and prepare a handoff. The core workflow must work on a phone without buying additional hardware.
 
-1. 读取本文件、最新提交和未提交改动。
-2. 若用户提到另一个聊天，先检索那个聊天的最新决定；区分用户要求、助手建议和实际已实现。
-3. 用一句话说明这次推进哪个用户问题，再实施一个可以验证的完整功能。
-4. 完成后更新本文件、变更记录和验证结果。没有运行的测试、没有接入的模型、没有发布的版本都不能写成完成。
+## Available
 
-聊天标题参考：“项目进展完善与梳理5.6sol”。跨聊天检索可能不完整；此文件是可公开核对的接力记录，不意味着每个模型自动知道所有聊天。
+- Local records, paragraph drafts, source excerpts, corrections and backup/restore.
+- An episode workspace with explicit record selection, manually linked accounts, information checks and handoff export.
+- Chinese, English and Spanish interface, help and fictional examples. Each language keeps its own editable demo; personal records keep their original text.
+- Four main navigation items and an in-app usage guide.
 
-## 用户目标与限制
+## Limitations
 
-Care Notes 是当前首要长期项目。目标是帮助患者无法可靠主动记录的家庭照护场景，做有真实价值、可持续维护的开源工具，并准备 Codex for Open Source 申请。核心不能停留于普通笔记或统计，也不能依赖购买智能家居设备。优先让只有手机的人能参与和使用。
+The hosted trial uses local rules. Optional server-side classification requires separate configuration and has only mocked provider tests. Automatic semantic linking, clinical conclusions, cross-device sync and device integrations are not implemented.
 
-## 产品方向
+## Next work
 
-把碎片描述整理成可审阅的事件经过，保留来源、未知与不同说法，提出少量值得核实的问题，最后形成清楚的照护或就诊交接材料。要减轻家属反复翻找和解释的负担，而非增加填表任务。
+Evaluate reviewable event-link suggestions against fictional cases, preserving original evidence and allowing rejection. Measure omissions, unsupported associations and the effort needed to review suggestions. Validate mobile use and collect language corrections.
 
-“零输入事件重建”是探索目标，不是现有能力或无条件承诺。没有任何输入或授权数据来源时，系统不能知道发生了什么。摄像头、手表和家庭设备是可选来源，不是产品本身。未来 AI 关联和摘要都必须有依据、可拒绝、可更正。
-
-## 已实现
-
-v0.2 的本地记录、段落草稿、原文位置、人工确认、更正历史、备份恢复和中英文保留。
-v0.3 新增事件重建工作页：选择记录、人工关联描述并列、日期/来源/不确定信息检查、关联材料缺失提醒、交接文本导出。算法为本地固定规则，不自动判断矛盾、因果或医疗紧急程度。
-
-35 项本地自动检查通过，其中 8 项覆盖事件材料遗漏、原文保留、未知日期、更正后的更新等。未做浏览器端到端或真实模型效果验证。
-
-## 尚未实现
-
-真实 AI 事件理解、自动候选关联、个人基线、多来源设备接入、经验证的变化摘要、跨设备协作。现有 OpenAI 适配器只是可选的本地服务端分类；托管静态网站没有 AI 后端。多供应商/BYOK 仍为后续方向。
-
-不把就医、住院或换药决定交给未经验证的模型。下一步交接可以整理待核实事实与已有照护计划，不能生成新的治疗指令。
-
-## 下一轮优先做什么
-
-用虚构多日案例验证“哪些描述属于同一事件”的可审核候选关联，以及追问是否减少核实工作。先构建来源约束、人工接受/拒绝流程与离线基准，再接真实模型并记录失败。不得用更多规则包装成真正 AI，也不得把模拟器说成设备已接入。
-
-真实模型托管需要先明确模型/费用及访问限制；不要让用户在聊天或公开仓库粘贴密钥。其他开发、文档和本地测试继续自主完成。
-
-## 开源申请
-
-仓库 https://github.com/Neil-Moonvale/care-notes ，MIT。申请草稿在 OPEN_SOURCE_APPLICATION.md，尚未提交。后续按申请时官方表单核对本人信息和条款，以真实维护、可复用代码和试用结果说明价值；不承诺获批，不用互星数冒充真实采用情况。
+See [User guide](USER_GUIDE.md), [Roadmap](ROADMAP.md) and [Validation](VALIDATION.md).

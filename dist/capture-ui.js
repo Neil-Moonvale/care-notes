@@ -12,7 +12,7 @@ export function openCapture({ dialog, labels: t, revision, getRevision, onSave, 
       <button type="button" class="btn ghost" id="capture-example">${escape(t.captureExample)}</button>
       <p class="notice">${escape(t.captureLocalHelp)}</p>
       <div class="actions"><button class="btn primary" type="button" id="capture-local">${escape(t.captureLocal)}</button></div>
-      <details class="capture-ai"><summary>${escape(t.captureAI)}</summary><p>${escape(t.captureAIHelp)}</p>
+      <details class="capture-ai" hidden><summary>${escape(t.captureAI)}</summary><p>${escape(t.captureAIHelp)}</p>
         <p id="capture-ai-status" role="status">${escape(t.captureAIUnavailable)}</p>
         <label class="capture-check"><input id="capture-consent" type="checkbox"> <span>${escape(t.captureConsent)}</span></label>
         <button class="btn line" type="button" id="capture-ai" disabled>${escape(t.captureAI)}</button>
@@ -49,6 +49,7 @@ export function openCapture({ dialog, labels: t, revision, getRevision, onSave, 
   fetch('./api/status', { cache: 'no-store', signal: AbortSignal.timeout(5000) }).then(r => r.ok ? r.json() : null).then(status => {
     if (!dialog.open || !dialog.contains(input)) return;
     configured = status?.aiConfigured === true;
+    $('.capture-ai').hidden = !configured;
     $('#capture-ai').disabled = !configured;
     $('#capture-ai-status').textContent = configured ? t.captureAIConfigured : t.captureAIUnavailable;
   }).catch(() => {});

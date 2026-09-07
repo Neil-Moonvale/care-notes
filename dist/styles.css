@@ -11,3 +11,7 @@
 
 .episode-undated{display:block;margin:16px 0;font-size:1rem}.episode-questions{margin-bottom:20px;border-top:4px solid #283ec4}.episode-event{border-left:3px solid #c4ccff;padding-left:16px;margin-top:24px}.episode-event .quote{white-space:pre-wrap;overflow-wrap:anywhere}.episode-questions small{overflow-wrap:anywhere}
 @media(max-width:760px){.nav{overflow-x:auto}.nav button{flex-shrink:0;min-width:68px}.summary-layout{min-width:0}}
+
+/* Focus navigation on the four regular tasks. */
+.help-body section{margin-top:24px}.help-body h3{margin-bottom:6px}.help-body p{font-size:1rem}.method-note,.episode-filters{padding:12px 0;color:var(--muted);font-size:.9rem}.method-note p{padding:12px 0;max-width:70ch}.episode-questions .paper-record{padding-block:16px}.episode-questions .small{margin-top:8px}.page-head h1{letter-spacing:0}.page-head{align-items:flex-start}.top-actions{gap:8px}.top-actions>.btn{white-space:nowrap}.episode-event{border-left-color:#d7dfe9}.panel{box-shadow:none}.nav button{font-size:.95rem}.capture-ai[hidden]{display:none}
+@media(max-width:850px){.nav{overflow:visible}.nav button{min-width:0;max-width:none;font-size:.875rem;padding:7px 4px}.nav button span{white-space:normal;text-align:center}.topbar{height:auto;min-height:68px;flex-wrap:wrap;padding-block:10px}.mode-picker{flex-shrink:0}.top-actions{margin-left:auto}.lang{max-width:135px}.summary-sidebar .selection-list{max-height:180px}.episode-questions .actions{gap:8px}}

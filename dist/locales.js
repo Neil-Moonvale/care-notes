@@ -1,7 +1,9 @@
+import {es} from './es.js';
 import { zh, en } from './i18n.js';
 
 // Add complete, reviewed dictionaries here. User-entered notes are never translated.
 export const LANGUAGES = Object.freeze([
+  { code:'es', label:'Español', locale:'es', direction:'ltr', messages:es },
   { code: 'zh', label: '简体中文', locale: 'zh-CN', direction: 'ltr', messages: zh },
   { code: 'en', label: 'English', locale: 'en', direction: 'ltr', messages: en },
 ]);

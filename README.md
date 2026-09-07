@@ -1,81 +1,51 @@
 # Care Notes · 照护手记
 
-**Keep the original words. Review each suggestion. Prepare a clearer visit record.**
+Review care accounts, keep their sources, and prepare a clearer handoff.
 
-[简体中文](docs/README.zh-CN.md) · [Project handoff](docs/PROJECT_STATE.md) · [Roadmap](docs/ROADMAP.md) · [Translation guide](docs/TRANSLATING.md) · [Security](SECURITY.md)
+[使用指南 / User guide / Guía de uso](docs/USER_GUIDE.md) · [中文介绍](docs/README.zh-CN.md) · [Roadmap](docs/ROADMAP.md) · [Contributing](CONTRIBUTING.md)
 
-An early, mobile-first, local-first caregiving journal. Keep separate accounts, uncertainty, corrections and original text when preparing visit summaries. Not a clinically validated product.
+Care Notes is a mobile-friendly web application for families organizing care observations. It preserves different accounts and uncertainty, with references back to the original records. No additional hardware is required.
 
-## What works in v0.3.0
+## Use it
 
-- Episode workspace: select evidence, retain linked accounts, surface missing date/source and uncertain reports, and export a traceable handoff. Local rules only; no automatic semantic linking or medical urgency ranking.
-- Paragraph capture → draft excerpts → explicit confirmation of every draft → save.
-- Original paragraphs and exact excerpt positions retained through correction and backup.
-- Manual linking and side-by-side review of different accounts, without deciding who is right.
-- Selected-record summaries, original references, text download and browser print-to-PDF.
-- Separate fictional demos and personal records, offline shell cache, backup/restore and correction history.
-- Simplified Chinese and English UI, browser-language detection, a language selector and extensible translation registration. User-entered text is never automatically translated.
+1. Try the fictional examples, or write an account in **My records**.
+2. Select the records for an episode and review what needs clarification.
+3. Download a handoff or visit summary, with source references.
 
-## Local rules and AI are separate
+Open **How to use** in the application for step-by-step instructions. The interface, help and built-in examples are available in Simplified Chinese, English and Spanish. Personal records keep their original language.
 
-| Mode | Behavior | Status |
-| --- | --- | --- |
-| Local rules | Conservative text segmentation and Chinese/English label suggestions | Available; no model calls or fees |
-| AI-assisted classification | OpenAI suggests labels for fixed excerpt IDs; validation rejects omitted, duplicate, fabricated or rewritten items | Adapter and consent UI implemented; no live-model evaluation |
-| Clinical reasoning | Diagnosis, treatment decisions, medication advice or crisis assessment | Outside scope |
+## Features
 
-**The privately hosted static preview has no configured AI backend.** Local features work without one. The optional server enables AI only when its operator configures a model and API key. The frontend never accepts API keys.
+- Paragraph drafts with confirmation before saving.
+- Explicit event linking and side-by-side accounts.
+- Missing-information checks and warnings about excluded linked records.
+- Original excerpts, correction history, selected summaries and text export.
+- Device-local storage, offline page cache and backup/restore.
 
-Schema and offset checks establish internal consistency, not truth, authorship, cryptographic integrity or medical accuracy. Labels can be wrong. Dates stay blank until a person supplies them; related accounts remain manually linked.
+Current version: **0.3.1**. The hosted trial uses local rules; online AI is not enabled. The optional server-side classification adapter requires separate configuration. No automatic diagnosis, treatment advice or clinical validation is claimed. [Project status](docs/PROJECT_STATE.md).
 
-## Run without dependencies
+## Run locally
 
-The authored `dist/` files are the app source. No build step is required.
+The authored `dist/` directory is the application source; no build or dependency installation is needed.
 
 ```sh
 python3 -m http.server 8000 --directory dist
 ```
 
-Open `http://localhost:8000`. Choose **Try the demo → Capture a paragraph → Use a fictional example → Organize locally**. Review every draft and save. Open a saved note to see **Original evidence**, then prepare a summary.
+Open `http://localhost:8000`. Modules require HTTP; opening the HTML file directly is not supported. Offline caching requires HTTPS or localhost and browser support.
 
-ES modules need HTTP, not file opening. Service workers require HTTPS or localhost and browser support.
+For the optional personal AI server, see [AI setup](docs/AI.md). Do not expose the localhost server through a public tunnel.
 
-## Optional personal AI server
+## Data
 
-Requires Node.js 22 or later. `npm start` serves the app at `http://127.0.0.1:8787`; without configuration AI stays disabled.
+Records are stored unencrypted in the current browser, without cross-device sync. Export a backup before clearing browser data or changing devices. Backups include original paragraphs and corrections; check files before sharing. [Security and privacy](SECURITY.md).
 
-Copy `.env.example` to `.env`, supply your own `OPENAI_API_KEY` and explicitly chosen `OPENAI_MODEL`, then run:
+The private hosted trial can require platform sign-in. This is separate from the application's local record storage. A phone browser can use the trial without a desktop connection.
 
-```sh
-node --env-file=.env server/index.mjs
-```
+## Development
 
-The server binds to loopback only. It checks host, request origin, consent, input size and request frequency. Only the current consented paragraph is sent to OpenAI; no saved-record sync occurs. Requests use Structured Outputs and `store: false`, with no automatic paid retries. This is not a guarantee of zero data retention by providers or hosts.
+Run `npm test` with Node.js 22 or later. [Validation notes](docs/VALIDATION.md) distinguish local regression checks from live-model and browser testing.
 
-Do not expose this personal server through public tunnels. Hosted multi-user AI still needs authenticated access, per-user quotas, operational checks and approved costs. The static Sites preview does not run `server/`. See [AI architecture](docs/AI.md).
+Reusable modules include evidence validation, paragraph drafts and episode assembly. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [translation guide](docs/TRANSLATING.md).
 
-## Reuse and verification
-
-- `dist/core.js`: validated backups, explicit linking, corrections and deterministic summaries.
-- `dist/provenance.js`: original paragraph, quote and offset consistency.
-- `dist/draft.js`: segmentation, classification validation and confirmation gates.
-- `server/ai.js`: provider adapter and request guards, independent of UI.
-- `examples/fictional-inputs.json`: illustrative inputs, not a clinical benchmark.
-
-Run `npm test`. **35 automated checks pass** across data, evidence, localization and mocked provider behavior. No real-model, clinical or mobile end-to-end accuracy is claimed. [Validation notes](docs/VALIDATION.md).
-
-## Data ownership
-
-Records, full capture paragraphs and histories live unencrypted in this browser's localStorage. Anyone with access to the browser profile may access them, including offline. Clearing the browser or storage eviction can erase them. Back up before changing device, browser or origin.
-
-Local organization sends no records. A separately configured, explicitly consented AI request sends only its input. Hosting providers may handle ordinary request metadata and access control. No analytics or background sync is implemented.
-
-Backups contain complete capture paragraphs, potentially including text outside selected excerpts. Summaries omit recorder names by default, but free text can identify people. Review before sharing. Import replaces personal records after confirmation. New exports use backup version 2; versions 1 and 2 can be imported. Older app releases may reject version 2 rather than silently dropping new evidence fields.
-
-## Maintenance
-
-Maintainer: [Neil-Moonvale](https://github.com/Neil-Moonvale). [Source repository](https://github.com/Neil-Moonvale/care-notes).
-
-Use fictional examples in feedback. See [CONTRIBUTING.md](CONTRIBUTING.md). This is an early project, not a claim of global novelty, broad adoption or proven health benefit. No OpenAI support-program application has been submitted. [Application preparation](docs/OPEN_SOURCE_APPLICATION.md).
-
-MIT · Copyright © 2026 Neil-Moonvale. See [LICENSE](LICENSE).
+Maintained by [Neil-Moonvale](https://github.com/Neil-Moonvale). MIT license; see [LICENSE](LICENSE).
