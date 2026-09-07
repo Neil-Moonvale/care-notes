@@ -27,14 +27,18 @@ Wearables, Health Connect, smart-home events, cameras and other integrations are
 - [x] Rejected candidates remain a local review preference and stay out of the normal handoff.
 - [x] Accepted candidates keep both original source records separately reviewable.
 - [x] Tests for expected candidates and expected non-candidates, missing dates, uncertainty and no silent association.
+- [x] Simplified Chinese, English, Spanish, French, Japanese and Korean interface/help/episode/candidate/demo coverage.
+- [x] Offline shell includes all shipped language modules.
 
 ## Before this branch can merge
 
 - [ ] Latest CI must be green after all documentation/UI changes.
 - [ ] Real Android phone walkthrough: capture → reconstruct → accept/reject candidate → clarify → export → backup/restore.
-- [ ] Check narrow-screen layout, enlarged text and browser behavior.
+- [ ] Switch through all six languages and check that personal records remain unchanged.
+- [ ] Check narrow-screen layout, enlarged text and browser behavior, especially longer French labels and Japanese/Korean wrapping.
 - [ ] Confirm user-facing wording never makes a candidate sound like a fact.
-- [ ] Create a clean replacement PR to `main`; close the older diverged v0.3 PR as superseded rather than trying to merge it blindly.
+- [ ] Do not claim independent native-language or clinical translation validation until it actually happens.
+- [x] Clean replacement PR #3 targets `main`; the older diverged v0.3 PR was closed unmerged as superseded.
 
 ## Next meaningful capability after the merge
 
