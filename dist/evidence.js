@@ -120,6 +120,21 @@ function noteworthy(event,deviationIds){
   return deviationIds.has(event.event_id) || ['caregiver_observation','sensor_status','source_status','door_event','phone_activity','room_activity'].includes(event.event_type) || Boolean(event.claim_key);
 }
 
+function episodeLink(from,to,gapHours){
+  const hours=(Date.parse(to.observed_at)-Date.parse(from.observed_at))/3_600_000;
+  const confidence=Math.max(.5,Math.min(.98,1-(hours/(gapHours*2))));
+  return {
+    edge_id:`episode-link:${from.event_id}:${to.event_id}`,
+    from:from.event_id,
+    to:to.event_id,
+    relation:'same_episode',
+    confidence:Math.round(confidence*100)/100,
+    proposed_by:'local_rules',
+    human_confirmed:false,
+    reason:`Temporal proximity: ${Math.round(hours*10)/10}h apart inside a ${gapHours}h review window`
+  };
+}
+
 export function reconstructEpisodes(events,{baseline,after,gapHours=18}={}){
   validateEvidence(events);
   const deviations=detectBaselineDeviations(events,baseline||{}, {after});
@@ -129,8 +144,12 @@ export function reconstructEpisodes(events,{baseline,after,gapHours=18}={}){
   const clusters=[];
   for(const event of filtered){
     const at=Date.parse(event.observed_at), last=clusters.at(-1);
-    if(!last || at-last.lastAt>gapHours*3600000) clusters.push({events:[event],lastAt:at});
-    else { last.events.push(event); last.lastAt=at; }
+    if(!last || at-last.lastAt>gapHours*3600000) clusters.push({events:[event],links:[],lastAt:at});
+    else {
+      last.links.push(episodeLink(last.events.at(-1),event,gapHours));
+      last.events.push(event);
+      last.lastAt=at;
+    }
   }
   return clusters.map((cluster,index)=>{
     const ids=cluster.events.map(e=>e.event_id);
@@ -162,7 +181,7 @@ export function reconstructEpisodes(events,{baseline,after,gapHours=18}={}){
       status:'needs_review',
       evidence_ids:ids,
       claims,
-      edges:[...localDeviations,...localConflicts,...unknownEdges]
+      edges:[...cluster.links,...localDeviations,...localConflicts,...unknownEdges]
     };
   });
 }
@@ -210,6 +229,21 @@ export function validateGraphEdges(edges,evidence){
     if(!ids.has(edge.from)) throw new Error(`unknown edge source: ${edge.from}`);
     const pseudo=String(edge.to).startsWith('baseline:')||String(edge.to).startsWith('metric:');
     if(!ids.has(edge.to) && !pseudo) throw new Error(`unknown edge target: ${edge.to}`);
+    if(typeof edge.confidence!=='number'||edge.confidence<0||edge.confidence>1) throw new Error('invalid edge confidence');
   }
   return true;
+}
+
+export function validateEpisodeRecord(episode,evidence){
+  if(!episode||typeof episode!=='object') return {ok:false,reason:'episode must be an object'};
+  if(!Array.isArray(episode.evidence_ids)||!episode.evidence_ids.length) return {ok:false,reason:'episode has no evidence'};
+  const ids=new Set(evidence.map(e=>e.event_id));
+  if(episode.evidence_ids.some(id=>!ids.has(id))) return {ok:false,reason:'episode references unknown evidence'};
+  if(!Number.isFinite(Date.parse(episode.start_at))||!Number.isFinite(Date.parse(episode.end_at))||Date.parse(episode.end_at)<Date.parse(episode.start_at)) return {ok:false,reason:'invalid episode time range'};
+  try{validateGraphEdges(episode.edges||[],evidence);}catch(error){return {ok:false,reason:error.message};}
+  for(const claim of episode.claims||[]){
+    const result=validateDerivedClaim(claim,evidence);
+    if(!result.ok) return result;
+  }
+  return {ok:true};
 }
