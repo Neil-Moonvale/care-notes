@@ -13,26 +13,32 @@ test('each shipped language has localized examples, a guide and matching episode
   assert.deepEqual(Object.keys(episodeLabels[code]).sort(),Object.keys(episodeLabels.en).sort());
   assert.ok(suggestEpisodeLinks(demo).some(s=>s.evidence_ids.includes('demo-food')&&s.evidence_ids.includes('demo-food-self')));
  }
- assert.match(localizedDemo('zh')[0].text,/昨晚/);
- assert.match(localizedDemo('en')[0].text,/last night/);
- assert.match(localizedDemo('es')[0].text,/Anoche/);
- assert.equal(localizedDemo('es')[0].when,'Anoche');
+ const zh=localizedDemo('zh'),en=localizedDemo('en'),es=localizedDemo('es'),fr=localizedDemo('fr'),ja=localizedDemo('ja'),ko=localizedDemo('ko');
+ assert.match(zh[0].text,/昨晚/);
+ assert.match(en[0].text,/last night/i);
+ assert.match(es[0].text,/Anoche/);assert.equal(es[0].when,'Anoche');
+ assert.match(fr[0].text,/La nuit dernière/);assert.equal(fr[0].when,'La nuit dernière');
+ assert.match(ja[0].text,/昨夜/);assert.equal(ja[0].when,'昨夜');
+ assert.match(ko[0].text,/어젯밤/);assert.equal(ko[0].when,'어젯밤');
 });
 test('switching languages keeps edited demos separate and never changes personal data',()=>{
  const s=storage();s.setItem('care-notes.records.v1','personal original');
  const zh=localizedDemo('zh');zh[0].text='我修改了中文示例';save(s,'zh',zh);
- const en=loadLocalizedDemo(s,'en');assert.match(en[0].text,/last night/);
+ const en=loadLocalizedDemo(s,'en');assert.match(en[0].text,/last night/i);
  en[0].text='Edited English account';save(s,'en',en);
  assert.equal(loadLocalizedDemo(s,'zh')[0].text,zh[0].text);
  assert.equal(loadLocalizedDemo(s,'en')[0].text,en[0].text);
  assert.match(loadLocalizedDemo(s,'es')[0].text,/Anoche/);
+ assert.match(loadLocalizedDemo(s,'fr')[0].text,/La nuit dernière/);
+ assert.match(loadLocalizedDemo(s,'ja')[0].text,/昨夜/);
+ assert.match(loadLocalizedDemo(s,'ko')[0].text,/어젯밤/);
  assert.equal(s.getItem('care-notes.records.v1'),'personal original');
 });
 test('legacy Chinese demo remains recoverable while English gets English examples',()=>{
  const s=storage(),rs=localizedDemo('zh');rs[0].text='旧的修改仍要保留';
  s.setItem('care-notes.demo.v1',JSON.stringify({format:'care-notes',version:2,records:rs}));
  assert.equal(loadLocalizedDemo(s,'zh')[0].text,rs[0].text);
- assert.match(loadLocalizedDemo(s,'en')[0].text,/last night/);
+ assert.match(loadLocalizedDemo(s,'en')[0].text,/last night/i);
  assert.ok(s.getItem('care-notes.demo.v1'));
 });
 test('an intentionally empty demo stays empty and invalid persisted records fail validation',()=>{
