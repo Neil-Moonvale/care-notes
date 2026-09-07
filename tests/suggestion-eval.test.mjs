@@ -17,7 +17,7 @@ test('phone-only fixture produces only the expected conservative review candidat
 });
 
 test('fixture suggestions remain review questions rather than merged events',()=>{
- const result=reconstructEpisode(records);
+ const result=reconstructEpisode(records,records,{includeSuggestions:true});
  assert.equal(result.events.length,records.length);
  assert.equal(result.suggestions.length,fixture.expected_candidate_pairs.length);
  for(const s of result.suggestions){
