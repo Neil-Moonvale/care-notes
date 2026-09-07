@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f5f6f3">
+  <title>发生了什么？ · Care Notes</title>
+  <link rel="stylesheet" href="./episode-demo.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html"><span class="brand-mark">C</span><span><b>Care Notes</b><small>Evidence-first caregiving</small></span></a>
+      <div class="top-actions"><span class="demo-pill" data-i18n="fictional">虚构演示</span><button id="langButton" class="quiet-button" type="button">EN</button></div>
+    </header>
+    <main>
+      <section class="hero">
+        <div><p class="eyebrow">ZERO-INPUT EPISODE RECONSTRUCTION</p><h1 data-i18n="title">发生了什么？</h1><p class="hero-copy" data-i18n="subtitle">当被照护者没有主动记录时，把家属观察与设备留下的碎片重新拼成可核对的时间线。</p></div>
+        <div class="hero-note"><strong data-i18n="notDiagnosis">这不是诊断。</strong><span data-i18n="notDiagnosisBody">系统只整理证据、变化、冲突与未知，不把传感器信号升级成医学结论。</span></div>
+      </section>
+      <section class="baseline-panel">
+        <div class="section-heading"><div><p class="eyebrow">PERSONAL BASELINE</p><h2 data-i18n="baselineTitle">先和这个人平时的状态比较</h2></div><span class="period" data-i18n="baselinePeriod">基线：前 4 天</span></div>
+        <div id="baselineCards" class="baseline-grid"></div>
+      </section>
+      <section class="episodes-section">
+        <div class="section-heading"><div><p class="eyebrow">REVIEWABLE CHANGES</p><h2><span id="episodeCount">0</span> <span data-i18n="reviewTitle">段值得回顾的变化</span></h2></div><p class="muted" data-i18n="reviewHint">每一条结论都必须能回到原始证据。</p></div>
+        <div id="episodes" class="episode-stack"></div>
+      </section>
+      <section class="evidence-section">
+        <div class="section-heading"><div><p class="eyebrow">SOURCE EVIDENCE</p><h2 data-i18n="evidenceTitle">原始证据时间线</h2></div><button id="clearFocus" class="quiet-button" type="button" data-i18n="clearFocus">清除高亮</button></div>
+        <div id="evidenceTimeline" class="evidence-timeline"></div>
+      </section>
+    </main>
+    <footer><p data-i18n="footer">Care Notes v0.3 prototype · 数据为虚构示例 · Local-first / Evidence-first</p></footer>
+  </div>
+  <script type="module" src="./episode-demo.js"></script>
+</body>
+</html>
