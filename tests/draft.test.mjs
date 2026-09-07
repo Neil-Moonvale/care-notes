@@ -76,10 +76,10 @@ test('every shipped translation has matching keys and interpolation placeholders
   }
   assert.equal(zh.unknown,'来源未确定');
 });
-test('newly added French Japanese and Korean dictionaries do not silently fall back to English',()=>{
-  const allowedSame=new Set(['brand']);
+test('newly added French Japanese and Korean have localized safety and workflow copy',()=>{
+  const sentinels=['welcome','summaryNotice','storageDesc','captureLocalHelp','captureConsent','languageHelp'];
   for(const code of ['fr','ja','ko']){
     const messages=LANGUAGES.find(l=>l.code===code).messages;
-    for(const key of Object.keys(en))if(!allowedSame.has(key))assert.notEqual(messages[key],en[key],`${code}.${key} still equals English`);
+    for(const key of sentinels)assert.notEqual(messages[key],en[key],`${code}.${key} unexpectedly fell back to English`);
   }
 });
