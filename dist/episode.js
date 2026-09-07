@@ -39,7 +39,7 @@ export function suggestEpisodeLinks(records,{maxHours=18,rejectedSuggestionIds=[
  return suggestions.sort((a,b)=>b.score-a.score||a.suggestion_id.localeCompare(b.suggestion_id));
 }
 
-export function reconstructEpisode(records, allRecords=records,{rejectedSuggestionIds=[]}={}){
+export function reconstructEpisode(records, allRecords=records,{includeSuggestions=false,rejectedSuggestionIds=[]}={}){
  const ids=new Set(); const map=new Map();
  for(const r of records){
   if(!r?.id||ids.has(r.id))throw Error('duplicate_or_missing_id');ids.add(r.id);
@@ -60,7 +60,7 @@ export function reconstructEpisode(records, allRecords=records,{rejectedSuggesti
    if(r.source==='unknown')add('source',[r.id],4);
   }
  }
- const suggestions=suggestEpisodeLinks(records,{rejectedSuggestionIds});
+ const suggestions=includeSuggestions?suggestEpisodeLinks(records,{rejectedSuggestionIds}):[];
  for(const s of suggestions)add('possibleSameEpisode',s.evidence_ids,6,{suggestion_id:s.suggestion_id,score:s.score});
  events.sort((a,b)=>compare(a.items[0],b.items[0]));
  questions.sort((a,b)=>a.rank-b.rank||a.refs[0].localeCompare(b.refs[0]));
