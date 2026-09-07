@@ -3,13 +3,15 @@ import assert from 'node:assert/strict';
 import {demoKey,localizedDemo,loadLocalizedDemo} from '../dist/demo-locales.js';
 import {LANGUAGES} from '../dist/locales.js';
 import {helpLabels} from '../dist/help.js';
-import {episodeLabels} from '../dist/episode.js';
+import {episodeLabels,suggestEpisodeLinks} from '../dist/episode.js';
 const storage=()=>{const m=new Map();return {getItem:k=>m.get(k)??null,setItem:(k,v)=>m.set(k,v)};};
 const save=(s,lang,rs)=>s.setItem(demoKey(lang),JSON.stringify({format:'care-notes',version:2,records:rs}));
 test('each shipped language has localized examples, a guide and matching episode labels',()=>{
  for(const {code} of LANGUAGES){
-  assert.equal(localizedDemo(code).length,5);assert.equal(helpLabels[code].steps.length,3);
+  const demo=localizedDemo(code);
+  assert.equal(demo.length,6);assert.equal(helpLabels[code].steps.length,3);
   assert.deepEqual(Object.keys(episodeLabels[code]).sort(),Object.keys(episodeLabels.en).sort());
+  assert.ok(suggestEpisodeLinks(demo).some(s=>s.evidence_ids.includes('demo-food')&&s.evidence_ids.includes('demo-food-self')));
  }
  assert.match(localizedDemo('zh')[0].text,/昨晚/);
  assert.match(localizedDemo('en')[0].text,/last night/);
