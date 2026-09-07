@@ -7,65 +7,48 @@ const COPY={
  ko:{navReconstruct:'재구성',navRecords:'기록',title:'무슨 일이 있었나요?',subtitle:'다시 전부 쓸 필요가 없습니다. Care Notes는 이미 남아 있는 기록으로 최근 경과를 정리합니다.',start:'최근 며칠 재구성하기',count:n=>`기존 기록 ${n}개를 이번 재구성에 사용할 수 있습니다`,hint:'재구성은 원문, 출처, 불확실성, 서로 다른 진술을 그대로 보존합니다. 진단하지 않으며 기록을 자동으로 하나의 사실로 합치지 않습니다.',workingTitle:'이 기간에 무슨 일이 있었나요?',workingSubtitle:'기존 기록에서 정리한 경과, 확인이 필요한 점, 원본 근거를 아래에 표시합니다.',result:n=>`기존 기록 ${n}개로 검토 가능한 경과를 만들었습니다`,back:'다시 시작'}
 };
 
-let started=false;
-let queued=false;
+let started=false,queued=false;
 const lang=()=>document.querySelector('#interface-language')?.value||'en';
 const copy=()=>COPY[lang()]||COPY.en;
-const episodeActive=()=>document.querySelector('.nav button[data-view="episode"].active');
+const episodeActive=()=>Boolean(document.querySelector('.nav button[data-view="episode"].active'));
 const recordCount=()=>document.querySelectorAll('.selection-list input[data-select]').length;
+const setText=(el,value)=>{if(el&&el.textContent!==value)el.textContent=value;};
+const setHidden=(el,hidden)=>{if(el&&el.hidden!==hidden)el.hidden=hidden;};
 
-function setHidden(el,hidden){if(!el)return;el.hidden=hidden;}
 function patchNav(){
  const c=copy();
- const reconstruct=document.querySelector('.nav button[data-view="episode"] span');
- const records=document.querySelector('.nav button[data-view="timeline"] span');
- if(reconstruct)reconstruct.textContent=c.navReconstruct;
- if(records)records.textContent=c.navRecords;
+ setText(document.querySelector('.nav button[data-view="episode"] span'),c.navReconstruct);
+ setText(document.querySelector('.nav button[data-view="timeline"] span'),c.navRecords);
 }
 function launchMarkup(c,n){return `<section id="cn-reconstruction-launch" class="reconstruction-launch"><div class="reconstruction-mark" aria-hidden="true">↻</div><div><p class="eyebrow">ZERO-INPUT EPISODE RECONSTRUCTION</p><h2>${c.title}</h2><p class="reconstruction-lead">${c.subtitle}</p><p class="small muted">${c.count(n)}</p><button type="button" class="btn primary reconstruction-start" data-cn-start-reconstruction>${c.start}</button><p class="small muted reconstruction-hint">${c.hint}</p></div></section>`;}
 function resultMarkup(c,n){return `<section id="cn-reconstruction-result" class="reconstruction-result"><div><span class="reconstruction-status">✓</span><strong>${c.result(n)}</strong></div><button type="button" class="btn ghost" data-cn-reset-reconstruction>${c.back}</button></section>`;}
 function patchEpisode(){
  if(!episodeActive())return;
- const c=copy();
- const main=document.querySelector('#main');
- const head=main?.querySelector('.page-head');
+ const c=copy(),main=document.querySelector('#main'),head=main?.querySelector('.page-head');
  if(!main||!head)return;
- const n=recordCount();
- const actions=head.querySelector('.actions');
- const capture=actions?.querySelector('[data-action="capture"]');
- if(capture)capture.hidden=true;
- const detail=main.querySelector('.method-note');
- const filters=main.querySelector('.episode-filters');
- const undated=main.querySelector('.episode-undated');
- const layout=main.querySelector('.summary-layout');
- document.querySelector('#cn-reconstruction-launch')?.remove();
- document.querySelector('#cn-reconstruction-result')?.remove();
+ const n=recordCount(),actions=head.querySelector('.actions'),capture=actions?.querySelector('[data-action="capture"]');
+ setHidden(capture,true);
+ const detail=main.querySelector('.method-note'),filters=main.querySelector('.episode-filters'),undated=main.querySelector('.episode-undated'),layout=main.querySelector('.summary-layout');
  if(!started){
-  head.querySelector('h1').textContent=c.title;
-  head.querySelector('p').textContent=c.subtitle;
-  if(actions)actions.hidden=true;
+  setText(head.querySelector('h1'),c.title);setText(head.querySelector('p'),c.subtitle);setHidden(actions,true);
   setHidden(detail,true);setHidden(filters,true);setHidden(undated,true);setHidden(layout,true);
-  head.insertAdjacentHTML('afterend',launchMarkup(c,n));
+  document.querySelector('#cn-reconstruction-result')?.remove();
+  if(!document.querySelector('#cn-reconstruction-launch'))head.insertAdjacentHTML('afterend',launchMarkup(c,n));
  }else{
-  head.querySelector('h1').textContent=c.workingTitle;
-  head.querySelector('p').textContent=c.workingSubtitle;
-  if(actions)actions.hidden=false;
+  setText(head.querySelector('h1'),c.workingTitle);setText(head.querySelector('p'),c.workingSubtitle);setHidden(actions,false);setHidden(capture,true);
   setHidden(detail,false);setHidden(filters,false);setHidden(undated,false);setHidden(layout,false);
-  head.insertAdjacentHTML('afterend',resultMarkup(c,n));
+  document.querySelector('#cn-reconstruction-launch')?.remove();
+  if(!document.querySelector('#cn-reconstruction-result'))head.insertAdjacentHTML('afterend',resultMarkup(c,n));
  }
 }
 function patch(){queued=false;patchNav();patchEpisode();}
 function queue(){if(queued)return;queued=true;queueMicrotask(patch);}
 
 document.addEventListener('click',event=>{
- const start=event.target.closest('[data-cn-start-reconstruction]');
- if(start){started=true;patch();window.scrollTo({top:0,behavior:'smooth'});return;}
- const reset=event.target.closest('[data-cn-reset-reconstruction]');
- if(reset){started=false;patch();window.scrollTo({top:0,behavior:'smooth'});return;}
- const nav=event.target.closest('.nav button[data-view]');
- if(nav&&nav.dataset.view!=='episode')started=false;
+ if(event.target.closest('[data-cn-start-reconstruction]')){started=true;patch();window.scrollTo({top:0,behavior:'smooth'});return;}
+ if(event.target.closest('[data-cn-reset-reconstruction]')){started=false;patch();window.scrollTo({top:0,behavior:'smooth'});return;}
+ const nav=event.target.closest('.nav button[data-view]');if(nav&&nav.dataset.view!=='episode')started=false;
 });
 document.addEventListener('change',event=>{if(event.target.id==='interface-language'){started=false;setTimeout(queue,0);}});
-const app=document.querySelector('#app');
-if(app)new MutationObserver(queue).observe(app,{childList:true,subtree:true});
+const app=document.querySelector('#app');if(app)new MutationObserver(queue).observe(app,{childList:true,subtree:true});
 queue();
