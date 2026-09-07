@@ -1,15 +1,16 @@
+import {cleanProvenance} from './provenance.js';
 export const CATEGORIES=['sleep','food','medication','mood','visit','other'];
-export const SOURCES=['self','family','clinician'];
+export const SOURCES=['self','family','clinician','unknown'];
 export const CERTAINTIES=['direct','reported','uncertain'];
 export const uid=()=>crypto.randomUUID();
 export function localDate(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 export function validDate(s){if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return false;const d=new Date(`${s}T12:00:00Z`);return Number.isFinite(+d)&&d.toISOString().slice(0,10)===s;}
 export function validateBackup(value){
- if(!value||value.format!=='care-notes'||value.version!==1||!Array.isArray(value.records)||value.records.length>5000)throw Error('invalid');
+ if(!value||value.format!=='care-notes'||![1,2].includes(value.version)||!Array.isArray(value.records)||value.records.length>5000)throw Error('invalid');
  const ids=new Set(); const str=(v,max)=>typeof v==='string'&&v.length<=max;
  const records=value.records.map(r=>{
  if(!r||!str(r.id,80)||!(/^[a-zA-Z0-9-]+$/).test(r.id)||ids.has(r.id)||!str(r.text,5000)||!r.text.trim()||!CATEGORIES.includes(r.category)||!SOURCES.includes(r.source)||!CERTAINTIES.includes(r.certainty)||!(r.date===''||validDate(r.date))||!str(r.time,5)||!(r.time===''||/^([01]\d|2[0-3]):[0-5]\d$/.test(r.time))||!str(r.when,120)||!str(r.author,60)||!str(r.group,80)||!(r.group===''||/^[a-zA-Z0-9-]+$/.test(r.group))||!['pending','noted'].includes(r.review)||!str(r.reviewNote,1000)||!str(r.createdAt,40)||!Number.isFinite(Date.parse(r.createdAt))||!str(r.updatedAt,40)||!Number.isFinite(Date.parse(r.updatedAt)))throw Error('invalid');
- ids.add(r.id);const history=r.history??[];if(!Array.isArray(history)||history.length>1000||history.some(h=>!h||!str(h.text,5000)||!str(h.date,10)||!(h.date===''||validDate(h.date))||!str(h.time,5)||!(h.time===''||/^([01]\d|2[0-3]):[0-5]\d$/.test(h.time))||!str(h.when,120)||!str(h.author,60)||!SOURCES.includes(h.source)||!CATEGORIES.includes(h.category)||!CERTAINTIES.includes(h.certainty)||!str(h.updatedAt,40)||!Number.isFinite(Date.parse(h.updatedAt))))throw Error('invalid');const clean=Object.fromEntries(['id','text','category','source','certainty','date','time','when','author','group','review','reviewNote','createdAt','updatedAt'].map(k=>[k,r[k]]));clean.history=history.map(h=>Object.fromEntries(['text','date','time','when','author','source','category','certainty','updatedAt'].map(k=>[k,h[k]])));return clean;
+ ids.add(r.id);const history=r.history??[];if(!Array.isArray(history)||history.length>1000||history.some(h=>!h||!str(h.text,5000)||!str(h.date,10)||!(h.date===''||validDate(h.date))||!str(h.time,5)||!(h.time===''||/^([01]\d|2[0-3]):[0-5]\d$/.test(h.time))||!str(h.when,120)||!str(h.author,60)||!SOURCES.includes(h.source)||!CATEGORIES.includes(h.category)||!CERTAINTIES.includes(h.certainty)||!str(h.updatedAt,40)||!Number.isFinite(Date.parse(h.updatedAt))))throw Error('invalid');const clean=Object.fromEntries(['id','text','category','source','certainty','date','time','when','author','group','review','reviewNote','createdAt','updatedAt'].map(k=>[k,r[k]]));clean.history=history.map(h=>Object.fromEntries(['text','date','time','when','author','source','category','certainty','updatedAt'].map(k=>[k,h[k]])));if(r.provenance!==undefined)clean.provenance=cleanProvenance(r.provenance);return clean;
  });
  return records;
 }

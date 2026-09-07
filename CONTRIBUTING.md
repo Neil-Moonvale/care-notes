@@ -9,3 +9,5 @@ Before changing summary logic, run `npm test` and add a focused regression case 
 Useful early feedback: How long does recording take? Can you find the source of each summary item? Do filters or export omit something you intended to share? Is a label confusing? Can you restore a backup in another browser?
 
 Review accessibility with keyboard navigation, readable text, zoom and mobile touch targets. Keep runtime dependencies and external data transfers minimal.
+
+Translation contributors: see [docs/TRANSLATING.md](docs/TRANSLATING.md). Model-related changes must preserve no-omission, no-rewriting and human-confirmation gates. Do not present mocked provider tests as live-model results.

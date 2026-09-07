@@ -1,0 +1,24 @@
+name: Bug report / 问题反馈
+description: Report a reproducible problem using fictional data only.
+body:
+  - type: markdown
+    attributes:
+      value: "Use fictional records only. 请仅使用虚构数据，不要上传病历、真实姓名、密钥或个人截图。"
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, device and app version / 浏览器、设备和版本
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps and fictional example / 操作步骤与虚构示例
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior / 预期与实际结果
+    validations:
+      required: true

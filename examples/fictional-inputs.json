@@ -1,0 +1,6 @@
+[
+  {"id":"two-accounts-zh","language":"zh","text":"妈妈说她昨晚没睡，她自己说睡了大概三个小时。","review":"Keep both accounts; confirm date and source without deciding who is right."},
+  {"id":"uncertainty-en","language":"en","text":"Not sure whether medication was taken. Had half a bowl of rice at lunch.","review":"Do not turn uncertainty into a missed-dose claim. Conservative uncertainty may label both drafts."},
+  {"id":"unknown-narrator","language":"en","text":"I did not see them sleeping last night.","review":"Do not assume the narrator is the patient or invent an event date."},
+  {"id":"unicode-verbatim","language":"es","text":"Durmió tres horas. No sé si tomó la medicación.","review":"Preserve text exactly. Local classification is not validated for Spanish."}
+]
