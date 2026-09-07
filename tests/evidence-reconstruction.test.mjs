@@ -2,12 +2,19 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {buildPersonalBaseline,detectBaselineDeviations,detectConflicts,reconstructEpisodes,validateDerivedClaim,validateEvidence,validateGraphEdges} from '../dist/evidence.js';
+import {fictionalSevenDayEvidence} from '../dist/demo-evidence.js';
 
 const demo=JSON.parse(fs.readFileSync(new URL('../examples/fictional-7-day-evidence.json',import.meta.url),'utf8'));
 const events=demo.events;
 
 test('fictional evidence validates with unique stable IDs',()=>{
   assert.equal(validateEvidence(events).length,events.length);
+});
+
+test('browser demo evidence also validates',()=>{
+  const browserDemo=fictionalSevenDayEvidence();
+  assert.equal(validateEvidence(browserDemo.events).length,browserDemo.events.length);
+  assert.equal(browserDemo.baseline_before,demo.baseline_before);
 });
 
 test('builds a four-day personal baseline',()=>{
