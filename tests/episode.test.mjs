@@ -45,7 +45,7 @@ test('close same-category records become review suggestions, never automatic lin
   {...base,id:'a',date:'2026-09-07',time:'08:00',category:'sleep',source:'family',text:'Did not see them sleeping.'},
   {...base,id:'b',date:'2026-09-07',time:'10:00',category:'sleep',source:'self',text:'Slept after dawn.'}
  ];
- const before=JSON.stringify(rs),suggestions=suggestEpisodeLinks(rs),result=reconstructEpisode(rs);
+ const before=JSON.stringify(rs),suggestions=suggestEpisodeLinks(rs),result=reconstructEpisode(rs,rs,{includeSuggestions:true});
  assert.equal(suggestions.length,1);
  assert.equal(suggestions[0].relation,'same_episode_candidate');
  assert.equal(suggestions[0].requires_human_review,true);
@@ -53,6 +53,18 @@ test('close same-category records become review suggestions, never automatic lin
  assert.equal(result.events.length,2);
  assert.ok(result.questions.some(q=>q.kind==='possibleSameEpisode'&&q.refs.includes('a')&&q.refs.includes('b')));
  assert.equal(JSON.stringify(rs),before);
+});
+
+test('candidate questions are opt-in and never leak into the normal handoff',()=>{
+ const base={certainty:'direct',when:'',author:'',group:'',review:'pending',reviewNote:'',createdAt:'2026-09-07T00:00:00Z',updatedAt:'2026-09-07T00:00:00Z',date:'2026-09-07',category:'food'};
+ const rs=[
+  {...base,id:'a',time:'12:00',source:'family',text:'A'},
+  {...base,id:'b',time:'12:30',source:'self',text:'B'}
+ ];
+ const normal=reconstructEpisode(rs);
+ assert.equal(normal.suggestions.length,0);
+ assert.ok(!normal.questions.some(q=>q.kind==='possibleSameEpisode'));
+ assert.ok(!episodeText(normal,episodeLabels.en,en).includes(episodeLabels.en.possibleSameEpisode));
 });
 
 test('candidate suggestions stay conservative across categories, distance and missing dates',()=>{
