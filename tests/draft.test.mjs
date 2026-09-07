@@ -61,10 +61,12 @@ test('evidence survives correction, backup restore and summary references',()=>{
   const bad=structuredClone(rs);bad[0].provenance.end--;assert.throws(()=>validateBackup({format:'care-notes',version:2,records:bad}));
   assert.throws(()=>validateBackup({format:'care-notes',version:3,records:rs}));
 });
-test('language selection follows saved or browser preference with explicit English fallback',()=>{
+test('language selection supports all six shipped languages with explicit English fallback',()=>{
+  assert.deepEqual(LANGUAGES.map(l=>l.code),['zh','en','es','fr','ja','ko']);
   assert.equal(chooseLanguage(['zh-Hans-CN']),'zh');assert.equal(chooseLanguage(['en-GB']),'en');
-  assert.equal(chooseLanguage(['fr-FR','zh-CN']),'zh');assert.equal(chooseLanguage(['ar']),'en');
-  assert.equal(getLabels('unsupported').capture,en.capture);
+  assert.equal(chooseLanguage(['es-MX']),'es');assert.equal(chooseLanguage(['fr-FR','zh-CN']),'fr');
+  assert.equal(chooseLanguage(['ja-JP']),'ja');assert.equal(chooseLanguage(['ko-KR']),'ko');
+  assert.equal(chooseLanguage(['ar']),'en');assert.equal(getLabels('unsupported').capture,en.capture);
 });
 test('every shipped translation has matching keys and interpolation placeholders',()=>{
   const keys=Object.keys(en).sort();
@@ -73,4 +75,11 @@ test('every shipped translation has matching keys and interpolation placeholders
     for(const key of keys){assert.equal(typeof language.messages[key],'string');assert.deepEqual(language.messages[key].match(/\{\w+\}/g)||[],en[key].match(/\{\w+\}/g)||[]);}
   }
   assert.equal(zh.unknown,'来源未确定');
+});
+test('newly added French Japanese and Korean dictionaries do not silently fall back to English',()=>{
+  const allowedSame=new Set(['brand']);
+  for(const code of ['fr','ja','ko']){
+    const messages=LANGUAGES.find(l=>l.code===code).messages;
+    for(const key of Object.keys(en))if(!allowedSame.has(key))assert.notEqual(messages[key],en[key],`${code}.${key} still equals English`);
+  }
 });
