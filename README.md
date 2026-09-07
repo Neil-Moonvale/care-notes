@@ -2,7 +2,7 @@
 
 **Reconstruct what happened when nobody could reliably document it.**
 
-[使用指南 / User guide / Guía de uso](docs/USER_GUIDE.md) · [中文介绍](docs/README.zh-CN.md) · [Project status](docs/PROJECT_STATE.md) · [Roadmap](docs/ROADMAP.md) · [Contributing](CONTRIBUTING.md)
+[▶ Try the live demo / 在线体验](https://neil-moonvale.github.io/care-notes/) · [使用指南 / User guide / Guía de uso](docs/USER_GUIDE.md) · [中文介绍](docs/README.zh-CN.md) · [Project status](docs/PROJECT_STATE.md) · [Roadmap](docs/ROADMAP.md) · [Contributing](CONTRIBUTING.md)
 
 Care Notes is an early open-source, phone-first caregiving project for turning fragmented, incomplete and sometimes conflicting accounts into a reviewable episode and a clearer handoff.
 
