@@ -118,7 +118,7 @@ Run:
 npm test
 ```
 
-The current v0.3 development branch has **44 automated checks passing** in GitHub Actions, covering the earlier journal/provider safeguards plus evidence adapters, personal baseline, source gaps, graph relations, reconstruction, conflict preservation and semantic claim rejection.
+The current v0.3 development branch has **49 automated checks passing** in GitHub Actions, covering the earlier journal/provider safeguards plus evidence adapters, personal baseline, source gaps, graph relations, reconstruction, conflict preservation, semantic claim rejection and static mobile/accessibility safeguards.
 
 These tests establish software-contract behavior, not clinical truth or medical accuracy. There is no real-model, clinical, wearable, camera or mobile end-to-end validation claim yet.
 
