@@ -14,8 +14,8 @@ test('main app loads the review candidate enhancement and phone styles',()=>{
 });
 
 test('candidate UI has explicit accept and reject controls and never uses a network request',()=>{
- assert.match(ui,/data\.cnSuggestionAccept/);
- assert.match(ui,/data\.cnSuggestionReject/);
+ assert.match(ui,/dataset\.cnSuggestionAccept/);
+ assert.match(ui,/dataset\.cnSuggestionReject/);
  assert.match(ui,/accept\.type='button'/);
  assert.match(ui,/reject\.type='button'/);
  assert.doesNotMatch(ui,/\bfetch\s*\(/);
@@ -35,5 +35,5 @@ test('accept links existing records while reject only stores the local review ch
 test('candidate wording says review is required and automatic merging is not claimed',()=>{
  assert.match(ui,/不会自动合并/);
  assert.match(ui,/never merges records automatically/);
- assert.match(ui,/nunca combina registros automáticamente/);
+ assert.match(ui,/Nunca combina registros automáticamente/i);
 });
