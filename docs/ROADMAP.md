@@ -4,7 +4,7 @@
 
 Care Notes is evolving from a careful caregiving journal into an **evidence-first, caregiver-first episode reconstruction system** for periods when the person being cared for cannot or does not reliably document their own experience.
 
-The signature v0.3 experience is **“What happened? / 发生了什么？”**: heterogeneous evidence is normalized, compared with a personal baseline, grouped into reviewable change clusters and kept traceable back to source evidence. See [Product Vision](PRODUCT_VISION.md) and [Evidence Schema](EVIDENCE_SCHEMA.md).
+The signature v0.3 experience is **“What happened? / 发生了什么？”**: heterogeneous evidence is normalized, compared with a personal baseline, grouped into reviewable change clusters and kept traceable back to source evidence. See [Product Vision](PRODUCT_VISION.md), [Architecture](ARCHITECTURE.md) and [Evidence Schema](EVIDENCE_SCHEMA.md).
 
 ## Implemented in v0.2
 
@@ -17,34 +17,43 @@ The signature v0.3 experience is **“What happened? / 发生了什么？”**: 
 
 ## v0.3 — Zero-input Episode Reconstruction
 
-Already implemented on the v0.3 feature branch:
+Implemented on the v0.3 feature branch:
 
 - [x] Product vision for caregiver-first, evidence-first reconstruction.
 - [x] Canonical Care Evidence Schema and graph relations.
 - [x] Deterministic evidence validation with stable evidence IDs.
-- [x] Robust personal-baseline calculation using medians and median absolute deviation.
+- [x] Personal-baseline calculation using medians and median absolute deviation.
 - [x] Baseline-deviation detection without diagnostic labels.
 - [x] Explicit conflict preservation for contradictory observations.
-- [x] Explicit unknown-state handling when a source is unavailable.
-- [x] Deterministic episode clustering with evidence-linked derived claims.
-- [x] Fully fictional seven-day household evidence stream.
+- [x] Explicit source-gap / unknown-state handling.
+- [x] Deterministic episode clustering with evidence-linked claims.
+- [x] `same_episode`, `baseline_deviation`, `conflicts_with` and `uncertain_about` graph edges.
+- [x] Semantic claim-contract checks that reject unsupported claim/evidence combinations.
+- [x] Complete fictional seven-day household evidence stream.
 - [x] Bilingual “What happened?” browser demo with click-through source evidence.
-- [x] Automated tests for evidence validation, baseline changes, conflicts, unknowns and unsupported claims.
+- [x] Demo view for personal baseline, source gaps, graph relations and raw references.
+- [x] First no-network evidence adapter contracts for Health Connect, Home Assistant, Frigate metadata, caregiver observations and source status.
+- [x] Passive-evidence privacy/threat model and device-integration boundaries.
+- [x] Architecture documentation and updated English/Chinese project positioning.
+- [x] 44 automated tests passing in GitHub Actions.
 
 Release gates before merging v0.3 to `main`:
 
-- [ ] Run the complete automated test suite in CI and resolve any regressions.
+- [x] Run the complete automated test suite in CI and resolve regressions.
+- [x] Add source-availability/gap records so `no event` cannot be confused with `sensor unavailable`.
+- [x] Add a first adapter interface for Health Connect / Home Assistant / Frigate-shaped events without requiring real hardware.
+- [x] Document the threat/privacy model for passive evidence and camera metadata.
+- [x] Add an obvious README explanation and demo run path.
 - [ ] Test the new episode demo on the owner's Android phone.
 - [ ] Review mobile layout, accessibility, keyboard navigation and browser compatibility.
-- [ ] Add an obvious README entry point and screenshots for the v0.3 demo.
-- [ ] Add source-availability/gap records so `no event` cannot be confused with `sensor unavailable`.
-- [ ] Add a first adapter interface for Health Connect / Home Assistant / Frigate-shaped events without requiring real hardware.
-- [ ] Document the threat/privacy model for passive evidence and camera metadata.
+- [ ] Add README screenshots after the visual layout is accepted.
+- [ ] Perform a full pre-merge architecture / safety review of the v0.3 diff.
 
 ## After v0.3
 
 - Android-first client for Health Connect, background permissions, notifications and quick caregiver capture.
-- Home Assistant event adapter.
+- Real Health Connect read-only integration with explicit permissions and source diagnostics.
+- Authenticated Home Assistant event adapter.
 - Frigate review/event metadata adapter; raw continuous video remains local by default.
 - Provider-independent AI/BYOK layer (OpenAI, Anthropic, Gemini, DeepSeek, OpenRouter, OpenAI-compatible endpoints and local models such as Ollama where practical).
 - Evidence-bound model evaluation: source confusion, omissions, fabricated evidence IDs, semantic upgrades, uncertainty loss and conflicting accounts.
