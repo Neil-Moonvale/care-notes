@@ -35,7 +35,7 @@ Implemented on the v0.3 feature branch:
 - [x] First no-network evidence adapter contracts for Health Connect, Home Assistant, Frigate metadata, caregiver observations and source status.
 - [x] Passive-evidence privacy/threat model and device-integration boundaries.
 - [x] Architecture documentation and updated English/Chinese project positioning.
-- [x] 44 automated tests passing in GitHub Actions.
+- [x] 49 automated tests passing in GitHub Actions.
 
 Release gates before merging v0.3 to `main`:
 
