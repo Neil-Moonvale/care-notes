@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 — 2026-09-07
+
+- Episode workspace becomes the initial screen, with selection and explicit undated-record handling.
+- Deterministic evidence assembly, incomplete linked-group warnings, clarification prompts and handoff export.
+- No AI event understanding or clinical decisions claimed.
+- Eight new evidence regression checks; 35 total pass locally.
+- Cross-chat project handoff records current direction and remaining gates.
+
 ## 0.2.0 — 2026-09-07
 
 - Paragraph drafts with per-item confirmation and persistent original evidence.

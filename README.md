@@ -2,12 +2,13 @@
 
 **Keep the original words. Review each suggestion. Prepare a clearer visit record.**
 
-[简体中文](docs/README.zh-CN.md) · [Roadmap](docs/ROADMAP.md) · [Translation guide](docs/TRANSLATING.md) · [Security](SECURITY.md)
+[简体中文](docs/README.zh-CN.md) · [Project handoff](docs/PROJECT_STATE.md) · [Roadmap](docs/ROADMAP.md) · [Translation guide](docs/TRANSLATING.md) · [Security](SECURITY.md)
 
 An early, mobile-first, local-first caregiving journal. Keep separate accounts, uncertainty, corrections and original text when preparing visit summaries. Not a clinically validated product.
 
-## What works in v0.2.0
+## What works in v0.3.0
 
+- Episode workspace: select evidence, retain linked accounts, surface missing date/source and uncertain reports, and export a traceable handoff. Local rules only; no automatic semantic linking or medical urgency ranking.
 - Paragraph capture → draft excerpts → explicit confirmation of every draft → save.
 - Original paragraphs and exact excerpt positions retained through correction and backup.
 - Manual linking and side-by-side review of different accounts, without deciding who is right.
@@ -61,7 +62,7 @@ Do not expose this personal server through public tunnels. Hosted multi-user AI 
 - `server/ai.js`: provider adapter and request guards, independent of UI.
 - `examples/fictional-inputs.json`: illustrative inputs, not a clinical benchmark.
 
-Run `npm test`. **27 automated checks pass** across data, evidence, localization and mocked provider behavior. No real-model, clinical or mobile end-to-end accuracy is claimed. [Validation notes](docs/VALIDATION.md).
+Run `npm test`. **35 automated checks pass** across data, evidence, localization and mocked provider behavior. No real-model, clinical or mobile end-to-end accuracy is claimed. [Validation notes](docs/VALIDATION.md).
 
 ## Data ownership
 

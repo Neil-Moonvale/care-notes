@@ -1,28 +1,26 @@
 # Roadmap / 开发路线
 
-## Implemented
+Read [PROJECT_STATE.md](PROJECT_STATE.md) before continuing across chats.
 
-- [x] Local recording, fictional demos, manual linking, review and export.
-- [x] Paragraph drafts with exact source evidence and mandatory confirmation.
-- [x] Unknown-source support, conservative uncertainty and dates awaiting review.
-- [x] Chinese/English UI, locale selection and translation contribution path.
-- [x] Optional server-side AI adapter with mocked contract checks.
-- [x] Public source, MIT license, automated checks and contribution documentation.
+## Working prototype
 
-## Next release gates
+- [x] Local recording, paragraph capture, original evidence, corrections and backups.
+- [x] Chinese/English interface; optional AI classification adapter, mocked tests only.
+- [x] v0.3 event workspace: explicit selection, linked accounts, missing-information prompts, incomplete-group warnings, handoff export.
+- [x] 35 local regression checks, public MIT source.
 
-- [ ] Test capture → review → backup → restore → summary on the owner's phone, using fictional records.
-- [ ] Fix and document actual usability defects.
-- [ ] Choose a provider/model and approve costs before configuring authenticated hosted AI.
-- [ ] Run a documented live-model evaluation including source confusion, uncertainty, embedded instructions and conflicting accounts; record failures.
-- [ ] Validate accessibility and supported phone/browser behavior.
+## Next meaningful capability
 
-## Later, based on feedback
+- [ ] Evaluate a fictional multi-day case with incomplete and conflicting accounts, without extra hardware.
+- [ ] Add reviewable semantic suggestions for which excerpts describe the same event, preserving every source and allowing rejection.
+- [ ] Compare useful clarification questions against a fixed baseline; measure unsupported claims, omissions and user effort instead of only test count.
+- [ ] Configure and evaluate a real provider with explicit costs, authenticated hosted access and per-user limits. Existing localhost adapter cannot power the hosted static preview by itself.
+- [ ] Validate the full episode workflow on a phone, including export and restored records.
 
-Native-reviewed additional languages; suggested related accounts with confirmation; citation-based questions and change summaries; optional encrypted family sharing; a public fictional demonstration with appropriate access and cost controls.
+## Subsequent options, not promises
 
-## Support application
+Evidence-based change summaries; user-confirmed care-plan handoff; multi-provider/BYOK; optional consented device events. No extra hardware required for the core workflow. No zero-input promise when no data source exists. No inferred diagnosis, medication adjustment, hospital-admission decision, or automatic crisis score.
 
-Use actual implementation, maintenance and adoption evidence. Never manufacture stars, issues, releases, users, endorsements or clinical outcomes. The owner makes product decisions and participates in maintenance, with coding assistance described honestly.
+## Open-source application
 
-中文：先验证手机完整流程，再接入并实测真实模型；后续根据反馈增加语言和功能。申请仅使用真实成果与维护证据。
+Prepare honest implementation, maintenance and usefulness evidence. Application remains unsubmitted. Do not manufacture stars, users, issues or clinical outcomes. Extra UI languages follow native review and demand; device connector count and language count are not success measures.

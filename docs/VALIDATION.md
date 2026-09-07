@@ -12,3 +12,7 @@ Checked 2026-09-07 for v0.2.0.
 | Clinical/multilingual study | Not conducted | No accuracy or health-outcome claim |
 
 Run `npm test` or `node --test tests/*.test.mjs`. Test inputs and credentials are fictional. Provider tests inject mocks and never call OpenAI. These small regression checks are not a benchmark of general intelligence, clinical usefulness, native-language quality or production security.
+
+## v0.3.0
+
+Eight episode regression checks added; all 35 local checks pass. Coverage includes excluded related accounts, no text leakage from excluded items, exact quotes, unknown dates, review changes, empty selection, no automatic association, immutability and language coverage. No browser end-to-end or live-model evaluation was performed.
