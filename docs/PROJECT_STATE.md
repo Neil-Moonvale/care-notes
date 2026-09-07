@@ -27,7 +27,10 @@ Implemented there:
 - accepted candidates use the existing manual-link model, so both original records remain separately reviewable;
 - a fixed fictional phone-only multi-day fixture with expected candidates and expected non-candidates;
 - regression tests for unsupported association, missing dates, uncertainty, rejection and no-network candidate UI behavior;
-- localized candidate examples in Chinese, English and Spanish.
+- six-language interface/help/demo/reconstruction coverage: Simplified Chinese, English, Spanish, French, Japanese and Korean;
+- offline cache assets for all shipped language modules.
+
+The six-language implementation has automated structural and workflow coverage, but no independent professional or clinical translation validation is claimed. The local drafting/classification rules remain primarily Chinese/English and require manual review in the other interface languages.
 
 ## Limitations
 
@@ -39,8 +42,9 @@ The candidate rule is intentionally weak and review-only. Same category + close 
 
 1. Verify the latest feature-branch CI run and fix regressions.
 2. Test the full episode workflow on a real Android phone: capture, candidate accept/reject, manual clarification, export, backup and restore.
-3. Review mobile layout and wording based on that walkthrough.
-4. Create a clean draft PR from the phone-first branch to `main` and retire the older diverged v0.3 PR as superseded.
-5. After mobile acceptance, decide whether the next capability should be better review-question ranking, richer phone-only reconstruction, or the Android native shell. Do not add hardware integrations merely to make the project look advanced.
+3. Switch through all six interface languages on the phone and review narrow-screen / enlarged-text behavior.
+4. Review safety wording and translation quality based on that walkthrough; do not claim native-language validation without real review.
+5. Keep PR #3 draft until the owner accepts the phone UI and wording.
+6. After mobile acceptance, decide whether the next capability should be better review-question ranking, richer phone-only reconstruction, or the Android native shell. Do not add hardware integrations merely to make the project look advanced.
 
 See [User guide](USER_GUIDE.md), [Roadmap](ROADMAP.md) and [Validation](VALIDATION.md).
