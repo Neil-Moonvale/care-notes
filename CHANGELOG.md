@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0-rc.1 — 2026-09-08
+
+- Unified the app entry into Accounts, Review and Settings; retained the previous records interface and storage.
+- Added custom OpenAI-compatible HTTPS providers with shared model/evidence validation, direct browser calls and explicit CORS messaging.
+- Added the Android project with bundled offline UI, native HTTPS calls, system backup pickers, clipboard and print/PDF.
+- Added six-language in-app instructions, reviewed exports and source removal with dependent-output withdrawal.
+- Kept provider keys transient and custom destinations outside the hosted relay.
+- Added regression coverage and CI Android packaging. Real-device and live-model acceptance remain pending.
+
 ## 0.4.0-dev.2 — 2026-09-08
 
 - Add hosted, request-scoped OpenAI/DeepSeek connections and explicit one-case connection checks.

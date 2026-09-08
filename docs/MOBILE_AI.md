@@ -1,44 +1,31 @@
-# Model connection on a phone
+# Model connections
 
-## 中文：从这里开始
+## 中文
 
-在带服务端的版本中，打开 **整理经过 → 智能整理**。进入“我的整理”，它与原来的普通照护记录分开保存。
+在 **设置 → 连接 AI** 中填写配置。API 密钥不会保存进本机记录或备份，重新打开页面后需再次填写。模型名称、服务商和自定义地址可以记住，不包含密钥。
 
-1. 打开 **连接 AI**，选择 OpenAI 或 DeepSeek，填写你自己的模型名称和 API 密钥。服务商账户需要有可用 API 额度；本项目不提供共享密钥。
-2. 勾选测试授权，点 **测试连接（会使用少量额度）**。只发送一条固定的虚构描述，检查接口格式以及“没看到服药仍然是未知”。通过一个例子不代表所有材料都能处理正确。
-3. 在 **补充一段描述** 输入原话并保存。来源称呼可留空；不清楚的日期不用猜。可以使用手机键盘自带的语音输入，本项目尚未实现独立语音识别。
-4. 核对页面列出的发送对象，勾选发送授权，再点 **整理这些描述**。只发送本页保存的当前原文、来源称呼和记录时间，不发送旧版本或其他记录库。
-5. 查看整理结果、引用、未知和待确认问题。日期或说法有误时，修改对应原文，保存更正，再次分析。旧版本和撤回情况可以查看。
-6. 核对当前结果后标记 **我已核对当前结果**，导出交接文本。标记仅表示你的确认，不是临床认证。完整历史用 **下载完整备份** 保存；**恢复备份** 会在确认后替换“我的整理”。
+| 选择 | 如何填写 |
+| --- | --- |
+| OpenAI | OpenAI 平台的 API 密钥及可用模型 ID，使用 Responses 接口 |
+| DeepSeek | DeepSeek 的 API 密钥及可用模型 ID，使用 Chat Completions 接口 |
+| 自定义兼容接口 | 服务商给出的 HTTPS API 地址、接口格式、密钥和模型 ID |
 
-**体验示例**保留了六种语言的虚构更正演示，无须模型或密钥。示例修改不混入“我的整理”。切换语言不会翻译或替换你写的原话。个人工作区保存在当前浏览器，清除浏览器数据或更换设备前要备份。密钥仅在当前页面内存中，刷新或断开后需要重新填写。
+自定义地址可以填 `https://服务商域名/v1`，程序按所选格式补上 `/chat/completions` 或 `/responses`；也可以填写完整接口。保留服务商要求的其他路径。不要把聊天网页网址当成 API 地址。当前只支持 HTTPS 标准端口、域名地址和 Bearer 密钥，不支持 HTTP、局域网 IP、任意请求头或所有厂商的独有协议。
 
-接口连通、结构检查和引用检查都不能证明分析正确。现在尚未完成真实模型对比、手机操作验收、母语者审校或实际家属使用研究。没有 Android APK 发布。
+**安卓包**从手机直接连接服务商，不需要本站服务器，也不受浏览器跨域限制。**网页版**的自定义接口从浏览器直接连接，需要服务商允许 CORS；失败时可在安卓包中使用同一配置。带服务端的网页版可将 OpenAI、DeepSeek 两个固定官方接口经本站转发。
 
-## English: deployment and trust boundary
+每次发送前都会列出目的地址。测试只发一条固定虚构描述；整理只发当前工作区保存的原文、来源称呼和记录时间，不发旧版本、旧记录库或其他设备数据。使用自己的 API 额度，没有维护者共享密钥。失败、停止等待或超时仍可能被服务商计费，没有自动重试。
 
-The hosted Worker serves the existing app and `/api/mobile/status`, `/api/mobile/check` and `/api/mobile/reconstruct` from one origin. The browser submits a user-entered API key only after explicit consent. There is no maintainer-funded shared model account. The key is kept in page memory, cleared on disconnect/page exit, and excluded from local storage and exports. The server handles it transiently without application-level logging or persistence. **Trust in the site operator, hosting infrastructure and selected provider is still required.** This is not end-to-end encryption, a no-retention guarantee or an encrypted browser vault. Provider policies apply.
+只通过一次连接测试不代表模型理解可靠；我们没有训练自己的基础模型。不同模型都要经过同一套结构、引用和来源版本检查，但这仍不能证明每个解释正确。
 
-Only the fixed official HTTPS endpoints for OpenAI Responses and DeepSeek Chat Completions are supported. Arbitrary proxy URLs, redirects and user-supplied headers are rejected. JSON-schema requests use OpenAI's [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs); DeepSeek's [JSON Output](https://api-docs.deepseek.com/guides/json_mode/) is checked against the same schema locally. Compatible protocol support is not a claim that every model is suitable. The user supplies an explicit model ID; no model or paid request is selected automatically.
+## Technical boundary
 
-Requests are same-origin JSON with a dedicated header and explicit consent. Input is bounded to 40 current accounts / 24000 characters, request bodies to 128 KB, provider responses to 500 KB, and output to 2000 tokens for a connection check / 6000 for reconstruction. Timeout is 60 seconds. There are no automatic paid retries or fallback models. A failed or interrupted request may still be charged by the provider. The Worker allows two concurrent calls and ten model calls per minute **per isolate**; these are best-effort limits, not global spending controls. Set provider-side budgets. Preserve authenticated/private access for personal use; do not turn this into a public shared-key service.
+The shared implementation is `dist/provider-client.js` and `dist/reconstruction-model.js`; the server and Android/browser entry points use the same schema, prompt and evidence validator. The hosted `/api/mobile/*` relay continues accepting only `openai` and `deepseek`. It rejects custom endpoint fields before any outbound request. Arbitrary destinations are not proxied through the Worker.
 
-The single fictional connection check is a format and basic non-observation smoke test. It sends no saved care material. It is not a quality certification, benchmark or clinical validation. Every actual result must still pass local schema/quotation checks and human review. Source edits invalidate dependent claims; replies to old snapshots are discarded. Missing or invalid output is not replaced with invented annotations.
+Custom browser calls are direct, require CORS and use an explicitly selected HTTPS destination. The Android bridge accepts only bounded model POSTs to HTTPS Responses/Chat Completions paths. Remote web content is blocked from the WebView, which serves only bundled assets on an isolated origin. The native bridge does not follow redirects, uses platform TLS validation and has bounded concurrency/body size/timeouts. A device-side DNS check rejects local/private destinations; this is a personal device client, not an SSRF-resistant public relay.
 
-## Run and build
+Keys stay in page and request memory; application code excludes them from storage/exports and does not log model bodies or credentials. This is not a claim of zero retention by infrastructure/providers, hardware-backed key storage, encrypted exports or end-to-end encryption. Users must trust their chosen provider and, for relayed web requests, the deployment operator.
 
-```sh
-npm ci --ignore-scripts --no-audit --no-fund
-npm test
-npm start
-```
+Inputs are capped at 40 current accounts/24000 characters, model output at 6000 tokens and the connection test at 2000 tokens. There is one request per explicit action. The hosted relay has additional best-effort isolate limits, not a spending guarantee. Set budgets in the provider account.
 
-The Node server binds only to loopback for local development. For a phone, deploy the Worker to an authenticated HTTPS hosting environment; the build is:
-
-```sh
-npm run build
-```
-
-`dist/server/index.js` is a self-contained Workers-compatible ESM entry with embedded public assets. The source `dist/` files remain usable for static hosting and GitHub Pages, where the AI service is unavailable. Local source and hosted output share `server/mobile-api.js` and the same reconstruction core. Sites uses its private, deployment-specific `.openai/hosting.json`; a plain checkout can build without that file. Do not commit secrets or personal workspace exports.
-
-Full workspace JSON restores source history and validates derived analyses instead of trusting exported result fields. It is a separate format from the original note backups. It contains personal text and should be handled accordingly. Keep third-party scripts out of the page. Further storage hardening, independently reviewed privacy controls, live-model evaluation and phone acceptance remain release work.
+The fixed synthetic check verifies basic non-observation handling. It is not a model benchmark. No live paid model run, independent user study or clinical validation has been completed. Model errors can pass structural checks; all output still requires review.

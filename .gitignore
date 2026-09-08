@@ -22,3 +22,4 @@ android/local.properties
 *.jks
 *.keystore
 *.apk
+!downloads/*.apk
