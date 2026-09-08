@@ -12,3 +12,13 @@ node_modules/
 evaluation-results/
 dist/server/
 dist/.openai/
+
+# Android output and private signing material
+android/.gradle/
+android/app/build/
+android/build/
+android/app/src/main/assets/
+android/local.properties
+*.jks
+*.keystore
+*.apk

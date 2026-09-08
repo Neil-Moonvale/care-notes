@@ -2,7 +2,8 @@ import {connectionConfig,providerList,boundedJson} from './providers.js';
 import {reconstructWithProvider} from './reconstruction.js';
 import {validateAnalysis} from '../dist/reconstruction-core.js';
 
-export const CONNECTION_SAMPLE=[{id:'connection-check',version:1,author:'Caregiver',recordedAt:'2026-09-01T12:00:00Z',text:'I did not see the evening medication taken.'}];
+import {CONNECTION_SAMPLE,assertConnectionSample} from '../dist/reconstruction-model.js';
+export {CONNECTION_SAMPLE};
 const allowedErrors=new Set(['invalid_connection','provider_auth','provider_credit','provider_limit','provider_model','provider_failed','provider_timeout','provider_network','provider_invalid','provider_incomplete','provider_refusal','evidence_invalid','check_failed','too_large']);
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'}});
 export function createMobileApi({fetchImpl=fetch,clock=Date.now}={}) {
@@ -27,11 +28,7 @@ export function createMobileApi({fetchImpl=fetch,clock=Date.now}={}) {
       try{validateAnalysis(sources,{claims:[],relations:[]});if(sources.reduce((n,s)=>n+s.text.length,0)>24000)return json({error:'too_large'},413);}catch{return json({error:'invalid_input'},400);}
       calls++;
       const answer=await reconstructWithProvider(sources,{...config,fetchImpl,maxOutputTokens:checking?2000:6000});
-      if(checking){
-        const claim=answer.proposal.claims[0];
-        if(answer.proposal.claims.length!==1||claim.quote!==CONNECTION_SAMPLE[0].text||claim.topic!=='medication'||claim.basis!=='not_observed'||claim.polarity!=='unknown'||claim.time.start!==null||answer.proposal.relations.length)throw Error('check_failed');
-        return json({checked:true,provider:answer.provider,model:answer.model,usage:answer.usage,scope:'one-synthetic-case'});
-      }
+      if(checking)return json(assertConnectionSample(answer));
       return json(answer);
     }catch(error){return json({error:allowedErrors.has(error?.message)?error.message:'analysis_failed'},502);}
     finally{active--;}

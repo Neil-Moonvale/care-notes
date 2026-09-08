@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const read=name=>fs.readFileSync(new URL(`../dist/${name}`,import.meta.url),'utf8');
-const html=read('index.html'),ui=read('suggestion-ui.js'),css=read('suggestion-ui.css'),sw=read('sw.js');
+const html=read('records.html'),ui=read('suggestion-ui.js'),css=read('suggestion-ui.css'),sw=read('sw.js');
 
-test('main app loads the review candidate enhancement, phone styles and all locale files offline',()=>{
+test('retained records app loads the review candidate enhancement, phone styles and all locale files offline',()=>{
  assert.match(html,/suggestion-ui\.js/);
  assert.match(html,/suggestion-ui\.css/);
  assert.match(sw,/suggestion-ui\.js/);
