@@ -1,0 +1,39 @@
+import {connectionConfig,providerList,boundedJson} from './providers.js';
+import {reconstructWithProvider} from './reconstruction.js';
+import {validateAnalysis} from '../dist/reconstruction-core.js';
+
+export const CONNECTION_SAMPLE=[{id:'connection-check',version:1,author:'Caregiver',recordedAt:'2026-09-01T12:00:00Z',text:'I did not see the evening medication taken.'}];
+const allowedErrors=new Set(['invalid_connection','provider_auth','provider_credit','provider_limit','provider_model','provider_failed','provider_timeout','provider_network','provider_invalid','provider_incomplete','provider_refusal','evidence_invalid','check_failed','too_large']);
+const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'}});
+export function createMobileApi({fetchImpl=fetch,clock=Date.now}={}) {
+  // Best-effort isolate limits, not a durable account-wide spending cap.
+  let active=0,windowStart=clock(),calls=0;
+  return async request=>{
+    const url=new URL(request.url);
+    if(url.pathname==='/api/mobile/status'&&request.method==='GET')return json({available:true,providers:providerList(),maxOutputTokens:6000,keyStorage:'request-only'});
+    if(!['/api/mobile/check','/api/mobile/reconstruct'].includes(url.pathname))return json({error:'not_found'},404);
+    if(request.method!=='POST')return json({error:'method_not_allowed'},405);
+    if(request.headers.get('origin')!==url.origin||request.headers.get('x-care-notes')!=='mobile-ai'||request.headers.get('content-type')?.split(';')[0]!=='application/json')return json({error:'forbidden'},403);
+    if(clock()-windowStart>=60000){windowStart=clock();calls=0;}
+    if(active>=2||calls>=10)return json({error:'rate_limited'},429);
+    // Reserve before awaiting the request body, so simultaneous arrivals cannot all pass.
+    active++;
+    try{
+      const checking=url.pathname==='/api/mobile/check';
+      let input;try{input=await boundedJson(request,128000);}catch{return json({error:'invalid_input'},400);}
+      if(!input||input.consent!==true||Object.keys(input).sort().join(',')!==(checking?'connection,consent':'connection,consent,sources'))return json({error:'consent_required'},400);
+      let config;try{config=connectionConfig(input.connection);}catch{return json({error:'invalid_connection'},400);}
+      const sources=checking?CONNECTION_SAMPLE:input.sources;
+      try{validateAnalysis(sources,{claims:[],relations:[]});if(sources.reduce((n,s)=>n+s.text.length,0)>24000)return json({error:'too_large'},413);}catch{return json({error:'invalid_input'},400);}
+      calls++;
+      const answer=await reconstructWithProvider(sources,{...config,fetchImpl,maxOutputTokens:checking?2000:6000});
+      if(checking){
+        const claim=answer.proposal.claims[0];
+        if(answer.proposal.claims.length!==1||claim.quote!==CONNECTION_SAMPLE[0].text||claim.topic!=='medication'||claim.basis!=='not_observed'||claim.polarity!=='unknown'||claim.time.start!==null||answer.proposal.relations.length)throw Error('check_failed');
+        return json({checked:true,provider:answer.provider,model:answer.model,usage:answer.usage,scope:'one-synthetic-case'});
+      }
+      return json(answer);
+    }catch(error){return json({error:allowedErrors.has(error?.message)?error.message:'analysis_failed'},502);}
+    finally{active--;}
+  };
+}

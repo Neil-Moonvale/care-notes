@@ -10,3 +10,5 @@ node_modules/
 
 # Evaluation outputs can include raw source text and model responses.
 evaluation-results/
+dist/server/
+dist/.openai/

@@ -1,5 +1,8 @@
 # 使用指南 · User guide · Guía de uso · Guide d’utilisation · 使い方 · 사용 방법
 
+**新版智能整理 / New model-connected workspace:** [手机连接与使用步骤 / Phone setup and usage](MOBILE_AI.md)。下文介绍原有本地记录功能；新版智能整理需要带服务端的部署，GitHub Pages 仍是静态演示。The sections below describe the original local record flow; model connection requires server-backed hosting.
+
+
 [简体中文](#简体中文) · [English](#english) · [Español](#español) · [Français](#français) · [日本語](#日本語) · [한국어](#한국어)
 
 ## 简体中文

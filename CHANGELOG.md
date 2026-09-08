@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0-dev.2 — 2026-09-08
+
+- Add hosted, request-scoped OpenAI/DeepSeek connections and explicit one-case connection checks.
+- Add six-language model configuration, actionable errors, personal workspace persistence and validated backups.
+- Require review before handoff export and keep stale results invalid after source corrections.
+- Build a self-contained Worker while preserving the static demo and loopback development server.
+- Provider behavior tested with simulated responses; live-model and phone acceptance remain pending.
+
+
 ## 0.4.0-dev.1 — Evidence revision experiment
 
 - Add a shared browser/Node core for source versions, attributed claims, relation constraints and dependent-output invalidation.

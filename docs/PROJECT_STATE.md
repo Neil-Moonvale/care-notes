@@ -1,5 +1,10 @@
 # Project status
 
+## Current update — 2026-09-08
+
+The evidence-revision branch now includes a phone-accessible, request-scoped BYOK Worker for OpenAI and DeepSeek, six-language connection controls, one synthetic connection check, personal workspace persistence, validated backup restore and a review-before-handoff step. The code is ready for credentialed evaluation; provider tests use mocks, not paid live calls. Main and static Pages have not been updated to this branch. No APK or user outcome study is complete. See [mobile setup](MOBILE_AI.md). The earlier sections below record the baseline and release gates.
+
+
 Care Notes 0.3.1 development line · 2026-09-07
 
 ## Product invariant

@@ -4,14 +4,9 @@ This development branch adds a small, reusable reconstruction core and an intera
 
 ## Try it
 
-Open `reconstruction.html` from the existing app's **Try evidence correction** link. The initial four accounts and their extraction annotations are fictional and authored. The relations, open question, source-version invalidation and change report are computed by the shared core in the browser.
+Open **Organize with AI** and select **Try the example** to explore the four authored fictional accounts without a model call. Correcting the self-report date withdraws a tentative same-event link while preserving the original versions and unknown medication occurrence. Free-text edits invalidate authored extraction and need a fresh analysis.
 
-1. Read the accounts. The self-report has no established date. A caregiver's non-observation does not establish an absence, and another caregiver's retelling is identified as hearsay.
-2. Apply the explicit date correction. The original version remains available. The tentative same-event link is withdrawn, the corrected account moves to its new period, and the unchanged medication account remains unknown.
-3. Edit any original text. Claims depending on that version stop being current immediately. Unanalysed sources remain visible; the app does not pretend to understand the edit using fixture annotations.
-4. Download the review material to keep original versions, current output and changes. This temporary page does not change the existing care-record store. Reloading resets it. Downloaded files can contain sensitive original text.
-
-The interface and built-in examples support the existing six languages. Edits to original text are retained when changing the interface language. These translations have structural and example-flow checks, not independent native-speaker validation.
+**My workspace** starts empty, stores saved accounts in this browser and supports backup restore. A server-backed deployment adds per-request model connection, explicit consent and human review before handoff export. See [phone setup and data handling](MOBILE_AI.md). Example edits stay separate. All six interface languages are covered; original user text is never translated by changing the interface language.
 
 ## Components
 
@@ -34,15 +29,13 @@ An exact quotation and valid schema do not prove that the model chose the right 
 
 Current questions use transparent information rules: missing time on a proposed relation, or an untraced reported source. They are capped and can be skipped. They are not calibrated information-gain estimates or clinical-priority rankings.
 
-Old source versions are retained in the in-memory ledger for review. Removing a source withdraws dependent active output but does not purge its history; do not describe this as permanent erasure. Original care-record deletion retains its existing behavior.
+Old source versions are retained in the local workspace ledger for review. Removing a source withdraws dependent active output but does not purge its history; do not describe this as permanent erasure. Original care-record deletion retains its existing behavior.
 
 ## Optional real model
 
-The static Pages/Sites demo does not provide a model service or include any API key. The existing personal loopback server now also accepts `/api/reconstruct` after explicit consent and same-origin checks. Configure `OPENAI_API_KEY` and `OPENAI_MODEL` locally as described in [AI setup](AI.md), then run the local server. Use the page's AI action to analyse the current source snapshot. A response arriving after a saved edit is rejected.
+The hosted Worker now supports user-configured OpenAI and DeepSeek calls through `/api/mobile/`. Keys are request-scoped and are not stored with the workspace. The old loopback-only environment-variable adapter remains available for local development and the comparison CLI. GitHub Pages is static and does not execute either server.
 
-This local-server arrangement does not provide a mobile hosted backend. Public server deployment still requires authentication, user separation and explicit operating limits. The example works on a phone without that backend.
-
-No live model comparison was run for this change. Provider tests use mocks. No credentials belong in the repository, browser, review export or issue reports.
+See [mobile setup](MOBILE_AI.md) for the exact trust boundary, provider allowlist, request limits, connection test and build instructions. Real-model comparison has not been run; automated provider tests use mocks. Do not include credentials or private records in source code or issue reports.
 
 ## Reproduce the checks
 

@@ -8,12 +8,13 @@ Care Notes is an early open-source, phone-first caregiving project for turning f
 
 The core workflow must be useful with **one Android phone and one caregiver**. No wearable, smart home, camera, pillbox sensor or other extra hardware is required. Optional evidence sources may improve a future reconstruction, but they must never be prerequisites.
 
-## Evidence revision experiment
+## Evidence revision and model connection
 
-The current development branch includes a [source-version and event-relation core](docs/RECONSTRUCTION.md). Open **Try evidence correction** in the web app: correcting a date withdraws an old tentative link, preserves the original account, and shows which output changed. Free edits invalidate old extraction instead of silently retaining it. The six-language example uses authored fictional annotations and local computation; it is not a live AI demonstration.
+The development branch includes a [source-version and event-relation core](docs/RECONSTRUCTION.md) and a [phone-accessible model connection flow](docs/MOBILE_AI.md). In a server-backed deployment, open **Organize with AI**, configure your own provider and model, test with one fictional account, then submit the current saved accounts with explicit consent. OpenAI and DeepSeek adapters share local schema and evidence validation. Keys stay in the open page and request handler, outside browser storage and backups.
 
-An optional OpenAI reconstruction endpoint and a separate strong-prompt comparison runner are included. Live-model results and independent user evaluation are still pending. See the [experiment, limitations and reproduction steps](docs/RECONSTRUCTION.md).
+**Try the example** remains an offline, authored six-language correction demonstration. Correcting an account withdraws dependent old output and keeps the original versions. Personal workspaces now survive reloads and have validated backup restore and a review-before-export step.
 
+The public GitHub Pages link above remains a static demo; it does not run the model server. The new flow is on this development branch and in its server-backed preview. Provider tests use simulated responses. Live-model results, phone acceptance and independent user evaluation are pending; the connection test is not a quality certification.
 
 ## The problem it is trying to solve
 

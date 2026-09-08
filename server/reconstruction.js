@@ -1,4 +1,5 @@
 import { validateAnalysis, TOPICS, BASES, RELATIONS } from '../dist/reconstruction-core.js';
+import {requestStructured} from './providers.js';
 
 const str={type:'string'},nullable={type:['string','null']};
 const object=properties=>({type:'object',additionalProperties:false,required:Object.keys(properties),properties});
@@ -54,4 +55,12 @@ export async function reconstructWithOpenAI(sources,options) {
   // Validate before returning to the UI; the client checks versions again on receipt.
   validateAnalysis(sources,proposal);
   return {proposal,usage,model};
+}
+
+export async function reconstructWithProvider(sources,options) {
+  validateAnalysis(sources,{claims:[],relations:[]});
+  if(sources.reduce((n,s)=>n+s.text.length,0)>24000)throw Error('too_large');
+  const answer=await requestStructured({...options,schema:RECONSTRUCTION_SCHEMA,instructions:RECONSTRUCTION_PROMPT,input:{sources},name:'care_notes_reconstruction'});
+  try{validateAnalysis(sources,answer.proposal);}catch{throw Error('evidence_invalid');}
+  return answer;
 }

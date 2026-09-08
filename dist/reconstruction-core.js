@@ -108,7 +108,7 @@ export function validateAnalysis(sources, proposal) {
   return {claims,relations};
 }
 export function addAnalysis(ledger, proposal, {method='manual',sources=activeSources(ledger)}={}) {
-  check(['manual','fixture','openai'].includes(method),'invalid_method');
+  check(['manual','fixture','openai','model'].includes(method),'invalid_method');
   const current=new Map(activeSources(ledger).map(s=>[s.id,s]));
   for(const s of sources)check(JSON.stringify(current.get(s.id))===JSON.stringify(s),'stale_analysis');
   const analysis=validateAnalysis(sources,proposal);
