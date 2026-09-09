@@ -1,38 +1,15 @@
-# Project status
+# Care Notes 1.0.0
 
-Updated 2026-09-09 · **0.4.0-rc.1**
+The regular release integrates the evidence-revision source into main, with one Android download and one canonical public demo. The default-branch README links both prominently. The GitHub Pages entry forwards visitors to the canonical hosted demo, avoiding a second app with different API transport.
 
-## Current development build
+## Implemented
 
-The complete-workflow candidate is on `feature/evidence-revision-core` (PR #4, stacked on PR #3). It has one front door with Accounts, Review and Settings. The old records app remains at `records.html`; its data is preserved.
+Four-screen UI, explicit AI action and result surface, optional protocol connection probe, persistent error state, custom JSON compatibility mode, bounded two-minute requests, source-version validation, correction withdrawal, six languages, local backup/restore, signed Android package and public hosted relay for fixed providers.
 
-Implemented:
+## Validation scope
 
-- Original accounts, attributed claims, immutable source versions, declared dependencies and correction-triggered withdrawal.
-- Shared model extraction and evidence validation for the hosted server, direct browser clients and Android.
-- OpenAI, DeepSeek and custom OpenAI-compatible Chat Completions/Responses endpoints.
-- Six-language UI, examples and in-app instructions.
-- Local workspace, validated backup/restore, source removal, handoff text, clipboard and print/PDF controls.
-- Android source with bundled assets, direct HTTPS requests and system document pickers.
-- Automated core/provider checks, Worker build and Android build workflow.
+Automated tests and CI exercise synthetic provider success/failure, the actual UI controller, protocol and evidence validation, correction and backup restoration. APK payloads are compared byte-for-byte with source before publication. These checks do not establish live model accuracy or broad phone compatibility. User testing reported problems, but a complete external-chat defect list and provider error/configuration were not available for this change. Reproducible further defects should be filed as issues.
 
-A custom browser provider must allow CORS. The native Android client avoids that browser restriction. Hosted relay destinations remain fixed to the two official providers. No key is shared or saved in browser records/backups.
+## Remaining limitations
 
-## Publication
-
-The public delivery workflow publishes a versioned candidate download after automated checks and exact APK/source asset verification. The current Sites demo is public. The older GitHub Pages publication is separate; its attempted update did not complete, so use the linked Sites demo. The default branch has not been promoted to this candidate. Keep the existing mobile acceptance gate on PR #3; public candidate distribution is not that acceptance.
-
-Android CI compiled the unsigned artifact. A separately signed distribution APK is available in `downloads/`, with SHA-256 and signing-certificate fingerprints. APK v2/v3 signature verification passed. The unsigned CI artifact must not be presented as the installable download.
-
-## Still unverified
-
-- Real phone launch and full capture/review/export/restore/Back/PDF walkthrough.
-- Paid live-model outcomes and a fair same-model baseline comparison.
-- Independent held-out cases, caregiver usefulness and native-speaker translation quality.
-- Clinical outcomes or safety of clinical decision-making; this app does not make those decisions.
-
-## Scope still absent
-
-Automatic sensor imports, zero-input monitoring, cross-device sync, personal clinical baselines and diagnosis/treatment/admission recommendations are not implemented. They are not implied by the current release candidate.
-
-Next priority: acceptance and measured usefulness of this complete workflow, followed by fixes supported by that feedback. See [User guide](USER_GUIDE.md), [Model setup](MOBILE_AI.md) and [Android](ANDROID.md).
+Model keys and paid live-provider access are supplied by each user. Independent live-model comparisons, broader device testing and native-language review remain open. No clinical efficacy, automatic sensing, personal clinical baseline or cross-device synchronization is claimed.

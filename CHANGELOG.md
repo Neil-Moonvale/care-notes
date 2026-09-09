@@ -1,3 +1,11 @@
+# 1.0.0
+
+- Four-screen phone UI with dedicated AI controls and results.
+- Optional connection probe; semantic fixture no longer blocks use.
+- Persistent error/status messages and preserved prior output after failures.
+- Custom output compatibility, bounded waiting and cancellation distinction.
+- Main-branch integration, signed APK and canonical public demo links.
+
 # Changelog
 
 ## 0.4.0-rc.1 — 2026-09-08

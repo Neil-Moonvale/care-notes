@@ -1,58 +1,33 @@
-# 使用说明 / User guide
+# Care Notes 1.0 使用说明 / User guide
 
-本页对应 **0.4.0-rc.1**。[安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v0.4.0-rc.1) · [网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh)。
+[下载 Android APP](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.0) · [打开网页 Demo](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh)
 
-## 中文
+## 手机上怎么用
 
-### 第一次打开
+1. 在下载页展开 **Assets**，下载 **Care-Notes-1.0.0.apk**。Android 8.0 及以上；请保持 Android System WebView 更新。已有旧版时直接更新，使用同一签名。升级前在设置导出备份，避免卸载丢记录。
+2. 打开后选“体验示例”，再点底部“整理结果”。试着更正日期，看受影响的旧关联撤回。示例为预写的虚构材料，不调用模型，也不收费。
+3. 切换“我的整理”，在“描述”里随手写下看到或听到的事情。可以使用手机键盘语音输入。点“保存并去 AI 整理”。
+4. 初次使用 AI，在“设置”填写服务商、**模型 ID** 和 **API 密钥**。自定义服务还需要 HTTPS API 地址及 Chat Completions / Responses 格式。连接测试可选，会使用少量 API 额度；不需要先通过固定照护案例才能开始整理。
+5. 在“AI 整理”核对发送的原文和地址，勾选同意后点 **开始 AI 整理**。等待、失败原因均保留在本页；可以停止等待，没有自动付费重试。
+6. 成功后自动打开“整理结果”。检查原话、事件时间、关联和待确认问题；每条都有原文入口。模型可能理解错误。
+7. 原文有误时先更正，再重新整理。核对后点确认，导出文本、复制或打印为 PDF。完整 JSON 备份保留修改历史，可在设置恢复。
 
-应用只有三个主入口：**描述、核对、设置**。先点 **体验示例**。这是完全虚构的案例，不需要 API，也不会混入自己的记录。在“核对”里更正案例中的日期，可以看到哪些旧描述和关系退出了当前结果。
+## API 调用失败时
 
-### 记录自己的情况
+- **密钥被拒绝 / provider_auth**：检查所选服务商与密钥是否对应，密钥是否有效。密钥不要发到 Issue 或聊天里。
+- **模型或格式不支持 / provider_model**：检查服务商提供的模型 ID、API 地址与协议。自定义接口若不支持 JSON 参数，可在设置选择“兼容模式（提示词约束）”，然后手动重试。兼容模式同样检查引用和输出结构。
+- **网络失败 / provider_network**：APP 检查设备网络和服务商地址。网页版的自定义服务还需要服务商允许 CORS；固定官方服务可通过此 Demo 的转发服务调用。
+- **超时 / provider_timeout**：最长等待约两分钟。可减少一次发送的记录再重试；超时不代表服务商一定没有收费。
+- **格式或证据检查失败**：结果没有写入，旧结果和原文保留。尝试更少的记录或其他模型；不能把连接测试成功视为理解能力通过认证。
 
-1. 切回 **我的整理 → 描述**。
-2. 写下看到、听到或不确定的事情；可以使用手机键盘的语音输入。不需要猜测时间或强行填完整资料。
-3. 来源称呼可以填“妈妈”“本人”等，也可以留空。点 **保存描述**。
-4. 按同样方式补充其他人的说法。保存、核对原文和导出不需要 AI。
+基础记录和示例无需 API。真实 AI 使用服务商的 API 额度，不使用 ChatGPT Plus 对话额度。API 密钥只保留在当前打开的页面，退出或重新加载后需重新填写，不进入备份。网页和 APP 各自保存记录，不自动同步。
 
-### 使用模型整理
+六种语言可在右上角切换；示例跟随语言，自己的原文保持原样。旧版记录从设置的“查看原来的照护记录”进入。
 
-到 **设置 → 连接 AI**，选择服务商，填写模型名称和 API 密钥。自定义服务还要填 API 地址和接口格式。模型账户需要可用额度；ChatGPT 聊天订阅与此处的服务商 API 是不同的使用入口。
+## English quick start
 
-先勾选授权，发送一条虚构描述测试连接。成功只说明这个基本例子通过，不证明所有分析都正确。回到“描述”，查看发送地址并同意发送当前材料，再点 **整理这些描述**。请求没有自动重试；中断或超时仍可能产生费用。
+Download **Care-Notes-1.0.0.apk** under Assets, or open the web demo. Try the fictional example without an API key. Its analysis is prewritten; correction effects run locally.
 
-### 核对和更正
+In your own workspace, save accounts, configure a provider in Settings, open **AI organize**, review the destination and text, consent, and press **Start AI organization**. A connection test is optional. Success opens Results; errors stay visible and do not overwrite previous output. Custom endpoints support an explicit compatibility mode if JSON format parameters are rejected. All output still passes schema and evidence checks. No request retries automatically.
 
-在 **核对** 里阅读原话、来源、时间范围和关系。关系是待核对的提议。“没看到吃药”应保留为不知道是否服药，不能解释成漏服。引用能打开原始描述及历史。
-
-某人说错日期或补充了情况时，修改对应原文并保存更正。依赖旧版原文的结果会退出当前分析；点整理重新分析。未分析的材料会明确标记。不要把没有触发问题理解成资料已经完整。
-
-### 导出和备份
-
-核对当前结果后，点 **我已核对当前结果**，即可导出交接文本、复制或打印/保存 PDF。这是你对当前内容的确认，不是临床认证。
-
-**交接文本不是完整备份。** 到设置下载完整 JSON 备份才能保留原文版本和分析历史。恢复备份会替换“我的整理”，需要确认。删除单条描述会撤回相关当前结果，但历史仍在备份中；彻底清除请使用设置中的清空功能。
-
-网页版与安卓包各自保存在本机，不自动同步。换设备时导出完整备份，再在另一端恢复。卸载 APP 或清除应用/浏览器数据前要备份。
-
-### 原来的记录在哪里
-
-设置中有 **查看原来的照护记录**。原来保存的记录和备份格式保持不变，不会自动混入新的整理工作区。旧记录的功能仍可单独使用。
-
-### 安卓安装
-
-使用维护者提供的签名 APK。手机首次安装时，系统可能要求允许当前下载来源安装应用。只开启本次使用的来源；安装后可关闭。不需要 GitHub、ChatGPT 或电脑登录。Android 8.0 以上，并保持 Android System WebView/Chrome 更新。详细说明见 [Android](ANDROID.md)。
-
-## English
-
-Use **Accounts → Review → Settings**. Try the fictional correction example first; it needs no model and stays separate from your workspace. Save original accounts in your own words. Use your keyboard's dictation if useful; the app has no independent speech recognition service.
-
-Configure a provider, model ID and your API key in Settings. Custom providers also require an HTTPS base URL/full endpoint and protocol selection. Test one fictional account with explicit consent, then consent to sending your current saved accounts for analysis. A passing connection test is not an accuracy certification.
-
-Review claims, source quotations, uncertain times and proposed relations. Correct a source when the account changes. Dependent old output is withdrawn; analyse and review again. Unanalysed material remains explicitly marked.
-
-After marking the current result reviewed, export text, copy a handoff or print/save PDF. Use the separate full JSON backup to preserve revision history. Restoring replaces the workspace after confirmation. Previous care records are retained under Settings and use their original storage/backup format.
-
-Android and web copies do not sync automatically. Back up before uninstalling, clearing data or changing devices. The APK bundles the interface and uses the system file picker; basic recording and the fictional example work offline. Model analysis needs network access and your provider's credit.
-
-French, Spanish, Japanese and Korean step-by-step instructions are available inside **Settings** in the selected interface language. User text is not automatically translated. All model interpretations still need human review.
+Correct originals and organize again before reviewing and exporting. Back up before uninstalling or clearing data. Updating the signed APK preserves the app identity; web and Android storage do not sync. Real provider calls need your own API credit. No clinical decisions, medication recommendations or automatic observations are provided.

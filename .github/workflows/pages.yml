@@ -1,20 +1,16 @@
 name: Deploy Web demo
-
 on:
   push:
-    branches:
-      - feature/v0.3-phone-first-reconstruction
+    branches: [main]
+    paths: ['.github/workflows/pages.yml', 'docs/USER_GUIDE.md', 'README.md']
   workflow_dispatch:
-
 permissions:
   contents: read
   pages: write
   id-token: write
-
 concurrency:
   group: care-notes-pages
-  cancel-in-progress: true
-
+  cancel-in-progress: false
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -22,18 +18,17 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload static app
-        uses: actions/upload-pages-artifact@v4
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Link the canonical demo
+        run: |
+          mkdir -p build/pages
+          cat > build/pages/index.html <<'HTML'
+          <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Care Notes · Demo</title><meta http-equiv="refresh" content="0;url=https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo"></head><body><h1>Care Notes</h1><p><a href="https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo">Open the current demo / 打开当前网页演示</a></p><p><a href="https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.0">Download Android / 下载安卓 APP</a></p></body></html>
+          HTML
+      - uses: actions/upload-pages-artifact@v4
         with:
-          path: ./dist
-
-      - name: Deploy to GitHub Pages
+          path: build/pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
-

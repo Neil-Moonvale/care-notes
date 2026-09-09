@@ -30,7 +30,7 @@ export function assertSchema(value,schema) {
   if(kind==='array'){if(value.length>160)throw Error('provider_invalid');for(const v of value)assertSchema(v,schema.items);}
   if(kind==='string'&&value.length>24000)throw Error('provider_invalid');
 }
-export async function requestStructured({provider='openai',apiKey,model,baseUrl,format,fetchImpl=fetch,maxOutputTokens=6000,schema,instructions,input,name,signal}) {
+export async function requestStructured({provider='openai',apiKey,model,baseUrl,format,outputStyle='json',fetchImpl=fetch,maxOutputTokens=6000,schema,instructions,input,name,signal}) {
   const config=provider==='custom'?customConnection({provider,apiKey,model,baseUrl,format}):connectionConfig({provider,apiKey,model});
   const p=provider==='custom'?{format:config.format}:PROVIDERS[config.provider];
   const endpoint=provider==='custom'?config.endpoint:p.origin+p.path;
@@ -38,8 +38,18 @@ export async function requestStructured({provider='openai',apiKey,model,baseUrl,
   const body=p.format==='responses'
     ? {model,store:false,max_output_tokens:maxOutputTokens,instructions,input:JSON.stringify(input),text:{format:{type:'json_schema',name,strict:true,schema}}}
     : {model,max_tokens:maxOutputTokens,stream:false,response_format:{type:'json_object'},messages:[{role:'system',content:instructions+'\nReturn only a JSON object matching this JSON schema: '+JSON.stringify(schema)},{role:'user',content:JSON.stringify(input)}]};
+  if(!['json','compatible'].includes(outputStyle))throw Error('invalid_connection');
+  if(outputStyle==='compatible'){
+    if(p.format==='responses'){delete body.text;body.instructions+='\nReturn only JSON matching this schema: '+JSON.stringify(schema);}
+    else delete body.response_format;
+  }
+  const requestController=new AbortController();
+  const abort=()=>requestController.abort(signal?.reason);
+  if(signal?.aborted)abort();else signal?.addEventListener('abort',abort,{once:true});
+  const deadline=setTimeout(()=>requestController.abort(new DOMException('Timeout','TimeoutError')),120000);
+  try {
   let response;
-  try{response=await fetchImpl(endpoint,{method:'POST',redirect:'error',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},signal:signal||AbortSignal.timeout(60000),body:JSON.stringify(body)});}
+  try{response=await fetchImpl(endpoint,{method:'POST',redirect:'error',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},signal:requestController.signal,body:JSON.stringify(body)});}
   catch(error){throw Error(['provider_timeout','invalid_connection','rate_limited','too_large'].includes(error?.message)?error.message:['TimeoutError','AbortError'].includes(error?.name)?'provider_timeout':'provider_network');}
   if(!response.ok){await response.body?.cancel();throw Error(response.status===401?'provider_auth':response.status===402?'provider_credit':response.status===429?'provider_limit':[400,403,404,422].includes(response.status)?'provider_model':'provider_failed');}
   const result=await boundedJson(response);
@@ -56,11 +66,12 @@ export async function requestStructured({provider='openai',apiKey,model,baseUrl,
     output=choice.message?.content;
   }
   if(typeof output!=='string'||!output||output.length>160000)throw Error('provider_invalid');
-  let proposal;try{proposal=JSON.parse(output);}catch{throw Error('provider_invalid');}assertSchema(proposal,schema);
+  let proposal;try{proposal=JSON.parse(output.trim().replace(/^```(?:json)?\s*\n([\s\S]*?)\n```$/i,'$1'));}catch{throw Error('provider_invalid');}assertSchema(proposal,schema);
   // Return bounded metadata only. Never forward arbitrary provider errors or response fields.
   const raw=result.usage||{},usage={};
   for(const k of ['input_tokens','output_tokens','prompt_tokens','completion_tokens','total_tokens'])if(Number.isSafeInteger(raw[k])&&raw[k]>=0)usage[k]=raw[k];
   return {proposal,usage,model,provider};
+  } finally {clearTimeout(deadline);signal?.removeEventListener('abort',abort);}
 }
 
 // Custom destinations run on the user's device, never through the hosted proxy.
@@ -78,4 +89,11 @@ export function customConnection(input){
   if(!input||Object.keys(input).sort().join(',')!=='apiKey,baseUrl,format,model,provider'||input.provider!=='custom')throw Error('invalid_connection');
   connectionConfig({provider:'openai',apiKey:input.apiKey,model:input.model});
   return {...input,endpoint:customEndpoint(input.baseUrl,input.format)};
+}
+
+export async function checkConnection(options){
+  const schema={type:'object',additionalProperties:false,required:['ok'],properties:{ok:{type:'boolean'}}};
+  const answer=await requestStructured({...options,maxOutputTokens:2000,schema,instructions:'Return the JSON object {"ok":true}. This is a connection check.',input:{task:'connection check'},name:'care_notes_connection'});
+  if(answer.proposal.ok!==true)throw Error('check_failed');
+  return {checked:true,provider:answer.provider,model:answer.model,usage:answer.usage};
 }

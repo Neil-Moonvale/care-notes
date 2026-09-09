@@ -56,7 +56,12 @@ public final class MainActivity extends Activity {
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
         FrameLayout frame = new FrameLayout(this);
-        frame.setBackgroundColor(Color.rgb(243,245,250));
+        boolean dark=(getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK)==android.content.res.Configuration.UI_MODE_NIGHT_YES;
+        int background=dark?Color.rgb(14,23,40):Color.rgb(245,247,252);
+        frame.setBackgroundColor(background);
+        getWindow().setStatusBarColor(background);
+        getWindow().setNavigationBarColor(background);
+        getWindow().getDecorView().setSystemUiVisibility(dark?0:android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR|android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         web = new WebView(this);
         web.setBackgroundColor(Color.TRANSPARENT);
         frame.addView(web,new FrameLayout.LayoutParams(-1,-1));
@@ -200,7 +205,7 @@ public final class MainActivity extends Activity {
             connection=(HttpsURLConnection)url.openConnection();
             connections.put(id,connection);
             connection.setInstanceFollowRedirects(false);
-            connection.setConnectTimeout(20000);connection.setReadTimeout(60000);
+            connection.setConnectTimeout(20000);connection.setReadTimeout(120000);
             connection.setRequestMethod("POST");connection.setDoOutput(true);
             connection.setRequestProperty("Authorization",authorization);
             connection.setRequestProperty("Content-Type","application/json");
@@ -210,7 +215,7 @@ public final class MainActivity extends Activity {
             int code=connection.getResponseCode();
             if(code<200||code>=300){reply(id,new JSONObject().put("status",code).put("body","{}"));return;}
             ByteArrayOutputStream buffer=new ByteArrayOutputStream();
-            long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(60);
+            long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(120);
             try(InputStream input=connection.getInputStream()){
                 byte[] block=new byte[8192];int size;
                 while((size=input.read(block))!=-1){

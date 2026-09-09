@@ -13,7 +13,7 @@ export function deviceFetch(url,options={}){
     const id=crypto.randomUUID(),signal=options.signal;
     const cancel=()=>{if(!pending.has(id))return;pending.delete(id);globalThis.CareNotesNative.cancel(id);cleanup();reject(new DOMException('Cancelled','AbortError'));};
     const cleanup=()=>{clearTimeout(timer);signal?.removeEventListener('abort',cancel);};
-    const timer=setTimeout(cancel,65000);
+    const timer=setTimeout(cancel,125000);
     pending.set(id,{resolve,reject,cleanup});
     if(signal?.aborted){cancel();return;}
     signal?.addEventListener('abort',cancel,{once:true});

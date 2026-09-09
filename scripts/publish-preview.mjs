@@ -3,11 +3,11 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 
 const repo='Neil-Moonvale/care-notes';
-if(process.env.GITHUB_REPOSITORY!==repo || process.env.GITHUB_REF!=='refs/heads/feature/evidence-revision-core')throw Error('Unexpected publishing repository or branch');
+if(process.env.GITHUB_REPOSITORY!==repo || process.env.GITHUB_REF!=='refs/heads/main')throw Error('Unexpected publishing repository or branch');
 const sha=process.env.GITHUB_SHA,token=process.env.GH_TOKEN;
 if(!/^[a-f0-9]{40}$/.test(sha||'')||!token)throw Error('Missing publishing context');
 const {version}=JSON.parse(await readFile('package.json','utf8'));
-if(!/^\d+\.\d+\.\d+-rc\.\d+$/.test(version))throw Error('This workflow only publishes release candidates');
+if(!/^\d+\.\d+\.\d+$/.test(version))throw Error('This workflow publishes regular semantic versions');
 const tag=`v${version}`;
 const files=await Promise.all([`Care-Notes-${version}.apk`,'SHA256SUMS'].map(async name=>{
   const bytes=await readFile(`downloads/${name}`);
@@ -33,7 +33,7 @@ if(release&&!release.draft){
   if(!release){
     const existingTag=await request(`git/ref/tags/${tag}`,{missing:true});
     if(existingTag&&existingTag.object.sha!==sha)throw Error('Tag already targets different source; refusing to move it');
-    release=await request('releases',{method:'POST',data:{tag_name:tag,target_commitish:sha,name:`Care Notes ${version}`,body:notes,draft:true,prerelease:true,make_latest:'false'}});
+    release=await request('releases',{method:'POST',data:{tag_name:tag,target_commitish:sha,name:`Care Notes ${version}`,body:notes,draft:true,prerelease:false,make_latest:'true'}});
   }
   for(const file of files){
     const existing=release.assets.find(a=>a.name===file.name);
@@ -45,6 +45,6 @@ if(release&&!release.draft){
   }
   release=await request(`releases/${release.id}`);
   if(!files.every(file=>matches(release.assets.find(a=>a.name===file.name),file)))throw Error('Incomplete release assets');
-  release=await request(`releases/${release.id}`,{method:'PATCH',data:{draft:false,prerelease:true,make_latest:'false'}});
+  release=await request(`releases/${release.id}`,{method:'PATCH',data:{draft:false,prerelease:false,make_latest:'true'}});
   console.log(JSON.stringify({status:'published',url:release.html_url}));
 }
