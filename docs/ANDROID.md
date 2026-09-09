@@ -1,8 +1,8 @@
 # Android app
 
-[Download the signed 0.4.0-rc.1 APK](../downloads/README.md).
+[Download the signed 1.0.0 APK](../downloads/README.md).
 
-The `android/` project packages the current six-language interface and evidence core. It is a local application, not a shortcut that opens the private hosted website. No Care Notes/ChatGPT login or desktop computer is needed to use the installed app.
+The `android/` project packages the current six-language interface and evidence core. Its interface and evidence core are bundled for local use. No Care Notes/ChatGPT login or desktop computer is needed to use the installed app.
 
 - Android 8.0 or newer, with an up-to-date Android System WebView/Chrome.
 - Bundled offline recording, fictional example, corrections and local history.
@@ -33,4 +33,4 @@ Web and Android data are separate. Download a full JSON workspace backup on one 
 
 ## Validation limits
 
-Compilation and signature verification do not establish a successful phone walkthrough. The first real-device test of launch, model connection, file pickers, PDF output, accessibility and the system Back action is pending. The release candidate is intended for that acceptance pass. Live model quality and clinical outcomes are not established by the APK build.
+Version 1.0.0 is a regular software release. Compilation, signature verification and automated checks do not establish compatibility with every phone or provider. Real-device coverage of launch, model calls, file pickers, PDF output, accessibility and the system Back action remains incomplete. Report reproducible problems with device and provider details, excluding API keys and personal records. Live model quality and clinical outcomes are not established by the APK build.
