@@ -1,5 +1,9 @@
 import {createMobileApi} from '../server/mobile-api.js';
-export function createWorker({assets={},fetchImpl=fetch}={}) {
+// workerd supports manual/follow, not the browser's redirect:'error'.
+// Manual keeps credentials on the original destination; the provider client
+// rejects every non-2xx response, including redirects, without another request.
+export const workerFetch=(url,options)=>globalThis.fetch(url,{...options,redirect:'manual'});
+export function createWorker({assets={},fetchImpl=workerFetch}={}) {
   const api=createMobileApi({fetchImpl});
   return {async fetch(request) {
     const url=new URL(request.url);
