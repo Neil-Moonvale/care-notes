@@ -1,6 +1,6 @@
 {
   "name": "care-notes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "type": "module",
   "engines": {
@@ -9,11 +9,13 @@
   "scripts": {
     "start": "node server/index.mjs",
     "test": "node --test tests/*.test.mjs",
+    "test:worker": "npm run build && node scripts/test-worker-runtime.mjs",
     "eval:reconstruction": "node scripts/evaluate-reconstruction.mjs",
     "build": "node scripts/build-worker.mjs",
     "android:prepare": "node scripts/prepare-android.mjs"
   },
   "devDependencies": {
-    "esbuild": "0.25.12"
+    "esbuild": "0.25.12",
+    "workerd": "1.20260908.1"
   }
 }

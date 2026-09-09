@@ -38,6 +38,10 @@ export async function requestStructured({provider='openai',apiKey,model,baseUrl,
   const body=p.format==='responses'
     ? {model,store:false,max_output_tokens:maxOutputTokens,instructions,input:JSON.stringify(input),text:{format:{type:'json_schema',name,strict:true,schema}}}
     : {model,max_tokens:maxOutputTokens,stream:false,response_format:{type:'json_object'},messages:[{role:'system',content:instructions+'\nReturn only a JSON object matching this JSON schema: '+JSON.stringify(schema)},{role:'user',content:JSON.stringify(input)}]};
+  // V4 defaults to high-effort reasoning, which can exhaust our bounded output
+  // budget before producing JSON. Keep thinking enabled with a bounded low-effort
+  // profile on the official V4 endpoint; never send vendor options to other APIs.
+  if(provider==='deepseek'&&/^deepseek-v4-/.test(model))body.reasoning_effort='low';
   if(!['json','compatible'].includes(outputStyle))throw Error('invalid_connection');
   if(outputStyle==='compatible'){
     if(p.format==='responses'){delete body.text;body.instructions+='\nReturn only JSON matching this schema: '+JSON.stringify(schema);}

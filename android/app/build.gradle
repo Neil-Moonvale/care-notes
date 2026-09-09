@@ -6,8 +6,8 @@ android {
         applicationId 'com.neilmoonvale.carenotes'
         minSdk 26
         targetSdk 35
-        versionCode 10001
-        versionName '1.0.1'
+        versionCode 10002
+        versionName '1.0.2'
     }
     buildTypes { release { minifyEnabled false; debuggable false } }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
