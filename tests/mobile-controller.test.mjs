@@ -26,3 +26,19 @@ test('AI entry remains visible without a test pass; results and errors have sepa
  await click('review');assert.ok(root.innerHTML.includes('昨晚我没看到她吃药。'));assert.ok(root.innerHTML.includes('provider_auth'));
  assert.ok(!data.get(WORKSPACE_KEY).includes('test-only-key'));
 });
+
+test('model list can populate an empty model field; connection changes discard stale responses',async()=>{
+ const listeners={},root={innerHTML:'',addEventListener:(n,f)=>listeners[n]=f,querySelector:()=>null},status={textContent:''};
+ const data=new Map([['care-notes.lang','zh']]);
+ globalThis.document={querySelector:s=>s==='#reconstruction-app'?root:status,documentElement:{},getElementById:()=>null};globalThis.location={href:'https://care.example/'};
+ globalThis.localStorage={getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v)};globalThis.window={scrollTo:()=>{},addEventListener:()=>{}};
+ let resolveRequest,calls=0;
+ globalThis.fetch=async(url,opts)=>{calls++;assert.equal(url,'./api/mobile/models');assert.equal(JSON.parse(opts.body).connection.model,undefined);return new Promise(resolve=>resolveRequest=resolve);};
+ await import('../dist/reconstruction-lab.js?model-list-test');
+ const click=action=>listeners.click({target:{closest:s=>['[data-source]','a.brand'].includes(s)?null:{disabled:false,dataset:{action}}}});
+ await click('settings');listeners.input({target:{id:'api-key',value:'synthetic-key',matches:()=>false}});
+ const first=click('get-models');assert.equal(calls,1);resolveRequest(Response.json({models:['listed-model']}));await first;
+ assert.ok(root.innerHTML.includes('id="model-choice"'));await listeners.change({target:{id:'model-choice',value:'listed-model'}});
+ assert.equal(JSON.parse(data.get('care-notes.connection.v1')).model,'listed-model');assert.ok(!data.get('care-notes.connection.v1').includes('synthetic-key'));
+ const second=click('get-models');await listeners.change({target:{id:'provider',value:'deepseek'}});resolveRequest(Response.json({models:['stale-model']}));await second;assert.ok(!root.innerHTML.includes('stale-model'));
+});
