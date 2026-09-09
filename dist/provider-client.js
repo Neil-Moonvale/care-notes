@@ -97,3 +97,31 @@ export async function checkConnection(options){
   if(answer.proposal.ok!==true)throw Error('check_failed');
   return {checked:true,provider:answer.provider,model:answer.model,usage:answer.usage};
 }
+
+// Listing models never requires a model ID and never sends care records.
+export function modelListEndpoint({provider,baseUrl,format='chat'}) {
+  if(provider==='custom')return customEndpoint(baseUrl,format).replace(/\/(chat\/completions|responses)$/, '/models');
+  if(!Object.hasOwn(PROVIDERS,provider))throw Error('invalid_connection');
+  return PROVIDERS[provider].origin+(provider==='openai'?'/v1/models':'/models');
+}
+export function modelListConfig(input) {
+  if(!input||Object.keys(input).sort().join(',')!==(input.provider==='custom'?'apiKey,baseUrl,format,provider':'apiKey,provider'))throw Error('invalid_connection');
+  connectionConfig({provider:input.provider==='custom'?'openai':input.provider,apiKey:input.apiKey,model:'list-probe'});
+  return {...input,endpoint:modelListEndpoint(input)};
+}
+export async function listModels({fetchImpl=fetch,signal,...input}) {
+  const config=modelListConfig(input),controller=new AbortController();
+  const abort=()=>controller.abort();
+  if(signal?.aborted)abort();else signal?.addEventListener('abort',abort,{once:true});
+  const timer=setTimeout(abort,20000);
+  try {
+    let response;
+    try{response=await fetchImpl(config.endpoint,{method:'GET',redirect:'error',cache:'no-store',headers:{Authorization:`Bearer ${config.apiKey}`,Accept:'application/json'},signal:controller.signal});}
+    catch(error){throw Error(controller.signal.aborted?'provider_timeout':['invalid_connection','rate_limited','too_large'].includes(error?.message)?error.message:'provider_network');}
+    if(!response.ok){await response.body?.cancel();throw Error(response.status===401?'provider_auth':response.status===403?'models_forbidden':[404,405].includes(response.status)?'models_unsupported':response.status===429?'provider_limit':'provider_failed');}
+    const body=await boundedJson(response);
+    if(!Array.isArray(body?.data)||body.data.length>5000)throw Error('provider_invalid');
+    const models=[...new Set(body.data.map(x=>x?.id).filter(id=>typeof id==='string'&&/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$/.test(id)))].sort();
+    return {models};
+  } finally {clearTimeout(timer);signal?.removeEventListener('abort',abort);}
+}

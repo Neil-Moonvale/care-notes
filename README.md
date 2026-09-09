@@ -2,11 +2,11 @@
 
 Review fragmented caregiving accounts without losing the original words, conflicting accounts or unknowns.
 
-[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.0) · [Try web example / 网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
+[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.1) · [Try web example / 网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
 
 Care Notes is for families whose care recipient cannot reliably keep a diary. Different people remember different pieces; dates can be unclear and an unobserved event is not necessarily an event that did not happen.
 
-**Version 1.0.0** brings a four-screen Android and web workflow: Accounts, AI organize, Results and Settings. The release includes a signed Android APK and source archives. The same interface and evidence core run on both platforms.
+**Version 1.0.1** brings a four-screen Android and web workflow: Accounts, AI organize, Results and Settings. The release includes a signed Android APK and source archives. The same interface and evidence core run on both platforms.
 
 Model connections use your own API credit. Automated checks cover transport, consent, output validation, source corrections, restoration and UI controller transitions. Live-provider accuracy and broad real-device compatibility are not certified; review every result before using it for a handoff.
 
@@ -34,7 +34,7 @@ These checks do not establish semantic correctness. A model can omit evidence or
 
 ## Bring your own model
 
-OpenAI Responses, DeepSeek Chat Completions and a **custom OpenAI-compatible HTTPS endpoint** are supported. Supply a provider API key and model ID. Protocol compatibility does not establish model quality.
+OpenAI Responses, DeepSeek Chat Completions and a **custom OpenAI-compatible HTTPS endpoint** are supported. Enter a provider API key, fetch its model list and select a text model. Manual model IDs remain available when discovery is unsupported. Protocol compatibility does not establish model quality.
 
 - Custom interfaces offer standard JSON or an explicit compatibility mode that omits JSON format parameters. Both modes validate quotations and output; neither retries automatically.
 - On Android, requests go directly to the selected provider.

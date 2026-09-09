@@ -17,8 +17,8 @@ export function deviceFetch(url,options={}){
     pending.set(id,{resolve,reject,cleanup});
     if(signal?.aborted){cancel();return;}
     signal?.addEventListener('abort',cancel,{once:true});
-    try{globalThis.CareNotesNative.request(id,url,new Headers(options.headers).get('Authorization')||'',options.body||'');}
-    catch{pending.delete(id);cleanup();reject(Error('provider_network'));}
+    try{const authorization=new Headers(options.headers).get('Authorization')||'';if(options.method==='GET'){if(typeof globalThis.CareNotesNative.listModels!=='function')throw Error('native_update_required');globalThis.CareNotesNative.listModels(id,url,authorization);}else globalThis.CareNotesNative.request(id,url,authorization,options.body||'');}
+    catch(error){pending.delete(id);cleanup();reject(Error(error?.message==='native_update_required'?'native_update_required':'provider_network'));}
   });
 }
 export function saveFile(content,name,type){

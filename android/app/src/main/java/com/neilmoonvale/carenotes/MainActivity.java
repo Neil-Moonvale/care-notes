@@ -158,7 +158,12 @@ public final class MainActivity extends Activity {
     final class DeviceBridge {
         @JavascriptInterface public void request(String id,String address,String authorization,String body) {
             if (!trusted || id==null || !id.matches("[a-f0-9-]{36}") || body==null || body.length()>128000 || authorization==null || !authorization.matches("Bearer [\\x21-\\x7e]{8,512}")) { fail(id==null?"":id,"invalid_connection"); return; }
-            try { requests.execute(()->perform(id,address,authorization,body)); }
+            try { requests.execute(()->perform(id,address,authorization,body,false)); }
+            catch (RuntimeException error) { fail(id,"rate_limited"); }
+        }
+        @JavascriptInterface public void listModels(String id,String address,String authorization) {
+            if (!trusted || id==null || !id.matches("[a-f0-9-]{36}") || authorization==null || !authorization.matches("Bearer [\\x21-\\x7e]{8,512}")) { fail(id==null?"":id,"invalid_connection"); return; }
+            try { requests.execute(()->perform(id,address,authorization,"",true)); }
             catch (RuntimeException error) { fail(id,"rate_limited"); }
         }
         @JavascriptInterface public void cancel(String id) {
@@ -190,12 +195,12 @@ public final class MainActivity extends Activity {
         @JavascriptInterface public void closeApp() { if(trusted)runOnUiThread(()->finish()); }
     }
 
-    private void perform(String id,String address,String authorization,String body) {
+    private void perform(String id,String address,String authorization,String body,boolean listing) {
         HttpsURLConnection connection=null;
         try {
             URL url=new URL(address);
             String host=url.getHost().toLowerCase(Locale.ROOT),path=url.getPath();
-            if (!"https".equals(url.getProtocol()) || url.getUserInfo()!=null || url.getQuery()!=null || url.getRef()!=null || url.getPort()!=-1 && url.getPort()!=443 || !host.matches("[a-z0-9.-]+") || !host.contains(".") || host.matches("[0-9.]+") || host.endsWith(".") || host.matches(".*\\.(local|internal|localhost|test|invalid)$") || !(path.endsWith("/chat/completions")||path.endsWith("/responses"))) throw new IllegalArgumentException();
+            if (!"https".equals(url.getProtocol()) || url.getUserInfo()!=null || url.getQuery()!=null || url.getRef()!=null || url.getPort()!=-1 && url.getPort()!=443 || !host.matches("[a-z0-9.-]+") || !host.contains(".") || host.matches("[0-9.]+") || host.endsWith(".") || host.matches(".*\\.(local|internal|localhost|test|invalid)$") || !(listing?path.endsWith("/models"):(path.endsWith("/chat/completions")||path.endsWith("/responses")))) throw new IllegalArgumentException();
             // An additional device-side check. This is not a public proxy service.
             for (InetAddress ip:InetAddress.getAllByName(host)) {
                 byte[] bytes=ip.getAddress();
@@ -206,12 +211,14 @@ public final class MainActivity extends Activity {
             connections.put(id,connection);
             connection.setInstanceFollowRedirects(false);
             connection.setConnectTimeout(20000);connection.setReadTimeout(120000);
-            connection.setRequestMethod("POST");connection.setDoOutput(true);
+            connection.setRequestMethod(listing?"GET":"POST");connection.setDoOutput(!listing);
             connection.setRequestProperty("Authorization",authorization);
             connection.setRequestProperty("Content-Type","application/json");
+            if(!listing){
             byte[] data=body.getBytes(StandardCharsets.UTF_8);
             connection.setFixedLengthStreamingMode(data.length);
             try(OutputStream out=connection.getOutputStream()){out.write(data);}
+            }
             int code=connection.getResponseCode();
             if(code<200||code>=300){reply(id,new JSONObject().put("status",code).put("body","{}"));return;}
             ByteArrayOutputStream buffer=new ByteArrayOutputStream();
