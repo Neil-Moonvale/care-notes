@@ -2,11 +2,11 @@
 
 Review fragmented caregiving accounts without losing the original words, conflicting accounts or unknowns.
 
-[Download Android APK / 安卓下载](downloads/README.md) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
+[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v0.4.0-rc.1) · [Try web example / 网页示例](https://neil-moonvale.github.io/care-notes/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
 
 Care Notes is for families whose care recipient cannot reliably keep a diary. Different people remember different pieces; dates can be unclear and an unobserved event is not necessarily an event that did not happen.
 
-**0.4.0-rc.1 is a complete-workflow release candidate.** This development branch contains the current app. The default branch and [older public Pages demo](https://neil-moonvale.github.io/care-notes/) may still show the earlier record-list interface. The current hosted evaluation site is owner-private. Phone acceptance, live-model comparison and independent user evaluation remain open; this is not a clinically validated product.
+**0.4.0-rc.1 is an installable release candidate.** The versioned download and public web example are the entry points for trying it. The publication workflow verifies that the APK and web app contain the same bundled interface and evidence core. This development branch and the release tag contain the current source; the default branch may still show the earlier app. Phone acceptance, live-model comparison and independent user evaluation remain open; this is not a clinically validated product.
 
 ## One workflow
 

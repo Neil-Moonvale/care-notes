@@ -1,6 +1,6 @@
 # Android download / 安卓下载
 
-[Download Care Notes 0.4.0-rc.1 APK / 下载安卓安装包](./Care-Notes-0.4.0-rc.1.apk?raw=true)
+[Version download page / 版本下载页](https://github.com/Neil-Moonvale/care-notes/releases/tag/v0.4.0-rc.1) · [APK file / 安装包文件](./Care-Notes-0.4.0-rc.1.apk?raw=true) · [Web example / 网页示例](https://neil-moonvale.github.io/care-notes/?mode=demo)
 
 Android 8.0+ with an updated System WebView. This signed release candidate bundles the app offline. It does not require a ChatGPT or GitHub login. Model analysis requires your own provider API key; the fictional example and recording work without one.
 

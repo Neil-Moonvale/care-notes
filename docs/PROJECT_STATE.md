@@ -1,6 +1,6 @@
 # Project status
 
-Updated 2026-09-08 · **0.4.0-rc.1**
+Updated 2026-09-09 · **0.4.0-rc.1**
 
 ## Current development build
 
@@ -20,7 +20,7 @@ A custom browser provider must allow CORS. The native Android client avoids that
 
 ## Publication
 
-The owner-private hosted site is the current evaluation surface. The default branch and older public Pages demo have not been promoted to this candidate. Keep the existing mobile acceptance gate on PR #3; building an APK is not that acceptance.
+The public delivery workflow publishes a versioned candidate download and a matching GitHub Pages demo after automated checks and exact APK/source asset verification. The owner-private Sites copy remains available separately. The default branch has not been promoted to this candidate. Keep the existing mobile acceptance gate on PR #3; public candidate distribution is not that acceptance.
 
 Android CI compiled the unsigned artifact. A separately signed distribution APK is available in `downloads/`, with SHA-256 and signing-certificate fingerprints. APK v2/v3 signature verification passed. The unsigned CI artifact must not be presented as the installable download.
 

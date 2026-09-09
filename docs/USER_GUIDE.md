@@ -1,6 +1,6 @@
 # 使用说明 / User guide
 
-本页对应 **0.4.0-rc.1**。旧版公开演示可能仍显示原来的记录页面。
+本页对应 **0.4.0-rc.1**。[安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v0.4.0-rc.1) · [网页示例](https://neil-moonvale.github.io/care-notes/?mode=demo&lang=zh)。
 
 ## 中文
 
