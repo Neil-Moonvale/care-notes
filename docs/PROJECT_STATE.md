@@ -8,7 +8,7 @@ Four-screen UI, explicit AI action and result surface, optional protocol connect
 
 ## Validation scope
 
-Automated tests and CI exercise synthetic provider success/failure, the actual UI controller, protocol and evidence validation, correction and backup restoration. APK payloads are compared byte-for-byte with source before publication. These checks do not establish live model accuracy or broad phone compatibility. User testing reported problems, but a complete external-chat defect list and provider error/configuration were not available for this change. Reproducible further defects should be filed as issues.
+Automated tests and CI exercise synthetic provider success/failure, the actual UI controller, protocol and evidence validation, correction and backup restoration. APK payloads are compared byte-for-byte with source before publication. These checks do not establish live model accuracy or broad phone compatibility. Further device/provider defects need reproducible steps and error codes so they can be verified individually.
 
 ## Remaining limitations
 
