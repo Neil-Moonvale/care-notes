@@ -1,4 +1,4 @@
-# Care Notes 1.0.0
+# Care Notes 1.0.1
 
 The regular release integrates the evidence-revision source into main, with one Android download and one canonical public demo. The default-branch README links both prominently. The GitHub Pages entry forwards visitors to the canonical hosted demo, avoiding a second app with different API transport.
 
