@@ -1,0 +1,51 @@
+name: Publish community preview
+
+on:
+  push:
+    branches: [feature/evidence-revision-core]
+    paths:
+      - .github/workflows/publish.yml
+      - downloads/**
+      - docs/releases/**
+      - scripts/verify-distribution.py
+      - scripts/publish-preview.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: care-notes-public-preview
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm test
+      - name: Verify the distributed APK against source
+        run: python scripts/verify-distribution.py
+
+  release:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Publish verified APK and checksum
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/publish-preview.mjs

@@ -2,7 +2,7 @@
 
 Review fragmented caregiving accounts without losing the original words, conflicting accounts or unknowns.
 
-[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v0.4.0-rc.1) · [Try web example / 网页示例](https://neil-moonvale.github.io/care-notes/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
+[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v0.4.0-rc.1) · [Try web example / 网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
 
 Care Notes is for families whose care recipient cannot reliably keep a diary. Different people remember different pieces; dates can be unclear and an unobserved event is not necessarily an event that did not happen.
 

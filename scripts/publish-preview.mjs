@@ -26,6 +26,7 @@ function matches(asset,file){return asset?.name===file.name&&asset.size===file.b
 let release=await request(`releases/tags/${tag}`,{missing:true});
 if(release&&!release.draft){
   if(!files.every(file=>matches(release.assets.find(a=>a.name===file.name),file)))throw Error('Published assets differ; refusing to replace a release');
+  if(release.body!==notes)release=await request(`releases/${release.id}`,{method:'PATCH',data:{body:notes}});
   console.log(JSON.stringify({status:'already_published',url:release.html_url}));
 }else{
   if(release&&release.target_commitish!==sha)throw Error('Draft targets a different source commit; manual review required');

@@ -4,7 +4,7 @@
 
 当前开发版 **0.4.0-rc.1** 采用“描述 → 核对 → 设置”三个入口，包含六种语言的使用说明、完整备份、交接文本/PDF、OpenAI/DeepSeek/自定义兼容接口，以及离线安卓客户端源码。安卓版使用服务商 API 时从手机直接连接，不需要电脑或本站账户。
 
-[下载安卓 APK](https://github.com/Neil-Moonvale/care-notes/releases/tag/v0.4.0-rc.1) · [打开网页示例](https://neil-moonvale.github.io/care-notes/?mode=demo&lang=zh) · [使用说明](USER_GUIDE.md) · [模型配置](MOBILE_AI.md) · [安卓安装与构建](ANDROID.md) · [真实项目状态](PROJECT_STATE.md)
+[下载安卓 APK](https://github.com/Neil-Moonvale/care-notes/releases/tag/v0.4.0-rc.1) · [打开网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh) · [使用说明](USER_GUIDE.md) · [模型配置](MOBILE_AI.md) · [安卓安装与构建](ANDROID.md) · [真实项目状态](PROJECT_STATE.md)
 
 这是一套供手机验收的完整流程候选版。真实模型对比、实际家属试用和母语者审校尚未完成，不能把自动化测试通过说成模型准确或临床有效。发布流程会核对安装包与网页内置文件一致，再更新公开演示和版本下载页。默认分支仍可能显示旧版；请通过上方入口体验。
 

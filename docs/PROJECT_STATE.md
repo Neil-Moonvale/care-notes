@@ -20,7 +20,7 @@ A custom browser provider must allow CORS. The native Android client avoids that
 
 ## Publication
 
-The public delivery workflow publishes a versioned candidate download and a matching GitHub Pages demo after automated checks and exact APK/source asset verification. The owner-private Sites copy remains available separately. The default branch has not been promoted to this candidate. Keep the existing mobile acceptance gate on PR #3; public candidate distribution is not that acceptance.
+The public delivery workflow publishes a versioned candidate download after automated checks and exact APK/source asset verification. The current Sites demo is public. The older GitHub Pages publication is separate; its attempted update did not complete, so use the linked Sites demo. The default branch has not been promoted to this candidate. Keep the existing mobile acceptance gate on PR #3; public candidate distribution is not that acceptance.
 
 Android CI compiled the unsigned artifact. A separately signed distribution APK is available in `downloads/`, with SHA-256 and signing-certificate fingerprints. APK v2/v3 signature verification passed. The unsigned CI artifact must not be presented as the installable download.
 
