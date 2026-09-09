@@ -1,22 +1,15 @@
-# Project status
+# Care Notes 1.0.0
 
-Care Notes 0.3.1 · 2026-09-07
+The regular release integrates the evidence-revision source into main, with one Android download and one canonical public demo. The default-branch README links both prominently. The GitHub Pages entry forwards visitors to the canonical hosted demo, avoiding a second app with different API transport.
 
-Care Notes helps families review care accounts and prepare a handoff. The core workflow must work on a phone without buying additional hardware.
+## Implemented
 
-## Available
+Four-screen UI, explicit AI action and result surface, optional protocol connection probe, persistent error state, custom JSON compatibility mode, bounded two-minute requests, source-version validation, correction withdrawal, six languages, local backup/restore, signed Android package and public hosted relay for fixed providers.
 
-- Local records, paragraph drafts, source excerpts, corrections and backup/restore.
-- An episode workspace with explicit record selection, manually linked accounts, information checks and handoff export.
-- Chinese, English and Spanish interface, help and fictional examples. Each language keeps its own editable demo; personal records keep their original text.
-- Four main navigation items and an in-app usage guide.
+## Validation scope
 
-## Limitations
+Automated tests and CI exercise synthetic provider success/failure, the actual UI controller, protocol and evidence validation, correction and backup restoration. APK payloads are compared byte-for-byte with source before publication. These checks do not establish live model accuracy or broad phone compatibility. Further device/provider defects need reproducible steps and error codes so they can be verified individually.
 
-The hosted trial uses local rules. Optional server-side classification requires separate configuration and has only mocked provider tests. Automatic semantic linking, clinical conclusions, cross-device sync and device integrations are not implemented.
+## Remaining limitations
 
-## Next work
-
-Evaluate reviewable event-link suggestions against fictional cases, preserving original evidence and allowing rejection. Measure omissions, unsupported associations and the effort needed to review suggestions. Validate mobile use and collect language corrections.
-
-See [User guide](USER_GUIDE.md), [Roadmap](ROADMAP.md) and [Validation](VALIDATION.md).
+Model keys and paid live-provider access are supplied by each user. Independent live-model comparisons, broader device testing and native-language review remain open. No clinical efficacy, automatic sensing, personal clinical baseline or cross-device synchronization is claimed.

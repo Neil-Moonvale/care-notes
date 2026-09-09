@@ -1,4 +1,38 @@
+# 1.0.0
+
+- Four-screen phone UI with dedicated AI controls and results.
+- Optional connection probe; semantic fixture no longer blocks use.
+- Persistent error/status messages and preserved prior output after failures.
+- Custom output compatibility, bounded waiting and cancellation distinction.
+- Main-branch integration, signed APK and canonical public demo links.
+
 # Changelog
+
+## 0.4.0-rc.1 — 2026-09-08
+
+- Unified the app entry into Accounts, Review and Settings; retained the previous records interface and storage.
+- Added custom OpenAI-compatible HTTPS providers with shared model/evidence validation, direct browser calls and explicit CORS messaging.
+- Added the Android project with bundled offline UI, native HTTPS calls, system backup pickers, clipboard and print/PDF.
+- Added six-language in-app instructions, reviewed exports and source removal with dependent-output withdrawal.
+- Kept provider keys transient and custom destinations outside the hosted relay.
+- Added regression coverage and CI Android packaging. Real-device and live-model acceptance remain pending.
+
+## 0.4.0-dev.2 — 2026-09-08
+
+- Add hosted, request-scoped OpenAI/DeepSeek connections and explicit one-case connection checks.
+- Add six-language model configuration, actionable errors, personal workspace persistence and validated backups.
+- Require review before handoff export and keep stale results invalid after source corrections.
+- Build a self-contained Worker while preserving the static demo and loopback development server.
+- Provider behavior tested with simulated responses; live-model and phone acceptance remain pending.
+
+
+## 0.4.0-dev.1 — Evidence revision experiment
+
+- Add a shared browser/Node core for source versions, attributed claims, relation constraints and dependent-output invalidation.
+- Add a six-language correction example with exact original references and visible change reports.
+- Remove the entry overlay that announced reconstruction without semantic processing.
+- Add opt-in structured reconstruction and a strong-prompt baseline, with a reproducible development-case replay.
+- No live-model performance or clinical validity claim.
 
 ## 0.3.1 — 2026-09-07
 
@@ -30,3 +64,4 @@
 
 - Initial public import of the previously built private prototype.
 - Local records, fictional demo, linking, corrections, summaries, backup/restore and ten core checks.
+

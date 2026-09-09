@@ -1,69 +1,33 @@
-# 使用指南 · User guide · Guía de uso
+# Care Notes 1.0 使用说明 / User guide
 
-[简体中文](#简体中文) · [English](#english) · [Español](#español)
+[下载 Android APP](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.0) · [打开网页 Demo](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh)
 
-## 简体中文
+## 手机上怎么用
 
-Care Notes 用来整理照护记录、核对不同描述，并准备交接或就诊材料。手机、平板和电脑浏览器都可以使用。当前提供网页版，没有发布安卓安装包。
+1. 在下载页展开 **Assets**，下载 **Care-Notes-1.0.0.apk**。Android 8.0 及以上；请保持 Android System WebView 更新。已有旧版时直接更新，使用同一签名。升级前在设置导出备份，避免卸载丢记录。
+2. 打开后选“体验示例”，再点底部“整理结果”。试着更正日期，看受影响的旧关联撤回。示例为预写的虚构材料，不调用模型，也不收费。
+3. 切换“我的整理”，在“描述”里随手写下看到或听到的事情。可以使用手机键盘语音输入。点“保存并去 AI 整理”。
+4. 初次使用 AI，在“设置”填写服务商、**模型 ID** 和 **API 密钥**。自定义服务还需要 HTTPS API 地址及 Chat Completions / Responses 格式。连接测试可选，会使用少量 API 额度；不需要先通过固定照护案例才能开始整理。
+5. 在“AI 整理”核对发送的原文和地址，勾选同意后点 **开始 AI 整理**。等待、失败原因均保留在本页；可以停止等待，没有自动付费重试。
+6. 成功后自动打开“整理结果”。检查原话、事件时间、关联和待确认问题；每条都有原文入口。模型可能理解错误。
+7. 原文有误时先更正，再重新整理。核对后点确认，导出文本、复制或打印为 PDF。完整 JSON 备份保留修改历史，可在设置恢复。
 
-### 第一次使用
+## API 调用失败时
 
-1. 打开应用，选择“体验示例”。这些是虚构数据，可以修改。右上角“怎么用”随时打开说明。
-2. 在“整理经过”勾选要放进交接的记录，查看“还需要核实什么”。日期和来源不清楚时，保持未知即可。
-3. 点“查看依据 / 补充核实”打开记录。两条描述确实属于同一件事时，在编辑页面选择“关联同一件事”。
-4. 点“查看并核对”，并列看这些描述，再补充核对说明。无法确定谁说得对时，两条都保留。
-5. 点“下载交接内容”。文件在手机浏览器的“下载”中；阅读后再分享。
+- **密钥被拒绝 / provider_auth**：检查所选服务商与密钥是否对应，密钥是否有效。密钥不要发到 Issue 或聊天里。
+- **模型或格式不支持 / provider_model**：检查服务商提供的模型 ID、API 地址与协议。自定义接口若不支持 JSON 参数，可在设置选择“兼容模式（提示词约束）”，然后手动重试。兼容模式同样检查引用和输出结构。
+- **网络失败 / provider_network**：APP 检查设备网络和服务商地址。网页版的自定义服务还需要服务商允许 CORS；固定官方服务可通过此 Demo 的转发服务调用。
+- **超时 / provider_timeout**：最长等待约两分钟。可减少一次发送的记录再重试；超时不代表服务商一定没有收费。
+- **格式或证据检查失败**：结果没有写入，旧结果和原文保留。尝试更少的记录或其他模型；不能把连接测试成功视为理解能力通过认证。
 
-### 开始自己的记录
+基础记录和示例无需 API。真实 AI 使用服务商的 API 额度，不使用 ChatGPT Plus 对话额度。API 密钥只保留在当前打开的页面，退出或重新加载后需重新填写，不进入备份。网页和 APP 各自保存记录，不自动同步。
 
-切换到“我的记录”，点“写一段描述”，粘贴或输入已有观察。整理后逐条检查原话、日期、来源和类别，勾选确认并保存。也可以在“记录”页面逐条新增或更正。
+六种语言可在右上角切换；示例跟随语言，自己的原文保持原样。旧版记录从设置的“查看原来的照护记录”进入。
 
-“导出”可以选择记录、下载文本，或在浏览器支持时打印为 PDF。示例与真实记录分开保存，不会因为切换模式混在一起。
+## English quick start
 
-### 语言、数据和访问
+Download **Care-Notes-1.0.0.apk** under Assets, or open the web demo. Try the fictional example without an API key. Its analysis is prewritten; correction effects run locally.
 
-- 右上角选择简体中文、English 或 Español。界面、帮助和自带示例一起切换；各语言示例分别保存修改。
-- 自己写的记录保持原话。界面翻译不等于原始记录翻译，也不意味着模型已支持所有语言。
-- “设置 → 导出备份”保存完整数据。“导入备份”会在确认后替换当前真实记录。换设备、换浏览器或清理数据前先备份。
-- 数据保存在当前浏览器，不会自动同步。手机和电脑打开同一个地址，并不会自动看到相同的真实记录。
-- 私人试用链接需要托管平台验证访问者身份；这不是 Remote，也不要求连接电脑。支持的手机浏览器可以添加到主屏幕。
+In your own workspace, save accounts, configure a provider in Settings, open **AI organize**, review the destination and text, consent, and press **Start AI organization**. A connection test is optional. Success opens Results; errors stay visible and do not overwrite previous output. Custom endpoints support an explicit compatibility mode if JSON format parameters are rejected. All output still passes schema and evidence checks. No request retries automatically.
 
-### 当前能力
-
-当前试用版使用本地规则整理记录，没有启用在线 AI，也没有自动关联事件、诊断、换药或住院决策。原文和更正历史可以查回，但来源编号不证明内容正确。复诊前请核对导出材料。
-
-## English
-
-Care Notes organizes care accounts for review and handoff. Use a phone, tablet or desktop browser. No Android installation package has been released.
-
-1. Choose **Try the demo**. All sample records are fictional. Open **How to use** at any time.
-2. In **Review an episode**, select records and check the clarification questions.
-3. Open **View / correct** to clarify a record. Use **Link the same event** only when the records belong together.
-4. Choose **Compare accounts**, then add a review note. Retain unresolved differences.
-5. Select **Download handoff**. Find the file in your browser’s Downloads and read it before sharing.
-
-For your own observations, switch to **My records → Write an account**. Prepare drafts, check every source, date and category, then confirm and save. **Timeline** provides individual recording and correction. **Export** provides selected summaries and browser print-to-PDF.
-
-The language selector changes the interface, help and built-in examples. Chinese, English and Spanish examples store their edits separately. Your own records are never translated by switching language.
-
-Use **Settings → Export backup** before clearing the browser or changing devices. **Import backup** replaces personal records after confirmation. Records are stored in one browser, unencrypted, without automatic device sync. Private trial access may require platform sign-in; it does not require Remote or a connected computer.
-
-This trial uses local rules, without online AI, automatic event linking, diagnosis, medication advice or hospital-admission decisions. Review the original evidence before sharing a summary.
-
-## Español
-
-Care Notes organiza relatos sobre los cuidados para revisarlos y preparar informes. Funciona en el navegador del móvil, la tableta o el ordenador. No se ha publicado un paquete de instalación para Android.
-
-1. Elige **Ver ejemplo**. Todos los registros son ficticios. Puedes abrir **Cómo usarlo** en cualquier momento.
-2. En **Revisar un episodio**, selecciona los registros y lee las preguntas pendientes.
-3. Abre **Ver / corregir** para aclarar un registro. Usa **Vincular al mismo evento** solo si los relatos corresponden al mismo evento.
-4. Elige **Comparar relatos** y añade una aclaración. Conserva las diferencias que no se puedan resolver.
-5. Elige **Descargar informe**. Busca el archivo en Descargas del navegador y léelo antes de compartirlo.
-
-Para tus observaciones, cambia a **Mis registros → Pegar o escribir un relato**. Prepara los borradores, revisa cada fuente, fecha y categoría, confirma y guarda. **Registros** permite añadir o corregir notas individuales. **Exportar** permite descargar resúmenes e imprimir en PDF si el navegador lo admite.
-
-El idioma cambia la interfaz, la ayuda y los ejemplos. Los ejemplos en chino, inglés y español guardan sus modificaciones por separado. Tus registros no se traducen al cambiar de idioma. Los patrones locales de clasificación son de chino e inglés; revisa manualmente las categorías y fuentes de los textos en español.
-
-Usa **Ajustes → Exportar copia** antes de borrar datos o cambiar de dispositivo. **Importar copia** sustituye los registros personales tras confirmar. Los datos se guardan sin cifrar en un navegador, sin sincronización automática. La prueba privada puede requerir iniciar sesión en la plataforma, pero no necesita Remote ni un ordenador conectado.
-
-Esta prueba usa reglas locales, sin IA en línea, asociación automática de eventos, diagnóstico ni decisiones sobre medicación o ingreso hospitalario. Comprueba las fuentes antes de compartir.
+Correct originals and organize again before reviewing and exporting. Back up before uninstalling or clearing data. Updating the signed APK preserves the app identity; web and Android storage do not sync. Real provider calls need your own API credit. No clinical decisions, medication recommendations or automatic observations are provided.

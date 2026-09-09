@@ -2,22 +2,64 @@
 
 See [Project status](PROJECT_STATE.md) and [User guide](USER_GUIDE.md).
 
-## Working prototype
+## Product rule
+
+Care Notes should solve a difficult caregiving problem with the least required setup possible:
+
+> **one Android phone + one caregiver must be enough for the core workflow.**
+
+Wearables, Health Connect, smart-home events, cameras and other integrations are optional later evidence sources. They are not the product and must not become prerequisites.
+
+## Working prototype on `main`
 
 - [x] Local recording, paragraph capture, original evidence, corrections and backups.
-- [x] Chinese/English/Spanish interface; optional AI classification adapter, mocked tests only.
-- [x] v0.3 event workspace: explicit selection, linked accounts, missing-information prompts, incomplete-group warnings, handoff export.
-- [x] 35 local regression checks, public MIT source.
+- [x] Chinese / English / Spanish interface and localized fictional examples.
+- [x] Episode workspace: explicit selection, manually linked accounts, missing-information prompts, incomplete-group warnings and handoff export.
+- [x] Optional AI classification adapter with mocked contract tests; not required by the episode workflow.
+- [x] Public MIT source and GitHub Actions checks.
 
-## Next meaningful capability
+## Current phone-first reconstruction branch
 
-- [ ] Evaluate a fictional multi-day case with incomplete and conflicting accounts, without extra hardware.
-- [ ] Add reviewable semantic suggestions for which excerpts describe the same event, preserving every source and allowing rejection.
-- [ ] Compare useful clarification questions against a fixed baseline; measure unsupported claims, omissions and user effort instead of only test count.
-- [ ] Configure and evaluate a real provider with explicit costs, authenticated hosted access and per-user limits. Existing localhost adapter cannot power the hosted static preview by itself.
-- [ ] Validate the full episode workflow on a phone, including export and restored records.
+- [x] Fixed fictional multi-day case using only caregiver/self phone records; no extra hardware.
+- [x] Conservative review candidates for unlinked records with the same category and close known time.
+- [x] Candidate output keeps evidence IDs and never automatically merges records.
+- [x] Explicit accept and reject controls in the phone-friendly episode workspace.
+- [x] Rejected candidates remain a local review preference and stay out of the normal handoff.
+- [x] Accepted candidates keep both original source records separately reviewable.
+- [x] Tests for expected candidates and expected non-candidates, missing dates, uncertainty and no silent association.
+- [x] Simplified Chinese, English, Spanish, French, Japanese and Korean interface/help/episode/candidate/demo coverage.
+- [x] Offline shell includes all shipped language modules.
 
-## Subsequent options, not promises
+## Before this branch can merge
 
-Evidence-based change summaries; user-confirmed care-plan handoff; multi-provider/BYOK; optional consented device events. No extra hardware required for the core workflow. No zero-input promise when no data source exists. No inferred diagnosis, medication adjustment, hospital-admission decision, or automatic crisis score.
+- [ ] Latest CI must be green after all documentation/UI changes.
+- [ ] Real Android phone walkthrough: capture → reconstruct → accept/reject candidate → clarify → export → backup/restore.
+- [ ] Switch through all six languages and check that personal records remain unchanged.
+- [ ] Check narrow-screen layout, enlarged text and browser behavior, especially longer French labels and Japanese/Korean wrapping.
+- [ ] Confirm user-facing wording never makes a candidate sound like a fact.
+- [ ] Do not claim independent native-language or clinical translation validation until it actually happens.
+- [x] Clean replacement PR #3 targets `main`; the older diverged v0.3 PR was closed unmerged as superseded.
 
+## Next meaningful capability after the merge
+
+The next work should make the reconstruction feel more useful, not merely more complex:
+
+- [ ] Improve clarification questions so the app asks fewer, more consequential questions.
+- [ ] Add richer fictional cases with sparse days, conflicting accounts and later corrections; measure omissions, unsupported associations and review effort.
+- [ ] Explore evidence-bound semantic suggestions only if every proposal remains rejectable and traceable to source IDs.
+- [ ] Design the Android native shell around the same episode workflow, quick capture, local storage and export.
+- [ ] Add a personal-baseline/change view only when it provides actionable context beyond ordinary charts.
+- [ ] Later, optionally integrate Health Connect or other consented sources without weakening the one-phone/no-extra-hardware path.
+
+## Not product goals
+
+- generic mood tracking or statistics as the main experience;
+- requiring smart-home or camera infrastructure;
+- automatic diagnosis;
+- medication adjustment advice;
+- automatic hospital-admission decisions;
+- invented certainty when evidence is missing;
+- silently resolving conflicting accounts;
+- “AI understood it” claims without evidence-bound evaluation.
+
+The OpenAI open-source support application is a project goal, but development and release claims must remain based on real code, real maintenance and real external feedback. Do not manufacture stars, users, issues or adoption.

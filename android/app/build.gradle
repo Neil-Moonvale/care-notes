@@ -1,0 +1,14 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.neilmoonvale.carenotes'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.neilmoonvale.carenotes'
+        minSdk 26
+        targetSdk 35
+        versionCode 10000
+        versionName '1.0.0'
+    }
+    buildTypes { release { minifyEnabled false; debuggable false } }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}

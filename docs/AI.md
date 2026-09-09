@@ -1,5 +1,7 @@
 # AI contract and deployment boundary
 
+The development line adds a [mobile BYOK connection](MOBILE_AI.md) with an authenticated hosted Worker. The older adapter described below remains the local paragraph-classification path.
+
 1. Local segmentation creates fixed IDs, exact quotes and UTF-16 offsets from the paragraph.
 2. Local rules provide a free path, clearly labeled as rules.
 3. An explicitly consented AI request sends only this paragraph through the same-origin server to OpenAI.
@@ -13,7 +15,7 @@ These checks do not prove clinical correctness, truth, authorship or cryptograph
 
 ## Status and controls
 
-The optional Node.js adapter and consent UI are implemented. Provider tests are mocked. No live model request, paid usage or credential was activated. The hosted Sites preview is static and does not execute `server/`.
+The optional Node.js adapter and consent UI are implemented. Provider tests are mocked. No live model request, paid usage or credential was activated. GitHub Pages is static. The hosted Worker now executes the separate request-scoped mobile adapter; no server-stored model key is activated.
 
 The personal server binds to `127.0.0.1`, checks host/origin and a custom header, requires consent, limits input, permits one active call and ten calls per minute. Limits reset on restart. This is not public multi-user billing protection; do not expose it through a tunnel.
 
@@ -22,3 +24,8 @@ Hosted AI requires a separate authenticated backend, per-user quotas, operationa
 [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs) · [Responses API and storage](https://developers.openai.com/api/docs/guides/migrate-to-responses)
 
 `store: false` disables stored Responses state, not every form of infrastructure/provider retention. Review current policies before sensitive use.
+
+
+## Experimental reconstruction
+
+The same local configuration enables `/api/reconstruct` on the [evidence revision page](RECONSTRUCTION.md). It sends only the explicitly consented current accounts, source names and recording timestamps. The API validates exact quotation references, while the client rejects responses to old source versions. The public static demo does not execute this server. The separate mobile adapter is documented in MOBILE_AI.md.

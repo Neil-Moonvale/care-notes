@@ -1,0 +1,40 @@
+name: Android package
+on:
+  push:
+    branches: [main, feature/evidence-revision-core]
+    paths: ['android/**', 'dist/**', 'scripts/prepare-android.mjs', '.github/workflows/android.yml']
+  pull_request:
+    paths: ['android/**', 'dist/**', 'scripts/prepare-android.mjs', '.github/workflows/android.yml']
+permissions:
+  contents: read
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Prepare bundled app
+        run: node scripts/prepare-android.mjs
+      - name: Install Android build components
+        run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0"'
+      - name: Build unsigned release
+        working-directory: android
+        run: gradle --no-daemon assembleRelease
+      - name: Gather signing verifier
+        run: cp "$ANDROID_HOME/build-tools/35.0.0/lib/apksigner.jar" android/app/build/outputs/apk/release/apksigner.jar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: care-notes-android-unsigned
+          path: |
+            android/app/build/outputs/apk/release/app-release-unsigned.apk
+            android/app/build/outputs/apk/release/apksigner.jar
+          retention-days: 30

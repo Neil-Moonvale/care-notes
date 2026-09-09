@@ -3,12 +3,14 @@ import { readFile } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createApiHandler } from './ai.js';
+import {createMobileApi} from './mobile-api.js';
 
 // Personal local deployment only. Public hosting needs authentication and per-user limits.
 const port = Number(process.env.PORT || 8787);
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invalid PORT');
 const root = fileURLToPath(new URL('../dist/', import.meta.url));
 const api = createApiHandler({env:process.env});
+const mobileApi=createMobileApi();
 const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'};
 createServer(async (req,res) => {
   try {
@@ -18,7 +20,7 @@ createServer(async (req,res) => {
     if (url.pathname.startsWith('/api/')) {
       const init = {method:req.method,headers:req.headers};
       if (!['GET','HEAD'].includes(req.method)) { init.body = req; init.duplex = 'half'; }
-      const reply = await api(new Request(url,init));
+      const reply = await (url.pathname.startsWith('/api/mobile/')?mobileApi:api)(new Request(url,init));
       res.writeHead(reply.status,Object.fromEntries(reply.headers)); res.end(Buffer.from(await reply.arrayBuffer())); return;
     }
     if (!['GET','HEAD'].includes(req.method)) {res.writeHead(405);res.end();return;}
