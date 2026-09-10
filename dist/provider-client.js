@@ -30,11 +30,15 @@ export function assertSchema(value,schema) {
   if(kind==='array'){if(value.length>160)throw Error('provider_invalid');for(const v of value)assertSchema(v,schema.items);}
   if(kind==='string'&&value.length>24000)throw Error('provider_invalid');
 }
+export function defaultOutputBudget(connection){
+  // Forced-thinking models need space for reasoning as well as the final JSON.
+  return connection.provider==='custom'&&/^glm-5\.3(?:-flash)?$/i.test(connection.model||'')?24000:6000;
+}
 export async function requestStructured({provider='openai',apiKey,model,baseUrl,format,outputStyle='json',fetchImpl=fetch,maxOutputTokens=6000,schema,instructions,input,name,signal}) {
   const config=provider==='custom'?customConnection({provider,apiKey,model,baseUrl,format}):connectionConfig({provider,apiKey,model});
   const p=provider==='custom'?{format:config.format}:PROVIDERS[config.provider];
   const endpoint=provider==='custom'?config.endpoint:p.origin+p.path;
-  if(!Number.isInteger(maxOutputTokens)||maxOutputTokens<1000||maxOutputTokens>12000)throw Error('invalid_token_limit');
+  if(!Number.isInteger(maxOutputTokens)||maxOutputTokens<1000||maxOutputTokens>32000)throw Error('invalid_token_limit');
   const body=p.format==='responses'
     ? {model,store:false,max_output_tokens:maxOutputTokens,instructions,input:JSON.stringify(input),text:{format:{type:'json_schema',name,strict:true,schema}}}
     : {model,max_tokens:maxOutputTokens,stream:false,response_format:{type:'json_object'},messages:[{role:'system',content:instructions+'\nReturn only a JSON object matching this JSON schema: '+JSON.stringify(schema)},{role:'user',content:JSON.stringify(input)}]};
@@ -42,8 +46,9 @@ export async function requestStructured({provider='openai',apiKey,model,baseUrl,
   // DeepSeek can spend the entire budget on reasoning even at low effort. Use
   // its documented non-thinking mode for official endpoints, including aliases.
   // The model still extracts the evidence; schema and evidence checks stay on.
-  // Custom endpoints never receive vendor-specific options automatically.
-  if(provider==='deepseek')body.thinking={type:'disabled'};
+  // Apply GLM tuning only to recognized official endpoints and supported text models.
+  const glmOfficial=provider==='custom'&&p.format==='chat'&&['https://open.bigmodel.cn/api/paas/v4/chat/completions','https://api.z.ai/api/paas/v4/chat/completions'].includes(endpoint)&&/^glm-(?:4\.[567](?:-flash(?:x)?)?|5(?:\.[12])?)$/i.test(model);
+  if(provider==='deepseek'||glmOfficial)body.thinking={type:'disabled'};
   if(!['json','compatible'].includes(outputStyle))throw Error('invalid_connection');
   if(outputStyle==='compatible'){
     if(p.format==='responses'){delete body.text;body.instructions+='\nReturn only JSON matching this schema: '+JSON.stringify(schema);}
@@ -52,7 +57,7 @@ export async function requestStructured({provider='openai',apiKey,model,baseUrl,
   const requestController=new AbortController();
   const abort=()=>requestController.abort(signal?.reason);
   if(signal?.aborted)abort();else signal?.addEventListener('abort',abort,{once:true});
-  const deadline=setTimeout(()=>requestController.abort(new DOMException('Timeout','TimeoutError')),120000);
+  const deadline=setTimeout(()=>requestController.abort(new DOMException('Timeout','TimeoutError')),240000);
   try {
   let response;
   try{response=await fetchImpl(endpoint,{method:'POST',redirect:'error',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},signal:requestController.signal,body:JSON.stringify(body)});}

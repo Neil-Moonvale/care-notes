@@ -1,6 +1,6 @@
 # Android app
 
-[Download the signed 1.0.4 APK](../downloads/README.md).
+[Download the signed 1.0.5 APK](../downloads/README.md).
 
 The `android/` project packages the current six-language interface and evidence core. Its interface and evidence core are bundled for local use. No Care Notes/ChatGPT login or desktop computer is needed to use the installed app.
 
@@ -33,4 +33,4 @@ Web and Android data are separate. Download a full JSON workspace backup on one 
 
 ## Validation limits
 
-Version 1.0.4 is a regular software release. Compilation, signature verification and automated checks do not establish compatibility with every phone or provider. Real-device coverage of launch, model calls, file pickers, PDF output, accessibility and the system Back action remains incomplete. Report reproducible problems with device and provider details, excluding API keys and personal records. Live model quality and clinical outcomes are not established by the APK build.
+Version 1.0.5 is a regular software release. Compilation, signature verification and automated checks do not establish compatibility with every phone or provider. Real-device coverage of launch, model calls, file pickers, PDF output, accessibility and the system Back action remains incomplete. Report reproducible problems with device and provider details, excluding API keys and personal records. Live model quality and clinical outcomes are not established by the APK build.

@@ -1,6 +1,15 @@
 package com.neilmoonvale.carenotes;
 
 import android.app.Activity;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyProperties;
+import android.util.Base64;
+import java.security.KeyStore;
+import java.security.MessageDigest;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.Cipher;
+import javax.crypto.spec.GCMParameterSpec;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -155,7 +164,38 @@ public final class MainActivity extends Activity {
     }
     private String label(String zh,String en) { return Locale.getDefault().getLanguage().equals("zh")?zh:en; }
 
+    private synchronized SecretKey vaultKey() throws Exception {
+        KeyStore ks=KeyStore.getInstance("AndroidKeyStore");ks.load(null);
+        String alias="care-notes-api-v1";
+        if(!ks.containsAlias(alias)) {
+            KeyGenerator gen=KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES,"AndroidKeyStore");
+            gen.init(new KeyGenParameterSpec.Builder(alias,KeyProperties.PURPOSE_ENCRYPT|KeyProperties.PURPOSE_DECRYPT).setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE).build());gen.generateKey();
+        }
+        return (SecretKey)ks.getKey(alias,null);
+    }
+    private String vaultId(String scope) throws Exception {
+        if(scope==null||scope.length()>1100||!scope.startsWith("https://"))throw new IllegalArgumentException();
+        return Base64.encodeToString(MessageDigest.getInstance("SHA-256").digest(scope.getBytes(StandardCharsets.UTF_8)),Base64.NO_WRAP);
+    }
     final class DeviceBridge {
+        @JavascriptInterface public boolean saveApiKey(String scope,String value) {
+            if(!trusted||value==null||!value.matches("[\\x21-\\x7e]{8,512}"))return false;
+            try {String id=vaultId(scope);Cipher cipher=Cipher.getInstance("AES/GCM/NoPadding");cipher.init(Cipher.ENCRYPT_MODE,vaultKey());cipher.updateAAD(scope.getBytes(StandardCharsets.UTF_8));
+                String encrypted=Base64.encodeToString(cipher.getIV(),Base64.NO_WRAP)+":"+Base64.encodeToString(cipher.doFinal(value.getBytes(StandardCharsets.UTF_8)),Base64.NO_WRAP);
+                return getSharedPreferences("api-vault",MODE_PRIVATE).edit().putString(id,encrypted).commit();
+            }catch(Exception error){return false;}
+        }
+        @JavascriptInterface public String readApiKey(String scope) {
+            if(!trusted)return "";
+            try {String raw=getSharedPreferences("api-vault",MODE_PRIVATE).getString(vaultId(scope),"");if(raw.isEmpty())return "";String[] parts=raw.split(":",2);
+                Cipher cipher=Cipher.getInstance("AES/GCM/NoPadding");cipher.init(Cipher.DECRYPT_MODE,vaultKey(),new GCMParameterSpec(128,Base64.decode(parts[0],Base64.NO_WRAP)));cipher.updateAAD(scope.getBytes(StandardCharsets.UTF_8));
+                return new String(cipher.doFinal(Base64.decode(parts[1],Base64.NO_WRAP)),StandardCharsets.UTF_8);
+            }catch(Exception error){return "";}
+        }
+        @JavascriptInterface public boolean deleteApiKey(String scope) {
+            if(!trusted)return false;
+            try{return getSharedPreferences("api-vault",MODE_PRIVATE).edit().remove(vaultId(scope)).commit();}catch(Exception error){return false;}
+        }
         @JavascriptInterface public void request(String id,String address,String authorization,String body) {
             if (!trusted || id==null || !id.matches("[a-f0-9-]{36}") || body==null || body.length()>128000 || authorization==null || !authorization.matches("Bearer [\\x21-\\x7e]{8,512}")) { fail(id==null?"":id,"invalid_connection"); return; }
             try { requests.execute(()->perform(id,address,authorization,body,false)); }
@@ -210,7 +250,7 @@ public final class MainActivity extends Activity {
             connection=(HttpsURLConnection)url.openConnection();
             connections.put(id,connection);
             connection.setInstanceFollowRedirects(false);
-            connection.setConnectTimeout(20000);connection.setReadTimeout(120000);
+            connection.setConnectTimeout(20000);connection.setReadTimeout(240000);
             connection.setRequestMethod(listing?"GET":"POST");connection.setDoOutput(!listing);
             connection.setRequestProperty("Authorization",authorization);
             connection.setRequestProperty("Content-Type","application/json");
@@ -222,7 +262,7 @@ public final class MainActivity extends Activity {
             int code=connection.getResponseCode();
             if(code<200||code>=300){reply(id,new JSONObject().put("status",code).put("body","{}"));return;}
             ByteArrayOutputStream buffer=new ByteArrayOutputStream();
-            long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(120);
+            long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(240);
             try(InputStream input=connection.getInputStream()){
                 byte[] block=new byte[8192];int size;
                 while((size=input.read(block))!=-1){
