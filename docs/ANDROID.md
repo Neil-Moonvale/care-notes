@@ -1,12 +1,12 @@
 # Android app
 
-[Download the signed 1.0.4 APK](../downloads/README.md).
+[Download the signed 1.0.5 APK](../downloads/README.md).
 
 The `android/` project packages the current six-language interface and evidence core. Its interface and evidence core are bundled for local use. No Care Notes/ChatGPT login or desktop computer is needed to use the installed app.
 
 - Android 8.0 or newer, with an up-to-date Android System WebView/Chrome.
 - Bundled offline recording, fictional example, corrections and local history.
-- Native HTTPS requests to the configured provider; API keys remain transient.
+- Native HTTPS requests to the configured provider; API keys are transient unless explicitly saved with Android Keystore AES-GCM encryption, scoped to the endpoint and excluded from backups.
 - System document pickers for backup save/restore, clipboard and Android printing/PDF.
 - Only Internet permission. No camera, microphone, contacts or broad storage permission.
 - App backup/cloud transfer is disabled in the manifest. Use explicit JSON exports when moving devices.
@@ -33,4 +33,4 @@ Web and Android data are separate. Download a full JSON workspace backup on one 
 
 ## Validation limits
 
-Version 1.0.4 is a regular software release. Compilation, signature verification and automated checks do not establish compatibility with every phone or provider. Real-device coverage of launch, model calls, file pickers, PDF output, accessibility and the system Back action remains incomplete. Report reproducible problems with device and provider details, excluding API keys and personal records. Live model quality and clinical outcomes are not established by the APK build.
+Version 1.0.5 is a regular software release. Compilation, signature verification and automated checks do not establish compatibility with every phone or provider. Real-device coverage of launch, model calls, file pickers, PDF output, accessibility and the system Back action remains incomplete. Report reproducible problems with device and provider details, excluding API keys and personal records. Live model quality and clinical outcomes are not established by the APK build.
