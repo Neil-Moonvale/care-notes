@@ -20,7 +20,7 @@ test('AI entry remains visible without a test pass; results and errors have sepa
  await click('ai');assert.ok(root.innerHTML.includes('开始 AI 整理'));
  await click('analyse');assert.ok(root.innerHTML.includes('consent_required'));assert.equal(requests,0);
  await listeners.change({target:{id:'send-consent',checked:true}});await click('analyse');
- assert.equal(requests,1);assert.ok(root.innerHTML.includes('整理完成，请核对'));assert.ok(root.innerHTML.includes('昨晚我没看到她吃药。'));assert.ok(root.innerHTML.includes('提取的描述'));
+ assert.equal(requests,1);assert.ok(root.innerHTML.includes('整理完成，请核对'));assert.ok(root.innerHTML.includes('昨晚我没看到她吃药。'));assert.ok(root.innerHTML.includes('这几天发生了什么'));
  fail=true;await click('ai');await listeners.change({target:{id:'send-consent',checked:true}});await click('analyse');
  assert.equal(requests,2);assert.ok(root.innerHTML.includes('provider_auth'));assert.ok(root.innerHTML.includes('request-status error'));assert.ok(!root.innerHTML.includes('secret'));
  await click('review');assert.ok(root.innerHTML.includes('昨晚我没看到她吃药。'));assert.ok(root.innerHTML.includes('provider_auth'));

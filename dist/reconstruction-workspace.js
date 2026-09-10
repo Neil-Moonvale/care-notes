@@ -1,3 +1,4 @@
+import {reportText} from './care-report.js';
 import {createLedger,activeSources,addSource,reviseSource,validateAnalysis,reconstruct} from './reconstruction-core.js';
 export const WORKSPACE_KEY='care-notes-reconstruction-workspace-v1';
 // Restore evidence through validation, never trust a saved/imported derived result.
@@ -23,7 +24,8 @@ export function restoreWorkspace(raw) {
     if(ids.size!==a.claims.length)throw Error('invalid_backup');
     const claims=a.claims.map(c=>({id:ids.get(c.key),sourceId:c.sourceId,sourceVersion:c.sourceVersion,quote:c.quote,subject:c.subject,observer:c.observer,topic:c.topic,basis:c.basis,polarity:c.polarity,time:c.time,support:c.dependencies?.map(d=>({sourceId:d.sourceId,sourceVersion:d.sourceVersion,quote:d.quote}))}));
     const relations=a.relations.map(r=>({from:ids.get(r.from),to:ids.get(r.to),type:r.type}));
-    ledger.analyses.push({...validateAnalysis(sources,{claims,relations}),method:a.method,sources:sources.map(s=>({id:s.id,version:s.version}))});
+    if(a.metadata&&(typeof a.metadata.model!=='string'||a.metadata.model.length>128||typeof a.metadata.createdAt!=='string'||!Number.isFinite(Date.parse(a.metadata.createdAt))))throw Error('invalid_backup');
+    ledger.analyses.push({...validateAnalysis(sources,{claims,relations}),method:a.method,...(a.metadata?{metadata:{model:a.metadata.model,createdAt:a.metadata.createdAt}}:{}),sources:sources.map(s=>({id:s.id,version:s.version}))});
   }
   reconstruct(ledger);
   return ledger;
@@ -36,7 +38,7 @@ export function handoffText(ledger,copy,timeLabel) {
   const byClaim=new Map(result.claims.map(c=>[c.key,c]));
   const ref=c=>`${c.sourceId} v${c.sourceVersion}`;
   const method=ledger.analyses.at(-1)?.method;
-  const lines=['Care Notes',['openai','model'].includes(method)?copy.live:method==='fixture'?copy.demo:copy.local,'',copy.accounts];
+  const lines=[reportText(ledger,copy.locale.split('-')[0],copy,timeLabel),'','Care Notes',['openai','model'].includes(method)?copy.live:method==='fixture'?copy.demo:copy.local,'',copy.accounts];
   for(const c of result.claims)lines.push(`[${ref(c)}] ${byId.get(c.sourceId).author}`,`${copy.basis[c.basis]} · ${timeLabel(c.time)}`,c.quote,...(c.polarity==='unknown'?[copy.unknownFact]:[]),'');
   lines.push(copy.relations);
   for(const r of result.relations.filter(r=>r.status==='proposed'))lines.push(`${copy[r.type]}: [${ref(byClaim.get(r.from))}] / [${ref(byClaim.get(r.to))}]`);

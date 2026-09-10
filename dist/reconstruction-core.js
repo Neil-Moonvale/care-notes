@@ -107,13 +107,14 @@ export function validateAnalysis(sources, proposal) {
   });
   return {claims,relations};
 }
-export function addAnalysis(ledger, proposal, {method='manual',sources=activeSources(ledger)}={}) {
+export function addAnalysis(ledger, proposal, {method='manual',sources=activeSources(ledger),metadata=null}={}) {
   check(['manual','fixture','openai','model'].includes(method),'invalid_method');
   const current=new Map(activeSources(ledger).map(s=>[s.id,s]));
   for(const s of sources)check(JSON.stringify(current.get(s.id))===JSON.stringify(s),'stale_analysis');
   const analysis=validateAnalysis(sources,proposal);
+  if(metadata)check(typeof metadata.model==='string'&&metadata.model.length<=128&&typeof metadata.createdAt==='string'&&Number.isFinite(Date.parse(metadata.createdAt)),'invalid_metadata');
   check(ledger.analyses.length<100,'analysis_limit');
-  return {...clone(ledger),analyses:[...clone(ledger.analyses),{...analysis,method,sources:sources.map(s=>({id:s.id,version:s.version}))}]};
+  return {...clone(ledger),analyses:[...clone(ledger.analyses),{...analysis,method,...(metadata?{metadata:{model:metadata.model,createdAt:metadata.createdAt}}:{}),sources:sources.map(s=>({id:s.id,version:s.version}))}]};
 }
 const disjoint=(a,b)=>a.start&&b.start&&(Date.parse(a.end)<=Date.parse(b.start)||Date.parse(b.end)<=Date.parse(a.start));
 function reachable(start,end,edges,visited=new Set()) {
