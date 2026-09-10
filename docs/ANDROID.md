@@ -6,7 +6,7 @@ The `android/` project packages the current six-language interface and evidence 
 
 - Android 8.0 or newer, with an up-to-date Android System WebView/Chrome.
 - Bundled offline recording, fictional example, corrections and local history.
-- Native HTTPS requests to the configured provider; API keys remain transient.
+- Native HTTPS requests to the configured provider; API keys are transient unless explicitly saved with Android Keystore AES-GCM encryption, scoped to the endpoint and excluded from backups.
 - System document pickers for backup save/restore, clipboard and Android printing/PDF.
 - Only Internet permission. No camera, microphone, contacts or broad storage permission.
 - App backup/cloud transfer is disabled in the manifest. Use explicit JSON exports when moving devices.

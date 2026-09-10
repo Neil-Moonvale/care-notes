@@ -2,7 +2,7 @@
 
 ## 中文
 
-在 **设置 → 连接 AI** 中选择服务商，填写 API 密钥和自定义地址（如适用），点 **获取模型列表**，再从下拉列表选择文字模型。无需先填模型名称。接口不支持列表时，保留手动填写模型 ID 的方式。获取列表不发送照护记录，也不进行模型生成。API 密钥不会保存进本机记录或备份，重新打开页面后需再次填写。模型名称、服务商和自定义地址可以记住，不包含密钥。
+在 **设置 → 连接 AI** 中选择服务商，填写 API 密钥和自定义地址（如适用），点 **获取模型列表**，再从下拉列表选择文字模型。无需先填模型名称。接口不支持列表时，保留手动填写模型 ID 的方式。获取列表不发送照护记录，也不进行模型生成。API 密钥不进入记录或备份。安卓 1.0.5 可选择加密保存，重启后自动读取；网页版仍需重新填写。模型名称、服务商和自定义地址会记住。
 
 | 选择 | 如何填写 |
 | --- | --- |
@@ -28,10 +28,12 @@ The shared implementation is `dist/provider-client.js` and `dist/reconstruction-
 
 Custom browser calls are direct, require CORS and use an explicitly selected HTTPS destination. The Android bridge accepts only bounded model POSTs to HTTPS Responses/Chat Completions paths. Remote web content is blocked from the WebView, which serves only bundled assets on an isolated origin. The native bridge does not follow redirects, uses platform TLS validation and has bounded concurrency/body size/timeouts. A device-side DNS check rejects local/private destinations; this is a personal device client, not an SSRF-resistant public relay.
 
-Keys stay in page and request memory; application code excludes them from storage/exports and does not log model bodies or credentials. This is not a claim of zero retention by infrastructure/providers, hardware-backed key storage, encrypted exports or end-to-end encryption. Users must trust their chosen provider and, for relayed web requests, the deployment operator.
+Web keys stay in page and request memory. Android offers explicit endpoint-scoped encrypted storage using an Android Keystore AES key and AES-GCM authenticated encryption; hardware backing depends on the device. The app excludes credentials from record exports and backups and does not log them. This is not a claim of zero retention by infrastructure/providers, encrypted record exports or end-to-end encryption. Users must trust their chosen provider and, for relayed web requests, the deployment operator.
 
 Inputs are capped at 40 current accounts/24000 characters, model output at 6000 tokens and the connection test at 2000 tokens. There is one request per explicit action. The hosted relay has additional best-effort isolate limits, not a spending guarantee. Set budgets in the provider account.
 
 The optional `/api/mobile/connection` probe asks for a simple `{ok:true}` JSON response to check connectivity and protocol handling; it does not evaluate care-information extraction. The older `/api/mobile/check` synthetic non-observation check remains a developer diagnostic, not a prerequisite for using AI. Neither probe is a model benchmark. No live paid model run, independent user study or clinical validation has been completed. Model errors can pass structural checks; all output still requires review.
 
 Model discovery uses an authenticated GET to `/models` (OpenAI: `/v1/models`). Custom API prefixes are preserved. The hosted `/api/mobile/models` route accepts only the two fixed providers, requires explicit action and receives no care records or model ID. Model lists are bounded and held in memory; changing credentials or destinations invalidates pending responses. A listed model is not a guarantee of compatibility or accuracy.
+
+GLM-5.3 / Flash 的思考不可关闭，整理预算为 24,000 tokens（含思考），最长等待约四分钟。调用前显示预算，按实际使用计费，不自动重试。其他自定义模型仍需兼容所选协议与输出格式，不能保证所有厂商都可用。
