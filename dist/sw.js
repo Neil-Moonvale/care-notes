@@ -1,4 +1,4 @@
-const CACHE='care-notes-shell-v15';
+const CACHE='care-notes-shell-v16';
 const FILES=['./records.html','./product-copy.js','./release-copy.js','./provider-client.js','./reconstruction-model.js','./device-client.js','./mobile-copy.js','./reconstruction-workspace.js','./reconstruction.html','./reconstruction-core.js','./reconstruction-copy.js','./reconstruction-demo.js','./reconstruction-lab.js','./reconstruction-lab.css','./','./index.html','./styles.css','./suggestion-ui.css','./app.js','./suggestion-ui.js','./episode.js','./es.js','./fr.js','./ja.js','./ko.js','./help.js','./demo-locales.js','./core.js','./i18n.js','./locales.js','./draft.js','./provenance.js','./capture-ui.js','./icon.svg','./manifest.webmanifest'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('care-notes-shell-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});

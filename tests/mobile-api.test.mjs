@@ -55,7 +55,7 @@ test('JSON-mode malformed structures and fabricated evidence fail closed',async(
 });
 test('provider truncation, refusals, oversized bodies and timeouts never produce a usable result',async()=>{
   for(const [fetchImpl,expected] of [
-    [async()=>Response.json({choices:[{finish_reason:'length',message:{content:'{}'}}]}),'provider_incomplete'],
+    [async()=>Response.json({choices:[{finish_reason:'length',message:{content:'{}'}}]}),'provider_output_limit'],
     [async()=>Response.json({choices:[{finish_reason:'content_filter',message:{}}]}),'provider_refusal'],
     [async()=>new Response('x'.repeat(500001)),'too_large'],
     [async()=>{throw new DOMException('timeout','TimeoutError');},'provider_timeout'],
