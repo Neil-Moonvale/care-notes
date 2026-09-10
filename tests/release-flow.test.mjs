@@ -28,17 +28,18 @@ test('hosted connection probe requires consent and refuses custom destinations b
 test('new navigation and diagnostic labels cover all six shipped languages',()=>{
  const keys=Object.keys(releaseCopy.en).sort();for(const lang of ['zh','en','es','fr','ja','ko']){assert.deepEqual(Object.keys(releaseCopy[lang]).sort(),keys);for(const value of Object.values(releaseCopy[lang]))assert.ok(value.trim());}
 });
-test('official DeepSeek V4 reserves output budget with low reasoning effort only for V4',async()=>{
+test('official DeepSeek reserves the output budget for JSON across aliases without changing custom APIs',async()=>{
  for(const options of [
   {provider:'deepseek',model:'deepseek-v4-flash'},
   {provider:'deepseek',model:'deepseek-v4-pro'},
+  {provider:'deepseek',model:'deepseek-flash'},
   {provider:'deepseek',model:'legacy-model'},
   {...config,model:'deepseek-v4-flash'},
  ]){
   await checkConnection({...options,apiKey:'test-only-key',fetchImpl:async(url,init)=>{
    const body=JSON.parse(init.body);
-   assert.equal(body.reasoning_effort,options.provider==='deepseek'&&options.model.startsWith('deepseek-v4-')?'low':undefined);
-   assert.equal(body.thinking,undefined);assert.equal(body.max_tokens,2000);
+   assert.equal(body.reasoning_effort,undefined);
+   assert.deepEqual(body.thinking,options.provider==='deepseek'?{type:'disabled'}:undefined);assert.equal(body.max_tokens,2000);
    return chat('{"ok":true}');
   }});
  }

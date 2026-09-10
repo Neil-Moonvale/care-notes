@@ -5,7 +5,7 @@ import {validateAnalysis} from '../dist/reconstruction-core.js';
 
 import {CONNECTION_SAMPLE,assertConnectionSample} from '../dist/reconstruction-model.js';
 export {CONNECTION_SAMPLE};
-const allowedErrors=new Set(['models_forbidden','models_unsupported','invalid_connection','provider_auth','provider_credit','provider_limit','provider_model','provider_failed','provider_timeout','provider_network','provider_invalid','provider_incomplete','provider_refusal','evidence_invalid','check_failed','too_large']);
+const allowedErrors=new Set(['models_forbidden','models_unsupported','invalid_connection','provider_auth','provider_credit','provider_limit','provider_model','provider_failed','provider_timeout','provider_network','provider_invalid','provider_incomplete','provider_output_limit','provider_refusal','evidence_invalid','check_failed','too_large']);
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'}});
 export function createMobileApi({fetchImpl=fetch,clock=Date.now}={}) {
   // Best-effort isolate limits, not a durable account-wide spending cap.

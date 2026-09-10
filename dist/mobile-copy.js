@@ -55,7 +55,8 @@ export const mobileCopy={
       "rate_limited": "当前请求较多，请稍后再试。",
       "analysis_failed": "分析未完成，原文仍在。",
       "invalid_input": "请检查输入，最多 40 条、合计 24000 字符。",
-      "forbidden": "请求未被接受，请从本站页面重新打开。"
+      "forbidden": "请求未被接受，请从本站页面重新打开。",
+      "provider_output_limit": "模型达到本次输出上限，完整结果未生成。原文已保留，不会自动重试；可更换模型后手动再试。此次请求可能已计费。"
     }
   },
   "en": {
@@ -114,7 +115,8 @@ export const mobileCopy={
       "rate_limited": "Too many current requests. Try again later.",
       "analysis_failed": "Analysis did not complete. Original accounts are retained.",
       "invalid_input": "Check the input: at most 40 accounts and 24000 characters total.",
-      "forbidden": "Request not accepted. Reopen the page from this site."
+      "forbidden": "Request not accepted. Reopen the page from this site.",
+      "provider_output_limit": "The output limit was reached before the result was complete. Originals are preserved. No automatic retry; you can select another model and try again. A charge may apply."
     }
   },
   "es": {
@@ -173,7 +175,8 @@ export const mobileCopy={
       "rate_limited": "Demasiadas solicitudes. Inténtalo más tarde.",
       "analysis_failed": "Análisis incompleto. Se conservan los originales.",
       "invalid_input": "Máximo 40 relatos y 24000 caracteres en total.",
-      "forbidden": "Solicitud rechazada. Vuelve a abrir la página del sitio."
+      "forbidden": "Solicitud rechazada. Vuelve a abrir la página del sitio.",
+      "provider_output_limit": "Se alcanzó el límite de salida antes de completar el resultado. Se conservan los originales. No se reintenta automáticamente; puede elegir otro modelo. Puede haberse cobrado."
     }
   },
   "fr": {
@@ -232,7 +235,8 @@ export const mobileCopy={
       "rate_limited": "Trop de demandes. Réessayez plus tard.",
       "analysis_failed": "Analyse inachevée. Les originaux sont conservés.",
       "invalid_input": "Maximum 40 récits et 24000 caractères au total.",
-      "forbidden": "Demande refusée. Rouvrez la page depuis le site."
+      "forbidden": "Demande refusée. Rouvrez la page depuis le site.",
+      "provider_output_limit": "La limite de sortie a été atteinte avant la fin du résultat. Les originaux sont conservés. Aucun nouvel essai automatique ; vous pouvez choisir un autre modèle. Des frais peuvent s’appliquer."
     }
   },
   "ja": {
@@ -291,7 +295,8 @@ export const mobileCopy={
       "rate_limited": "リクエストが多いため、後でお試しください。",
       "analysis_failed": "分析は未完了です。原文は保持しています。",
       "invalid_input": "最大 40 件、合計 24000 文字です。",
-      "forbidden": "リクエストを受け付けられません。サイトから再度開いてください。"
+      "forbidden": "リクエストを受け付けられません。サイトから再度開いてください。",
+      "provider_output_limit": "出力上限に達し、結果が完成しませんでした。原文は保持されています。自動再試行はしません。別のモデルを選んで再試行できます。課金される場合があります。"
     }
   },
   "ko": {
@@ -350,7 +355,8 @@ export const mobileCopy={
       "rate_limited": "요청이 많습니다. 나중에 다시 시도하세요.",
       "analysis_failed": "분석이 완료되지 않았습니다. 원문은 보존됩니다.",
       "invalid_input": "최대 40개 진술, 총 24000자입니다.",
-      "forbidden": "요청이 허용되지 않았습니다. 사이트에서 다시 열어 주세요."
+      "forbidden": "요청이 허용되지 않았습니다. 사이트에서 다시 열어 주세요.",
+      "provider_output_limit": "결과가 완성되기 전에 출력 한도에 도달했습니다. 원문은 보존됩니다. 자동 재시도는 하지 않습니다. 다른 모델을 선택해 다시 시도할 수 있으며 요금이 발생했을 수 있습니다."
     }
   }
 };

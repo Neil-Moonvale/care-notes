@@ -1,3 +1,14 @@
+# Care Notes 1.0.3
+
+## 2026-09-10: complete output and model aliases
+
+DeepSeek discovery returned `deepseek-flash`, which bypassed the previous version-prefix-specific request profile. A four-source fictional non-health test exhausted all 6000 output tokens in reasoning with both the default and low-effort profiles. Official DeepSeek extraction now uses its documented non-thinking mode across model aliases. Custom endpoints receive no extra vendor parameters. Output-limit responses are distinguished from other incomplete responses; partial output remains rejected and no request is retried automatically. The connection-success label now explicitly describes a basic test, not completed organization.
+
+The current demo is hosted on OpenAI Sites. Mainland-China reachability is not established. The Android UI is bundled, and native model calls do not depend on the demo host. GitHub download reachability and installed-app connectivity are separate concerns.
+
+---
+Previous release details:
+
 # Care Notes 1.0.2
 
 ## 2026-09-09: provider compatibility repair

@@ -38,10 +38,12 @@ export async function requestStructured({provider='openai',apiKey,model,baseUrl,
   const body=p.format==='responses'
     ? {model,store:false,max_output_tokens:maxOutputTokens,instructions,input:JSON.stringify(input),text:{format:{type:'json_schema',name,strict:true,schema}}}
     : {model,max_tokens:maxOutputTokens,stream:false,response_format:{type:'json_object'},messages:[{role:'system',content:instructions+'\nReturn only a JSON object matching this JSON schema: '+JSON.stringify(schema)},{role:'user',content:JSON.stringify(input)}]};
-  // V4 defaults to high-effort reasoning, which can exhaust our bounded output
-  // budget before producing JSON. Keep thinking enabled with a bounded low-effort
-  // profile on the official V4 endpoint; never send vendor options to other APIs.
-  if(provider==='deepseek'&&/^deepseek-v4-/.test(model))body.reasoning_effort='low';
+  // Interactive extraction needs the completed JSON inside a bounded budget.
+  // DeepSeek can spend the entire budget on reasoning even at low effort. Use
+  // its documented non-thinking mode for official endpoints, including aliases.
+  // The model still extracts the evidence; schema and evidence checks stay on.
+  // Custom endpoints never receive vendor-specific options automatically.
+  if(provider==='deepseek')body.thinking={type:'disabled'};
   if(!['json','compatible'].includes(outputStyle))throw Error('invalid_connection');
   if(outputStyle==='compatible'){
     if(p.format==='responses'){delete body.text;body.instructions+='\nReturn only JSON matching this schema: '+JSON.stringify(schema);}
@@ -59,6 +61,7 @@ export async function requestStructured({provider='openai',apiKey,model,baseUrl,
   const result=await boundedJson(response);
   let output;
   if(p.format==='responses'){
+    if(result.status==='incomplete'&&result.incomplete_details?.reason==='max_output_tokens')throw Error('provider_output_limit');
     if(result.status!=='completed'||!Array.isArray(result.output))throw Error('provider_incomplete');
     const parts=result.output.filter(o=>o.type==='message').flatMap(o=>o.content||[]);
     if(parts.some(p=>p.type==='refusal'))throw Error('provider_refusal');
@@ -66,6 +69,7 @@ export async function requestStructured({provider='openai',apiKey,model,baseUrl,
   }else{
     const choice=result.choices?.[0];
     if(choice?.message?.refusal||choice?.finish_reason==='content_filter')throw Error('provider_refusal');
+    if(choice?.finish_reason==='length')throw Error('provider_output_limit');
     if(choice?.finish_reason!=='stop')throw Error('provider_incomplete');
     output=choice.message?.content;
   }

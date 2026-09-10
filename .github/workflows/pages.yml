@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir -p build/pages
           cat > build/pages/index.html <<'HTML'
-          <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Care Notes · Demo</title><meta http-equiv="refresh" content="0;url=https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo"></head><body><h1>Care Notes</h1><p><a href="https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo">Open the current demo / 打开当前网页演示</a></p><p><a href="https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.2">Download Android / 下载安卓 APP</a></p></body></html>
+          <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Care Notes · Demo</title><meta http-equiv="refresh" content="0;url=https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo"></head><body><h1>Care Notes</h1><p><a href="https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo">Open the current demo / 打开当前网页演示</a></p><p><a href="https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.3">Download Android / 下载安卓 APP</a></p></body></html>
           HTML
       - uses: actions/upload-pages-artifact@v4
         with:
