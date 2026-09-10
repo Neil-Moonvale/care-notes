@@ -1,17 +1,17 @@
 # Care Notes · 照护手记
 
-**[下载 Android APP 1.0.3](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.3)** · **[网页 Demo](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh)** · **[使用说明](USER_GUIDE.md)**
+**[下载 Android APP 1.0.4](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.4)** · **[网页 Demo](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh)** · **[使用说明](USER_GUIDE.md)**
 
 当前主流程：描述 → AI 整理 → 整理结果 → 设置。AI 有独立的开始按钮、持久错误提示和结果界面。连接测试可选，真实整理需自己的 API 额度。
 
 
 把家属零散、缺失、有时互相矛盾的描述，整理成可逐条核对的经过。保留谁说的、原话和未知；原文更正后撤回受影响的旧结果。
 
-当前正式版本 **1.0.3** 包含六种语言的界面与使用说明、完整备份、交接文本/PDF、OpenAI/DeepSeek/自定义兼容接口，以及可安装的离线安卓客户端和源码。安卓版使用服务商 API 时从手机直接连接，不需要电脑或本站账户。
+当前正式版本 **1.0.4** 包含六种语言的界面与使用说明、完整备份、交接文本/PDF、OpenAI/DeepSeek/自定义兼容接口，以及可安装的离线安卓客户端和源码。安卓版使用服务商 API 时从手机直接连接，不需要电脑或本站账户。
 
-[下载安卓 APK](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.3) · [打开网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh) · [使用说明](USER_GUIDE.md) · [模型配置](MOBILE_AI.md) · [安卓安装与构建](ANDROID.md) · [真实项目状态](PROJECT_STATE.md)
+[下载安卓 APK](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.4) · [打开网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh) · [使用说明](USER_GUIDE.md) · [模型配置](MOBILE_AI.md) · [安卓安装与构建](ANDROID.md) · [真实项目状态](PROJECT_STATE.md)
 
-1.0.3 已整合到默认分支 `main`，安装包、公开演示和下载入口已发布。自动化检查覆盖数据与调用流程，分发检查核对安装包内置资源与对应源码一致。真实模型对比、完整手机兼容性测试、实际家属试用和母语者审校仍未完成；正式版本号不代表模型准确或临床有效。
+1.0.4 已整合到默认分支 `main`，安装包、公开演示和下载入口已发布。自动化检查覆盖数据与调用流程，分发检查核对安装包内置资源与对应源码一致。真实模型对比、完整手机兼容性测试、实际家属试用和母语者审校仍未完成；正式版本号不代表模型准确或临床有效。
 
 ## 面向谁
 
