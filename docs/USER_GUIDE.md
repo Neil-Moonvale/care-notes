@@ -39,3 +39,12 @@ Correct originals and organize again before reviewing and exporting. Back up bef
 APK 的页面、示例、记录和备份功能内置在安装包中，不需要访问演示网站。AI 请求通过安卓原生 HTTPS 直接连接你配置的服务商。是否能直连，取决于该服务商地址和你的网络。GitHub 下载可能受网络影响；下载可达性与安装后的运行可达性是两回事。网页与 APP 的本地记录不自动同步，请用备份导入。
 
 DeepSeek 官方接口的交互整理采用非思考模式，避免额外思考耗尽有限的输出长度；仍由所选模型提取信息，仍检查原文引用。其他自定义服务不会自动收到 DeepSeek 专用参数。连接测试仅验证短请求，不能替代对当前材料的完整整理。
+
+
+## 阅读经过报告 / Reading the report
+
+进入「我的整理 → 整理结果」，先读「这几天发生了什么」。有时间范围的描述和日期不明的事情分别列出；不同说法、未知事实与待确认问题随后展示。每项可点回原文。没有观察到不等于没有发生。报告不会凭几条材料断定病情改善或恶化。
+
+新生成的结果显示模型和生成时间；旧结果会说明时间未记录。失败的调用不会替换已有结果。已有提取结果可直接用新报告阅读，无须重复调用。核对后使用页面底部的导出、复制或打印按钮。
+
+The report is composed locally from validated extraction, so viewing it does not make another model call. Known time ranges and undated accounts remain separate. Every item links to its source. Review before exporting; exports include the same report and original accounts.
