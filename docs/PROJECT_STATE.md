@@ -1,3 +1,22 @@
+# Care Notes 1.0.6
+
+## 2026-09-19: readable reports
+
+The Android and web result page now leads with a plain-language report generated in the same call as structured extraction. Each paragraph links to exact current source quotations. Up to three questions follow. The previous extracted accounts remain available for detailed review. Six-language no-key examples are authored fixtures, explicitly labeled; they are not evidence of live model performance.
+
+Reports are attached to a complete source snapshot and become stale after account additions, edits or deletion. Current reports survive backup/restore and appear in text/PDF exports. Old extraction backups still load but do not masquerade as a newly written report. Saved model prose retains its generation language.
+
+127 automated tests and the Worker runtime check pass. Controlled responses cover both custom Chat Completions and Responses, the hosted path, rendering, provenance rejection, persistence and export. No new live-model narrative-quality evaluation or broad Android hardware acceptance was completed for 1.0.6. Citation validity does not establish semantic correctness.
+
+Version 1.0.5 added GLM-5.3/Flash reasoning budgets and explicit encrypted, endpoint-scoped Android key storage. Web keys remain session-only. See the release notes for those limited live compatibility checks.
+
+## Product boundaries
+
+This is a caregiver information tool, not diagnosis or treatment. No personal clinical baseline, automatic sensing, clinical efficacy, independent model benchmark or cross-device synchronization is claimed. Independent family trials, wider device coverage and native-language review remain open.
+
+---
+Historical release notes follow.
+
 # Care Notes 1.0.3
 
 ## 2026-09-10: complete output and model aliases
