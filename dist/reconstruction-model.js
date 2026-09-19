@@ -1,4 +1,5 @@
 import {validateAnalysis,TOPICS,BASES,RELATIONS} from './reconstruction-core.js';
+import {validateReport} from './narrative-report.js';
 import {requestStructured} from './provider-client.js';
 const str={type:'string'},nullable={type:['string','null']};
 const object=properties=>({type:'object',additionalProperties:false,required:Object.keys(properties),properties});
@@ -23,7 +24,12 @@ export const SUMMARY_PROMPT=`Prepare a concise caregiver handoff from fragmented
 export async function reconstructOnDevice(sources,options) {
   validateAnalysis(sources,{claims:[],relations:[]});
   if(sources.reduce((n,s)=>n+s.text.length,0)>24000)throw Error('too_large');
-  const answer=await requestStructured({...options,schema:RECONSTRUCTION_SCHEMA,instructions:RECONSTRUCTION_PROMPT,input:{sources},name:'care_notes_reconstruction'});
+  const language=options.reportLanguage;
+  if(language&&!['zh','en','es','fr','ja','ko'].includes(language))throw Error('invalid_connection');
+  const schema=language?object({...RECONSTRUCTION_SCHEMA.properties,report:SUMMARY_SCHEMA}):RECONSTRUCTION_SCHEMA;
+  const instructions=RECONSTRUCTION_PROMPT+(language?'\nAlso write report in '+language+'. '+SUMMARY_PROMPT+' Write 2–6 short, plain-language paragraphs in statements: begin with a useful overview of what happened, then the supported sequence or themes and important uncertainty. Do not output a list of extracted quotes as the report. Each paragraph must include all the evidence it relies on. If only one account exists, one paragraph is enough. At most 12 statements. Do not invent a personal baseline or changes from usual. Do not add headings, Markdown or numbered lists inside text.':'');
+  const answer=await requestStructured({...options,schema,instructions,input:{sources},name:'care_notes_reconstruction'});
+  if(language){const {report,...proposal}=answer.proposal;validateReport(sources,report);answer.proposal=proposal;answer.report=report;}
   try{validateAnalysis(sources,answer.proposal);}catch{throw Error('evidence_invalid');}
   return answer;
 }

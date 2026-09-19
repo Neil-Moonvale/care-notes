@@ -1,3 +1,4 @@
+import {attachReport} from './narrative-report.js';
 import {reportText} from './care-report.js';
 import {createLedger,activeSources,addSource,reviseSource,validateAnalysis,reconstruct} from './reconstruction-core.js';
 export const WORKSPACE_KEY='care-notes-reconstruction-workspace-v1';
@@ -26,6 +27,13 @@ export function restoreWorkspace(raw) {
     const relations=a.relations.map(r=>({from:ids.get(r.from),to:ids.get(r.to),type:r.type}));
     if(a.metadata&&(typeof a.metadata.model!=='string'||a.metadata.model.length>128||typeof a.metadata.createdAt!=='string'||!Number.isFinite(Date.parse(a.metadata.createdAt))))throw Error('invalid_backup');
     ledger.analyses.push({...validateAnalysis(sources,{claims,relations}),method:a.method,...(a.metadata?{metadata:{model:a.metadata.model,createdAt:a.metadata.createdAt}}:{}),sources:sources.map(s=>({id:s.id,version:s.version}))});
+  }
+  if(saved.report){
+    const r=saved.report;
+    // Restore only reports whose complete input snapshot is still current.
+    const snapshot=activeSources(ledger);
+    if(JSON.stringify(snapshot)===JSON.stringify(r.sources))ledger=attachReport(ledger,r.report,r);
+    else if(!Array.isArray(r.sources))throw Error('invalid_backup');
   }
   reconstruct(ledger);
   return ledger;

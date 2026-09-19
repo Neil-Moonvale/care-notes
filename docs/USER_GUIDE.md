@@ -1,10 +1,10 @@
 # Care Notes 1.0 使用说明 / User guide
 
-[下载 Android APP](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.5) · [打开网页 Demo](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh)
+[下载 Android APP](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.6) · [打开网页 Demo](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh)
 
 ## 手机上怎么用
 
-1. 在下载页展开 **Assets**，下载 **Care-Notes-1.0.5.apk**。Android 8.0 及以上；请保持 Android System WebView 更新。已有旧版时直接更新，使用同一签名。升级前在设置导出备份，避免卸载丢记录。
+1. 在下载页展开 **Assets**，下载 **Care-Notes-1.0.6.apk**。Android 8.0 及以上；请保持 Android System WebView 更新。已有旧版时直接更新，使用同一签名。升级前在设置导出备份，避免卸载丢记录。
 2. 打开后选“体验示例”，再点底部“整理结果”。试着更正日期，看受影响的旧关联撤回。示例为预写的虚构材料，不调用模型，也不收费。
 3. 切换“我的整理”，在“描述”里随手写下看到或听到的事情。可以使用手机键盘语音输入。点“保存并去 AI 整理”。
 4. 初次使用 AI，在“设置”选择服务商并填写 **API 密钥**，点 **获取模型列表**，再下拉选择文字模型；列表不可用时可以手填模型 ID。自定义服务还需要 HTTPS API 地址及 Chat Completions / Responses 格式。连接测试可选，会使用少量 API 额度；不需要先通过固定照护案例才能开始整理。
@@ -20,13 +20,13 @@
 - **超时 / provider_timeout**：最长等待约两分钟。可减少一次发送的记录再重试；超时不代表服务商一定没有收费。
 - **格式或证据检查失败**：结果没有写入，旧结果和原文保留。尝试更少的记录或其他模型；不能把连接测试成功视为理解能力通过认证。
 
-基础记录和示例无需 API。真实 AI 使用服务商的 API 额度，不使用 ChatGPT Plus 对话额度。网页版的 API 密钥只保留在当前页面。安卓 1.0.5 可点击「加密保存在此设备」，重启后自动读取；使用「删除已保存密钥」可移除。密钥按接口地址隔离，不进入记录备份。网页和 APP 各自保存记录，不自动同步。
+基础记录和示例无需 API。真实 AI 使用服务商的 API 额度，不使用 ChatGPT Plus 对话额度。网页版的 API 密钥只保留在当前页面。安卓 1.0.6 可点击「加密保存在此设备」，重启后自动读取；使用「删除已保存密钥」可移除。密钥按接口地址隔离，不进入记录备份。网页和 APP 各自保存记录，不自动同步。
 
 六种语言可在右上角切换；示例跟随语言，自己的原文保持原样。旧版记录从设置的“查看原来的照护记录”进入。
 
 ## English quick start
 
-Download **Care-Notes-1.0.5.apk** under Assets, or open the web demo. Try the fictional example without an API key. Its analysis is prewritten; correction effects run locally.
+Download **Care-Notes-1.0.6.apk** under Assets, or open the web demo. Try the fictional example without an API key. Its analysis is prewritten; correction effects run locally.
 
 In your own workspace, save accounts, configure a provider in Settings, open **AI organize**, review the destination and text, consent, and press **Start AI organization**. A connection test is optional. Success opens Results; errors stay visible and do not overwrite previous output. Custom endpoints support an explicit compatibility mode if JSON format parameters are rejected. All output still passes schema and evidence checks. No request retries automatically.
 
@@ -48,3 +48,11 @@ DeepSeek 官方接口的交互整理采用非思考模式，避免额外思考�
 新生成的结果显示模型和生成时间；旧结果会说明时间未记录。失败的调用不会替换已有结果。已有提取结果可直接用新报告阅读，无须重复调用。核对后使用页面底部的导出、复制或打印按钮。
 
 The report is composed locally from validated extraction, so viewing it does not make another model call. Known time ranges and undated accounts remain separate. Every item links to its source. Review before exporting; exports include the same report and original accounts.
+
+## 1.0.6：先读报告，再核对依据
+
+在「我的整理」保存原文后，进入「AI 整理」运行一次。「整理结果」顶部现在是 AI 撰写的短段落报告，每段下面的「展开原话依据」可以查看原文。底部列出最多三个值得确认的问题；提取细节仍可展开查看。文本/PDF 导出包含这份报告。
+
+新增、删除或更正原文后，旧报告不再显示为当前报告，需要重新整理。旧版备份仍能恢复；旧提取数据不会冒充新报告。报告按生成时所选语言撰写，切换界面不会自动翻译已保存的报告。
+
+「体验示例」是预写的虚构报告，不消耗 API 额度。真实调用的文字质量取决于模型；引用检查只能核对引用是否来自当前原文，不能证明模型的每个结论正确。请核对后使用。

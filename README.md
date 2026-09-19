@@ -2,11 +2,13 @@
 
 Review fragmented caregiving accounts without losing the original words, conflicting accounts or unknowns.
 
-[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.5) · [Try web example / 网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
+[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.6) · [Try web example / 网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
 
 Care Notes is for families whose care recipient cannot reliably keep a diary. Different people remember different pieces; dates can be unclear and an unobserved event is not necessarily an event that did not happen.
 
-**Version 1.0.5** brings a four-screen Android and web workflow: Accounts, AI organize, Results and Settings. The release includes a signed Android APK and source archives. The same interface and evidence core run on both platforms.
+**New in 1.0.6:** one AI request produces a readable account of what happened, alongside the evidence extraction. Each paragraph has expandable original quotations. Added or corrected records invalidate the saved narrative; exports include the current report. The no-key demo uses clearly labeled authored examples in six languages.
+
+**Version 1.0.6** brings a four-screen Android and web workflow: Accounts, AI organize, Results and Settings. The release includes a signed Android APK and source archives. The same interface and evidence core run on both platforms.
 
 Model connections use your own API credit. Automated checks cover transport, consent, output validation, source corrections, restoration and UI controller transitions. Live-provider accuracy and broad real-device compatibility are not certified; review every result before using it for a handoff.
 
