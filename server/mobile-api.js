@@ -24,14 +24,16 @@ export function createMobileApi({fetchImpl=fetch,clock=Date.now}={}) {
       const listing=url.pathname==='/api/mobile/models';
       const probe=url.pathname==='/api/mobile/connection',checking=listing||probe||url.pathname==='/api/mobile/check';
       let input;try{input=await boundedJson(request,128000);}catch{return json({error:'invalid_input'},400);}
-      if(!input||input.consent!==true||Object.keys(input).sort().join(',')!==(checking?'connection,consent':'connection,consent,sources'))return json({error:'consent_required'},400);
+      const reporting=!checking&&input?.language!==undefined;
+      if(reporting&&!['zh','en','es','fr','ja','ko'].includes(input.language))return json({error:'invalid_input'},400);
+      if(!input||input.consent!==true||Object.keys(input).sort().join(',')!==(checking?'connection,consent':(reporting?'connection,consent,language,sources':'connection,consent,sources')))return json({error:'consent_required'},400);
       let config;try{if(listing){if(!['openai','deepseek'].includes(input.connection?.provider))throw Error('invalid_connection');modelListConfig(input.connection);config=input.connection;}else config=connectionConfig(input.connection);}catch{return json({error:'invalid_connection'},400);}
       if(listing){calls++;return json(await listModels({...config,fetchImpl,signal:request.signal}));}
       if(probe){calls++;return json(await checkConnection({...config,fetchImpl,signal:request.signal}));}
       const sources=checking?CONNECTION_SAMPLE:input.sources;
       try{validateAnalysis(sources,{claims:[],relations:[]});if(sources.reduce((n,s)=>n+s.text.length,0)>24000)return json({error:'too_large'},413);}catch{return json({error:'invalid_input'},400);}
       calls++;
-      const answer=await reconstructWithProvider(sources,{...config,fetchImpl,signal:request.signal,maxOutputTokens:checking?2000:6000});
+      const answer=await reconstructWithProvider(sources,{...config,fetchImpl,signal:request.signal,maxOutputTokens:checking?2000:6000,...(reporting?{reportLanguage:input.language}:{})});
       if(checking)return json(assertConnectionSample(answer));
       return json(answer);
     }catch(error){return json({error:allowedErrors.has(error?.message)?error.message:'analysis_failed'},502);}

@@ -12,7 +12,7 @@ test('AI entry remains visible without a test pass; results and errors have sepa
  globalThis.localStorage={getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v)};
  globalThis.window={scrollTo:()=>{},addEventListener:()=>{}};
  let requests=0,fail=false;
- globalThis.fetch=async(url,options)=>{if(url==='./api/mobile/status')return Response.json({available:false});requests++;if(fail)return Response.json({error:'secret'},{status:401});return Response.json({choices:[{finish_reason:'stop',message:{content:JSON.stringify({claims:[{id:'c1',sourceId:'e1',sourceVersion:1,quote:source.text,subject:'unknown',observer:'家属',topic:'medication',basis:'not_observed',polarity:'unknown',time:{start:null,end:null,quote:''},support:[]}],relations:[]})}}]});};
+ globalThis.fetch=async(url,options)=>{if(url==='./api/mobile/status')return Response.json({available:false});requests++;if(fail)return Response.json({error:'secret'},{status:401});return Response.json({choices:[{finish_reason:'stop',message:{content:JSON.stringify({claims:[{id:'c1',sourceId:'e1',sourceVersion:1,quote:source.text,subject:'unknown',observer:'家属',topic:'medication',basis:'not_observed',polarity:'unknown',time:{start:null,end:null,quote:''},support:[]}],relations:[],report:{statements:[{text:'家属昨晚没有看到她服药，实际是否服药仍不确定。',evidence:[{sourceId:'e1',sourceVersion:1,quote:source.text}]}],questions:[]}})}}]});};
  await import('../dist/reconstruction-lab.js');
  const click=action=>listeners.click({target:{closest:s=>['[data-source]','a.brand'].includes(s)?null:{disabled:false,dataset:{action}}}});
  for(const action of ['capture','ai','review','settings'])assert.ok(root.innerHTML.includes(`data-action="${action}"`));
@@ -20,7 +20,7 @@ test('AI entry remains visible without a test pass; results and errors have sepa
  await click('ai');assert.ok(root.innerHTML.includes('开始 AI 整理'));
  await click('analyse');assert.ok(root.innerHTML.includes('consent_required'));assert.equal(requests,0);
  await listeners.change({target:{id:'send-consent',checked:true}});await click('analyse');
- assert.equal(requests,1);assert.ok(root.innerHTML.includes('整理完成，请核对'));assert.ok(root.innerHTML.includes('昨晚我没看到她吃药。'));assert.ok(root.innerHTML.includes('这几天发生了什么'));
+ assert.ok(root.innerHTML.includes('家属昨晚没有看到她服药，实际是否服药仍不确定。'));assert.ok(root.innerHTML.includes('展开原话依据'));assert.equal(requests,1);assert.ok(root.innerHTML.includes('整理完成，请核对'));assert.ok(root.innerHTML.includes('昨晚我没看到她吃药。'));assert.ok(root.innerHTML.includes('先读这段经过'));
  fail=true;await click('ai');await listeners.change({target:{id:'send-consent',checked:true}});await click('analyse');
  assert.equal(requests,2);assert.ok(root.innerHTML.includes('provider_auth'));assert.ok(root.innerHTML.includes('request-status error'));assert.ok(!root.innerHTML.includes('secret'));
  await click('review');assert.ok(root.innerHTML.includes('昨晚我没看到她吃药。'));assert.ok(root.innerHTML.includes('provider_auth'));
