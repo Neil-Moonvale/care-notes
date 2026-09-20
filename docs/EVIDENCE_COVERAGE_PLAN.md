@@ -12,11 +12,11 @@ Tasks / checkpoints:
 - [x] Deterministic claim audit, bounded wording, evidence debt and alternate candidates.
 - [x] Family-facing report first, expandable evidence/coverage, English/Chinese; English fallback elsewhere.
 - [x] Multi-source fictional fixture, metadata editor, backup/restore and stale-state checks.
-- [ ] Full regression suite, Worker build/runtime, Android assets/build, distribution verification.
-- [ ] README, Chinese README, architecture, CHANGELOG, PROJECT_STATE, release preparation.
+- [x] Full regression suite, Worker build/runtime, Android assets/build, distribution verification.
+- [x] README, Chinese README, architecture, CHANGELOG, PROJECT_STATE, release preparation.
 
 Review focus: model claims with unknown time; dishonest capability declarations; same sensor event duplicated; source and coverage edits after analysis; older backups without coverage. Tests must demonstrate each boundary. Keep the old release downloadable until replacement artifacts pass verification.
 
 Execution: inline implementation with focused test-first checkpoints and git commits. Version target 1.1.0 (additive data with legacy migration). No new paid dependency. Do not include private application material or credentials in commits.
 
-Checkpoint: engine, UI, imports/exports and adversarial tests implemented; 149 tests and Worker runtime pass. GitHub PR #12; Android CI compiled 1.1.0. Final signing and publication follow. No private credentials or application material are included.
+Checkpoint: engine, UI, imports/exports and adversarial tests implemented; 149 tests and Worker runtime pass. GitHub PR #12; Android CI compiled 1.1.0. Signed APK verified against all 43 bundled source assets with the existing release certificate; release publication is the remaining deployment operation. No private credentials or application material are included.
