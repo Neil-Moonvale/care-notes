@@ -22,7 +22,7 @@ main{max-width:960px;margin:auto;padding:1.25rem 1.25rem 8rem}header{display:fle
 .narrative ol{padding-left:1.4rem}.narrative li{padding:.3rem 0}
 
 /* Coverage Firewall: words accompany every colour; details stay keyboard accessible. */
-.fw-claim{border-left:4px solid #64748b;padding:1rem;margin:1rem 0;background:#f7f9fc;border-radius:0 12px 12px 0;overflow-wrap:anywhere}
+.fw-claim{border-left:4px solid #64748b;padding:1rem;margin:1rem 0;background:var(--canvas);border-radius:0 12px 12px 0;overflow-wrap:anywhere}
 .fw-claim.supported{border-color:#167457}.fw-claim.contested{border-color:#a33c61}.fw-claim.underobserved{border-color:#ac7100}
 .fw-state{font-size:.85rem;font-weight:700}.fw-bar{display:flex;height:14px;gap:2px;margin:.6rem 0;border-radius:4px;overflow:hidden;background:#dce1e8}
 .fw-bar .observed{background:#428475}.fw-bar .gap{background:repeating-linear-gradient(45deg,#d9dfe7,#d9dfe7 4px,#f8fafc 4px,#f8fafc 8px)}
