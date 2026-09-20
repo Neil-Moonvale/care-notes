@@ -1,3 +1,16 @@
+# Care Notes 1.1.0 — Evidence Coverage Firewall
+
+Implemented: validated optional coverage profiles, capabilities and reviewed contracts, direct/indirect scope, active/unavailable ranges, cadence and clock handling; deterministic claim audits with bounded negative wording; coverage map, per-claim inspection, heuristic clarification questions and two-account alternate candidates. Source corrections withdraw dependent profiles and output. Coverage edits invalidate saved model narratives. Old backups migrate to unknown coverage; imported derived audits are recomputed.
+
+The final report quarantines unrestricted model prose and renders attributed rule-bounded claims. This is an intentional safety change from 1.0.6, not a claim of universal semantic entailment. A simple coverage form is available in Results. Richer adapter metadata is supported by the validated schema. English/Chinese are complete; new feature copy falls back to English in other languages.
+
+The fictional coverage demo has two caregivers, door-lock records, a removed wearable, camera outage and contradictory accounts. All device sources are simulated. No external sensor integration or new live-model performance evaluation is claimed. No clinical validation, passive collection or medication-adherence verification.
+
+Release validation is recorded in docs/releases/1.1.0.md. Android CI passed; the signed 1.1.0 package matches all 43 bundled source files and retains the 1.0.6 signing certificate. Release publication is tracked by PR #12 and the v1.1.0 release.
+
+---
+Previous release state:
+
 # Care Notes 1.0.6
 
 ## 2026-09-19: readable reports

@@ -1,3 +1,12 @@
+# 1.1.0 — Evidence Coverage Firewall
+
+- Added deterministic observation coverage with capability/subject checks, outages, cadence, blind spots and clock uncertainty.
+- Added bounded claim wording, falsification artifacts, qualitative alternate candidates and explainable evidence-debt questions.
+- Results now show the audited report and expandable evidence/coverage. Unrestricted model paragraphs are retained in backups, not accepted as final conclusions.
+- Added an API-free fictional multi-source demonstration and a simple observation-range editor.
+- Preserved versioned sources, BYOK, Android/web shared assets and older backups; coverage changes invalidate narratives.
+- New feature translations: English and Simplified Chinese; explicit English fallback elsewhere.
+
 # 1.0.0
 
 - Four-screen phone UI with dedicated AI controls and results.

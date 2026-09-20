@@ -1,3 +1,5 @@
+import {validateCoverage} from './evidence-coverage.js';
+import {auditEpisode} from './claim-firewall.js';
 import {attachReport} from './narrative-report.js';
 import {reportText} from './care-report.js';
 import {createLedger,activeSources,addSource,reviseSource,validateAnalysis,reconstruct} from './reconstruction-core.js';
@@ -28,18 +30,19 @@ export function restoreWorkspace(raw) {
     if(a.metadata&&(typeof a.metadata.model!=='string'||a.metadata.model.length>128||typeof a.metadata.createdAt!=='string'||!Number.isFinite(Date.parse(a.metadata.createdAt))))throw Error('invalid_backup');
     ledger.analyses.push({...validateAnalysis(sources,{claims,relations}),method:a.method,...(a.metadata?{metadata:{model:a.metadata.model,createdAt:a.metadata.createdAt}}:{}),sources:sources.map(s=>({id:s.id,version:s.version}))});
   }
+  if(saved.coverage)ledger.coverage=validateCoverage(saved.coverage);
   if(saved.report){
     const r=saved.report;
     // Restore only reports whose complete input snapshot is still current.
     const snapshot=activeSources(ledger);
-    if(JSON.stringify(snapshot)===JSON.stringify(r.sources))ledger=attachReport(ledger,r.report,r);
+    if(JSON.stringify(snapshot)===JSON.stringify(r.sources))ledger={...attachReport(ledger,r.report,r),report:{...r}};
     else if(!Array.isArray(r.sources))throw Error('invalid_backup');
   }
   reconstruct(ledger);
   return ledger;
 }
 export function workspaceJSON(ledger) {
-  return JSON.stringify({format:'care-notes-reconstruction-workspace',version:1,ledger,result:reconstruct(ledger)},null,2);
+  return JSON.stringify({format:'care-notes-reconstruction-workspace',version:1,ledger,result:reconstruct(ledger),firewall:auditEpisode(ledger)},null,2);
 }
 export function handoffText(ledger,copy,timeLabel) {
   const result=reconstruct(ledger),sources=activeSources(ledger),byId=new Map(sources.map(s=>[s.id,s]));

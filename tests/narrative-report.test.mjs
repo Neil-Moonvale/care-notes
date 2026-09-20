@@ -38,6 +38,7 @@ test('custom Chat, custom Responses and hosted report use one request and valida
 });
 test('export includes the readable report and exact evidence, stale report is excluded',()=>{
  const l=attachReport(ledger(),report,meta),copy=reconstructionCopy.en;
- assert.ok(reportText(l,'en',copy,()=>'?').includes(report.statements[0].text));
+ assert.ok(!reportText(l,'en',copy,()=>'?').includes(report.statements[0].text)); // Unconstrained prose is quarantined, even in legacy exports.
+ assert.ok(reportText(l,'en',copy,()=>'?').includes('What can we actually tell?'));
  assert.ok(!reportText(reviseSource(l,'s1',{text:'Correction.'},1),'en',copy,()=>'?').includes(report.statements[0].text));
 });

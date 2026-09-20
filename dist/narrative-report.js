@@ -1,3 +1,4 @@
+import {coverageFingerprint,emptyCoverage} from './evidence-coverage.js';
 import {activeSources} from './reconstruction-core.js';
 const fail=()=>{throw Error('evidence_invalid');};
 const text=(v,max)=>typeof v==='string'&&v.trim().length>0&&v.length<=max;
@@ -15,10 +16,10 @@ const snapshot=sources=>sources.map(({id,version,text,author,recordedAt})=>({id,
 export function attachReport(ledger,report,metadata){
  const sources=activeSources(ledger);
  if(!['zh','en','es','fr','ja','ko'].includes(metadata?.language)||!text(metadata.model,128)||!text(metadata.createdAt,50)||!Number.isFinite(Date.parse(metadata.createdAt)))fail();
- return {...ledger,report:{report:validateReport(sources,report),sources:snapshot(sources),kind:metadata.kind==='fixture'?'fixture':'model',language:metadata.language,model:metadata.model,createdAt:metadata.createdAt}};
+ return {...ledger,report:{report:validateReport(sources,report),sources:snapshot(sources),coverageSnapshot:coverageFingerprint(ledger),kind:metadata.kind==='fixture'?'fixture':'model',language:metadata.language,model:metadata.model,createdAt:metadata.createdAt}};
 }
 export function currentReport(ledger){
- const saved=ledger.report;if(!saved||JSON.stringify(snapshot(activeSources(ledger)))!==JSON.stringify(saved.sources))return null;
+ const saved=ledger.report;if(!saved||((saved.coverageSnapshot??JSON.stringify(emptyCoverage()))!==coverageFingerprint(ledger))||JSON.stringify(snapshot(activeSources(ledger)))!==JSON.stringify(saved.sources))return null;
  try{validateReport(activeSources(ledger),saved.report);return saved;}catch{return null;}
 }
 export const narrativeCopy={
