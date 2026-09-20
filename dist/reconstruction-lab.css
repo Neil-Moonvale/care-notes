@@ -20,3 +20,11 @@ main{max-width:960px;margin:auto;padding:1.25rem 1.25rem 8rem}header{display:fle
 .report-paragraph summary{font-size:.88rem;color:#365779;cursor:pointer}
 .report-paragraph blockquote{margin:1rem 0 .35rem;font-size:.95rem}
 .narrative ol{padding-left:1.4rem}.narrative li{padding:.3rem 0}
+
+/* Coverage Firewall: words accompany every colour; details stay keyboard accessible. */
+.fw-claim{border-left:4px solid #64748b;padding:1rem;margin:1rem 0;background:#f7f9fc;border-radius:0 12px 12px 0;overflow-wrap:anywhere}
+.fw-claim.supported{border-color:#167457}.fw-claim.contested{border-color:#a33c61}.fw-claim.underobserved{border-color:#ac7100}
+.fw-state{font-size:.85rem;font-weight:700}.fw-bar{display:flex;height:14px;gap:2px;margin:.6rem 0;border-radius:4px;overflow:hidden;background:#dce1e8}
+.fw-bar .observed{background:#428475}.fw-bar .gap{background:repeating-linear-gradient(45deg,#d9dfe7,#d9dfe7 4px,#f8fafc 4px,#f8fafc 8px)}
+.fw-map-row{padding:.7rem 0;border-bottom:1px solid #dce1e8}.firewall h4{margin:1rem 0 .4rem}.firewall blockquote{margin:.6rem 0}
+#coverage-form{display:grid;gap:.9rem}#coverage-form input:not([type=checkbox]),#coverage-form select{width:100%;box-sizing:border-box;padding:.7rem;border:1px solid #a8b5c2;border-radius:8px}

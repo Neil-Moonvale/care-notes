@@ -39,7 +39,7 @@ export function auditEpisode(ledger,lang='en'){
   const positive=assertions.filter(a=>a.category==='observed'&&a.subject===c.subject&&a.eventClass===c.topic&&overlap(a.window,c.time));
   const negative=c.polarity==='denied'||c.basis==='not_observed';
   let category=c.basis==='not_observed'?'not_observed':c.polarity==='unknown'?'unknown':c.polarity==='denied'?'not_observed':c.basis==='reported'||c.basis==='uncertain'?'inferred':'directly_observed';
-  if(c.polarity==='denied'&&denial&&coverage.negativeEligible&&!contradicting.length&&!positive.length&&!unresolved.length)category='explicitly_negated';
+  if(c.polarity==='denied'&&denial&&coverage.negativeEligible&&!contradicting.length&&!positive.length&&!unresolved.length&&!result.unanalysed.length)category='explicitly_negated';
   const conflict=contradicting.length>0||(negative&&positive.length>0);
   const status=conflict?'CONTESTED':!validWindow(c.time)?'UNRESOLVED':category==='not_observed'||category==='unknown'||coverage.level!=='well'?'UNDEROBSERVED':'SUPPORTED';
   const supporting=c.dependencies.map(d=>({...d}));
@@ -60,7 +60,7 @@ export function auditEpisode(ledger,lang='en'){
   const id=[a.id,b.id].sort().join('|');if(pairs.has(id))continue;pairs.add(id);
   timelines.push({id,candidates:[a,b].map(x=>({claimId:x.id,window:x.claim.time,wording:x.wording,evidence:x.supportingEvidence})),missing:questions.filter(q=>q.claimId===a.id||q.claimId===b.id).map(q=>q.text)});
  }
- return {version:1,language,claims,questions:questions.slice(0,3),timelines,coverageRevision:configured.revision,duplicateEventsIgnored:validAssertions.length-assertions.length,staleProfileIds:[...staleProfiles]};
+ return {version:1,language,pendingSourceIds:result.unanalysed,claims,questions:questions.slice(0,3),timelines,coverageRevision:configured.revision,duplicateEventsIgnored:validAssertions.length-assertions.length,staleProfileIds:[...staleProfiles]};
 }
 export function firewallText(ledger,lang='en'){
  const c=copyFor(lang),a=auditEpisode(ledger,lang);

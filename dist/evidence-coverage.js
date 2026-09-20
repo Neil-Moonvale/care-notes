@@ -4,7 +4,12 @@ const check=x=>{if(!x)fail();};
 const str=(s,n=200)=>typeof s==='string'&&s.trim().length>0&&s.length<=n;
 const id=s=>typeof s==='string'&&/^[a-zA-Z0-9_-]{1,64}$/.test(s);
 export const emptyCoverage=()=>({version:1,revision:0,profiles:[],bindings:[],assertions:[]});
-const ms=s=>typeof s==='string'&&/T.*(?:Z|[+-]\d\d:\d\d)$/.test(s)?Date.parse(s):NaN;
+const ms=s=>{
+ if(typeof s!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?(?:Z|[+-]\d{2}:\d{2})$/.test(s))return NaN;
+ const [y,m,d]=s.slice(0,10).split('-').map(Number),date=new Date(Date.UTC(y,m-1,d));
+ if(date.getUTCFullYear()!==y||date.getUTCMonth()!==m-1||date.getUTCDate()!==d||+s.slice(11,13)>23||+s.slice(14,16)>59||+s.slice(17,19)>59)return NaN;
+ return Date.parse(s);
+};
 export const validWindow=w=>w&&Number.isFinite(ms(w.start))&&Number.isFinite(ms(w.end))&&ms(w.start)<ms(w.end);
 const intervals=a=>Array.isArray(a)&&a.length<=200&&a.every(validWindow);
 const strings=a=>Array.isArray(a)&&a.length<=40&&a.every(s=>str(s,300));
@@ -65,7 +70,8 @@ export function coverageFor(input,eventClass,window,subject){
  const covered=merge(sources.flatMap(s=>s.intervals)),gaps=subtract([bounds],covered);
  const duration=covered.reduce((n,[a,b])=>n+b-a,0),fraction=duration/(bounds[1]-bounds[0]);
  // Label thresholds describe elapsed observation coverage, never truth probabilities.
- const level=fraction===0?'unobserved':fraction<.5?'poor':fraction<1?'partial':'well';
+ const clearRanges=merge(sources.filter(s=>!s.blindSpots.length).flatMap(s=>s.intervals));
+ const level=fraction===0?'unobserved':fraction<.5?'poor':fraction<1||subtract([bounds],clearRanges).length?'partial':'well';
  const negativeRanges=merge(sources.filter(s=>s.negativeEligible).flatMap(s=>s.intervals));
  const edges=[...new Set([bounds[0],bounds[1],...sources.flatMap(s=>s.intervals.flat())])].sort((a,b)=>a-b);
  const segments=edges.slice(0,-1).map((a,i)=>({start:iso(a),end:iso(edges[i+1]),sourceIds:sources.filter(s=>s.intervals.some(([x,y])=>x<=a&&y>=edges[i+1])).map(s=>s.id)}));

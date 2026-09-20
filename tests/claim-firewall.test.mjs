@@ -37,3 +37,17 @@ test('opposing caregiver accounts produce contested candidates without probabili
  const l=addAnalysis(createLedger([s1,s2]),{claims:[{...claim,quote:s1.text},{...claim,id:'d',sourceId:'s2',quote:s2.text,polarity:'affirmed'}],relations:[{from:'c',to:'d',type:'contradicts'}]});
  const a=auditEpisode(l);assert.equal(a.claims[0].status,'CONTESTED');assert.equal(a.timelines.length,1);assert.equal(a.timelines[0].candidates.length,2);assert.ok(!JSON.stringify(a.timelines).includes('probability'));
 });
+test('new unanalysed evidence prevents a previously allowed negative conclusion',()=>{
+ const s={...source,text:'20:00–21:00 I watched continuously: no event.'};
+ let l=addAnalysis(createLedger([s]),{claims:[{...claim,quote:s.text}],relations:[]});
+ l=withCoverage(l,{...cov,assertions:[{id:'a',eventId:'evt',profileId:'p',subject:'person',eventClass:'medication',window:time,category:'explicitly_negated',reviewed:true,evidence:[{sourceId:'s',sourceVersion:1,quote:s.text}]}]});
+ l.sources.push(createLedger([{...source,id:'new',text:'She took it at 20:30.'}]).sources[0]);
+ assert.equal(auditEpisode(l).claims[0].maximumStrength,'not_observed');
+});
+test('duplicated sensor assertion does not count as independent evidence',()=>{
+ const s={...source,text:'20:00–21:00 I watched continuously: no event.'};
+ let l=addAnalysis(createLedger([s]),{claims:[{...claim,quote:s.text}],relations:[]});
+ const a={id:'a',eventId:'evt',profileId:'p',subject:'person',eventClass:'medication',window:time,category:'explicitly_negated',reviewed:true,evidence:[{sourceId:'s',sourceVersion:1,quote:s.text}]};
+ l=withCoverage(l,{...cov,assertions:[a,{...a,id:'duplicate'}]});
+ assert.equal(auditEpisode(l).duplicateEventsIgnored,1);
+});

@@ -1,3 +1,7 @@
+# Current architecture
+
+See [Evidence Coverage Firewall](EVIDENCE_COVERAGE_FIREWALL.md) for the 1.1.0 deterministic audit and final-report boundary. The original evidence revision architecture remains below.
+
 # Evidence revision experiment
 
 This development branch adds a small, reusable reconstruction core and an interactive correction example. It does not establish that Care Notes outperforms a language model or improves clinical outcomes.

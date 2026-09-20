@@ -56,3 +56,11 @@ The report is composed locally from validated extraction, so viewing it does not
 新增、删除或更正原文后，旧报告不再显示为当前报告，需要重新整理。旧版备份仍能恢复；旧提取数据不会冒充新报告。报告按生成时所选语言撰写，切换界面不会自动翻译已保存的报告。
 
 「体验示例」是预写的虚构报告，不消耗 API 额度。真实调用的文字质量取决于模型；引用检查只能核对引用是否来自当前原文，不能证明模型的每个结论正确。请核对后使用。
+
+## 1.1.0：观察覆盖
+
+「整理结果」先读带来源的经过，再展开「核对依据」。条纹表示该时段没有可用的直接观察，不表示事情没有发生。「接下来最值得问」会列出影响哪些原始记录。候选经过并列表示尚不能确定。
+
+可以在结果页底部「补充观察范围」选择一条原文，填写实际观察对象和时段。对象标识需与提取结果一致；不确定就暂不声明。该表单不会让“没看见”自动升级成“没发生”。点击「体验观察覆盖防火墙」可查看虚构的多来源案例，不消耗 API。
+
+The final report now uses audited, attributed wording. Expand a claim to inspect evidence, conflicts, coverage and why the wording is limited. Stripes mean no direct observation, not that nothing happened. Observation declarations are not independently verified. Model drafts remain in backups but are not presented as verified conclusions.

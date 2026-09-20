@@ -2,14 +2,17 @@
 
 Review fragmented caregiving accounts without losing the original words, conflicting accounts or unknowns.
 
-[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.6) · [Try web example / 网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
+[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.1.0) · [Try web example / 网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
 
 Care Notes is for families whose care recipient cannot reliably keep a diary. Different people remember different pieces; dates can be unclear and an unobserved event is not necessarily an event that did not happen.
 
-**New in 1.0.6:** one AI request produces a readable account of what happened, alongside the evidence extraction. Each paragraph has expandable original quotations. Added or corrected records invalidate the saved narrative; exports include the current report. The no-key demo uses clearly labeled authored examples in six languages.
+**New in 1.1.0: Evidence Coverage Firewall.** Care Notes does not only track evidence. It tracks whether evidence could have existed. A deterministic layer checks observation capabilities, gaps, source clocks and reporting cadence before allowing absence-related wording. Results show attributed accounts first, then an inspectable coverage map, opposing evidence, alternative timelines and targeted questions. The model cannot grant itself observation coverage.
 
-**Version 1.0.6** brings a four-screen Android and web workflow: Accounts, AI organize, Results and Settings. The release includes a signed Android APK and source archives. The same interface and evidence core run on both platforms.
+[Try the fictional coverage case](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&case=coverage) · [Architecture and limits](docs/EVIDENCE_COVERAGE_FIREWALL.md)
 
+The new report deliberately uses bounded wording instead of treating unconstrained AI prose as verified. “No medication event was observed” stays unknown. It does not become a missed-dose assertion. A reviewed explicit negation needs stricter, source-bounded observation support. No API key is needed for the authored demo.
+
+Android and web share this evidence layer. New coverage screens are complete in English and Simplified Chinese, with English fallback in the other four interface languages. Existing accounts and source histories remain compatible.
 Model connections use your own API credit. Automated checks cover transport, consent, output validation, source corrections, restoration and UI controller transitions. Live-provider accuracy and broad real-device compatibility are not certified; review every result before using it for a handoff.
 
 ## One workflow
@@ -29,7 +32,7 @@ The fictional example works without a model or API key. Its annotations are auth
 - Proposes event identity, incompatibility, report lineage and order for human review.
 - Rejects invalid source references, known temporal incompatibilities and stale responses to edited accounts.
 - Supports device-local storage, validated full-history backup/restore, text handoffs, clipboard and printing/PDF.
-- Includes Simplified Chinese, English, Spanish, French, Japanese and Korean controls, examples and in-app instructions. Personal text stays in its original language.
+- Includes Simplified Chinese, English, Spanish, French, Japanese and Korean controls, original examples and in-app instructions; new coverage features fall back to English outside Chinese/English. Personal text stays in its original language.
 - Includes an Android project bundling the same UI and evidence core, with native HTTPS model requests and system file pickers. The app does not need a Care Notes account or a running desktop computer.
 
 These checks do not establish semantic correctness. A model can omit evidence or undeclared dependencies, choose an unsupported subject, or misunderstand a date while producing a structurally valid response. Human review remains necessary. See [the evidence core and its limits](docs/RECONSTRUCTION.md).
@@ -42,7 +45,7 @@ OpenAI Responses, DeepSeek Chat Completions and a **custom OpenAI-compatible HTT
 - On Android, requests go directly to the selected provider.
 - On a server-backed web deployment, the two fixed official providers can use the same-origin relay.
 - A custom web provider is called directly from the browser and must allow CORS. Custom destinations are never passed through the hosted relay.
-- Keys remain in the open page and transient request, outside device storage and backups. No shared maintainer key is provided. Provider charges and policies apply. There are no automatic paid retries.
+- Web keys remain in the open page and transient request. Android supports explicit encrypted, endpoint-scoped device storage; keys never enter record backups. No shared maintainer key is provided. Provider charges and policies apply. There are no automatic paid retries.
 
 See [configuration and data flow](docs/MOBILE_AI.md).
 

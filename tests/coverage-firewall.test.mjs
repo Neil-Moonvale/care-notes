@@ -31,3 +31,10 @@ test('unknown window and subject cannot be treated as fully covered',()=>{
 test('malformed coverage fails closed',()=>{
  for(const patch of [{active:[{start:w.end,end:w.start}]},{clockOffsetSeconds:NaN},{capabilities:['']},{cadenceSeconds:0},{mode:'magic'}])assert.throws(()=>validateCoverage(state(profile(patch))),/invalid_coverage/);
 });
+test('impossible calendar dates and non-boolean trust declarations are rejected',()=>{
+ assert.throws(()=>validateCoverage(state(profile({active:[{start:'2026-02-30T20:00:00Z',end:'2026-03-03T20:00:00Z'}]}))),/invalid_coverage/);
+ assert.throws(()=>validateCoverage(state(profile({reviewed:'true'}))),/invalid_coverage/);
+});
+test('known blind spots prevent the strongest coverage label',()=>{
+ assert.notEqual(coverageFor(state(profile({blindSpots:['Hidden corner']})),'medication',w,'person').level,'well');
+});
