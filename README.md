@@ -2,11 +2,15 @@
 
 Review fragmented caregiving accounts without losing the original words, conflicting accounts or unknowns.
 
+**1.2.0 source update: Handoff Change Review.** Save a local checkpoint after reviewing Results, then compare added, corrected and withdrawn accounts against that checkpoint. Exact before/after wording and source versions remain visible, observation-coverage edits are flagged, and a separate change list can be exported without an AI call. Checkpoints survive workspace backup/restore. This compares records, not clinical changes or AI report differences; it does not confirm delivery. [Guide and limits](docs/HANDOFF_CHANGES.md).
+
+The APK and hosted example linked below remain the published **1.1.0** until a separately validated release/deployment.
+
 [Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.1.0) · [Try web example / 网页示例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
 
 Care Notes is for families whose care recipient cannot reliably keep a diary. Different people remember different pieces; dates can be unclear and an unobserved event is not necessarily an event that did not happen.
 
-**New in 1.1.0: Evidence Coverage Firewall.** Care Notes does not only track evidence. It tracks whether evidence could have existed. A deterministic layer checks observation capabilities, gaps, source clocks and reporting cadence before allowing absence-related wording. Results show attributed accounts first, then an inspectable coverage map, opposing evidence, alternative timelines and targeted questions. The model cannot grant itself observation coverage.
+**1.1.0: Evidence Coverage Firewall.** Care Notes does not only track evidence. It tracks whether evidence could have existed. A deterministic layer checks observation capabilities, gaps, source clocks and reporting cadence before allowing absence-related wording. Results show attributed accounts first, then an inspectable coverage map, opposing evidence, alternative timelines and targeted questions. The model cannot grant itself observation coverage.
 
 [Try the fictional coverage case](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&case=coverage) · [Architecture and limits](docs/EVIDENCE_COVERAGE_FIREWALL.md)
 
