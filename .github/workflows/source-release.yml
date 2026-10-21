@@ -1,0 +1,32 @@
+name: Publish source and portable web release
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: care-notes-release
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm test
+      - run: npm run test:worker
+      - name: Package portable web assets
+        run: python scripts/package-portable-web.py
+      - name: Publish source and portable web (preserve latest signed Android release)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(node -p 'JSON.parse(require("fs").readFileSync("package.json")).version')
+          gh release create "v$version" "build/portable/Care-Notes-$version-web.zip" build/portable/SHA256SUMS-web.txt --target "$GITHUB_SHA" --title "Care Notes $version — Source & portable web / 源码与网页包" --notes-file "docs/releases/$version.md" --latest=false
