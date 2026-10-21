@@ -24,27 +24,29 @@ async function request(path,{method='GET',data,missing=false}={}){
 }
 function matches(asset,file){return asset?.name===file.name&&asset.size===file.bytes.length&&asset.digest===file.digest;}
 let release=await request(`releases/tags/${tag}`,{missing:true});
-if(release&&!release.draft){
-  if(!files.every(file=>matches(release.assets.find(a=>a.name===file.name),file)))throw Error('Published assets differ; refusing to replace a release');
-  if(release.body!==notes)release=await request(`releases/${release.id}`,{method:'PATCH',data:{body:notes}});
-  console.log(JSON.stringify({status:'already_published',url:release.html_url}));
-}else{
-  if(release&&release.target_commitish!==sha)throw Error('Draft targets a different source commit; manual review required');
-  if(!release){
-    const existingTag=await request(`git/ref/tags/${tag}`,{missing:true});
-    if(existingTag&&existingTag.object.sha!==sha)throw Error('Tag already targets different source; refusing to move it');
-    release=await request('releases',{method:'POST',data:{tag_name:tag,target_commitish:sha,name:`Care Notes ${version}`,body:notes,draft:true,prerelease:false,make_latest:'true'}});
-  }
-  for(const file of files){
-    const existing=release.assets.find(a=>a.name===file.name);
-    if(existing){if(!matches(existing,file))throw Error('Draft asset differs; refusing to overwrite');continue;}
-    const url=new URL(`https://uploads.github.com/repos/${repo}/releases/${release.id}/assets`);url.searchParams.set('name',file.name);
-    const response=await fetch(url,{method:'POST',redirect:'error',headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json','Content-Type':'application/octet-stream'},body:file.bytes});
-    if(!response.ok)throw Error(`Asset upload: ${response.status}`);
-    if(!matches(await response.json(),file))throw Error('Uploaded asset digest mismatch');
-  }
-  release=await request(`releases/${release.id}`);
-  if(!files.every(file=>matches(release.assets.find(a=>a.name===file.name),file)))throw Error('Incomplete release assets');
-  release=await request(`releases/${release.id}`,{method:'PATCH',data:{draft:false,prerelease:false,make_latest:'true'}});
-  console.log(JSON.stringify({status:'published',url:release.html_url}));
+const alreadyPublished=Boolean(release&&!release.draft);
+if(release?.draft&&release.target_commitish!==sha)throw Error('Draft targets a different source commit; manual review required');
+if(!release){
+  const existingTag=await request(`git/ref/tags/${tag}`,{missing:true});
+  if(existingTag&&existingTag.object.sha!==sha)throw Error('Tag already targets different source; refusing to move it');
+  release=await request('releases',{method:'POST',data:{tag_name:tag,target_commitish:sha,name:`Care Notes ${version}`,body:notes,draft:true,prerelease:false,make_latest:'true'}});
 }
+// A published source-only release can gain a verified signed distribution.
+// Check every existing distribution asset before mutating anything. Never replace bytes or move tags.
+for(const file of files){
+  const existing=release.assets.find(a=>a.name===file.name);
+  if(existing&&!matches(existing,file))throw Error('Published or draft asset differs; refusing to overwrite');
+}
+let uploaded=0;
+for(const file of files){
+  if(release.assets.some(a=>a.name===file.name))continue;
+  const url=new URL(`https://uploads.github.com/repos/${repo}/releases/${release.id}/assets`);url.searchParams.set('name',file.name);
+  const response=await fetch(url,{method:'POST',redirect:'error',headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json','Content-Type':'application/octet-stream'},body:file.bytes});
+  if(!response.ok)throw Error(`Asset upload: ${response.status}`);
+  if(!matches(await response.json(),file))throw Error('Uploaded asset digest mismatch');
+  uploaded++;
+}
+release=await request(`releases/${release.id}`);
+if(!files.every(file=>matches(release.assets.find(a=>a.name===file.name),file)))throw Error('Incomplete release assets');
+release=await request(`releases/${release.id}`,{method:'PATCH',data:{body:notes,name:`Care Notes ${version}`,draft:false,prerelease:false,make_latest:'true'}});
+console.log(JSON.stringify({status:alreadyPublished&&!uploaded?'already_published':'published',url:release.html_url}));

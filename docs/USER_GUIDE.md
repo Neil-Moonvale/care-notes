@@ -1,6 +1,6 @@
 # Care Notes 1.0 使用说明 / User guide
 
-[下载 Android APP](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.6) · [打开网页 Demo](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh)
+[下载 Android APP](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.0.6) · [打开网页 Demo](https://care-notes.muddycandy7.chatgpt.site/?mode=demo&lang=zh)
 
 ## 手机上怎么用
 
