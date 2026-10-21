@@ -2,7 +2,7 @@
 
 Implemented: one explicit, device-local handoff checkpoint; new/corrected/withdrawn account comparison with exact historical wording and version references; declared-coverage change warning; independent text export; validated checkpoint restoration. Existing backups load without a checkpoint. English and Simplified Chinese copy; other languages fall back to English for this feature.
 
-Validation: 154 automated tests passed, Worker runtime test passed, Android asset preparation passed (45 assets). Chromium desktop and mobile interaction checks are recorded in docs/releases/1.2.0.md. No new signed APK, hosted deployment, physical-device test or live-model benchmark is claimed. Published download and hosted demo remain 1.1.0.
+Validation: 154 automated tests passed, Worker runtime test passed, Android asset preparation passed (45 assets). Chromium desktop and mobile interaction checks are recorded in docs/releases/1.2.0.md. Android CI compilation passed. No new signed APK, hosted deployment, physical-device test or live-model benchmark is claimed. Published download and hosted demo remain 1.1.0.
 
 See [feature guide](HANDOFF_CHANGES.md) and [research notes](PRODUCT_RESEARCH_1.2.md).
 
