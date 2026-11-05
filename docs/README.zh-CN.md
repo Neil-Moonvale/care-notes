@@ -2,11 +2,11 @@
 
 **1.3.0：待核对问题。** 问题关联原话版本，补充回答独立保存，再由你人工核对。原始记录或观察范围变化后，自动提示重新核对。保留前后原话，可备份、导出，也会加入交接文本；无需 API。[功能说明](CLARIFICATION_REVIEW.md) · [1.3.1 发布说明](releases/1.3.1.md)。
 
-网页版与源码更新至 1.3.1，修复同一问题与来源组合重复显示的情况；原安卓签名密钥暂不可用，正式签名 APK 仍为 1.2.0。托管服务现将旧网址跳转到新网址；浏览器本地记录不会跨域自动迁移，请在新网址恢复之前导出的完整备份。旧版不保留新增问题字段，不要用旧版中转 1.3 备份。
+网页版与源码更新至 1.3.1，修复同一问题与来源组合重复显示的情况；已恢复原签名备份，正式安卓 APK 同步更新至 1.3.1，与旧版签名一致。托管服务现将旧网址跳转到新网址；浏览器本地记录不会跨域自动迁移，请在新网址恢复之前导出的完整备份。旧版不保留新增问题字段，不要用旧版中转 1.3 备份。
 
 **1.2.0：交接变化核对。** 保存交接基准，对照新增、更正、撤下的描述。[说明](HANDOFF_CHANGES.md)。
 
-**[下载 Android APP 1.2.0](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.2.0)** · **[网页 Demo](https://care-notes.lthihuong602.chatgpt.site/?mode=demo&lang=zh)** · **[使用说明](USER_GUIDE.md)**
+**[下载 Android APP 1.3.1](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.3.1)** · **[网页 Demo](https://care-notes.lthihuong602.chatgpt.site/?mode=demo&lang=zh)** · **[使用说明](USER_GUIDE.md)**
 
 当前主流程：描述 → AI 整理 → 整理结果 → 设置。AI 有独立的开始按钮、持久错误提示和结果界面。连接测试可选，真实整理需自己的 API 额度。
 

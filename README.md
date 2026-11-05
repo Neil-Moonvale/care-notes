@@ -4,11 +4,11 @@ Review fragmented caregiving accounts without losing the original words, conflic
 
 **New in 1.3.0: Clarification notebook.** Keep questions linked to exact source versions, record attributed replies, and explicitly review them. Any source or observation-coverage change requests another check. Historical/current wording, backup/restore and handoff exports preserve the thread. No API call is required. [Guide](docs/CLARIFICATION_REVIEW.md) · [1.3.1 release](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.3.1).
 
-The web/source release is 1.3.1, which removes duplicate follow-up suggestions for the same question and source set. The last signed Android APK is **1.2.0**; the original signing key was unavailable, so no signed 1.3.x APK is claimed. The hosting service now redirects the previous hostname to the new one. Browser storage does not migrate across hostnames: restore a previously exported full workspace backup on the new site; older apps do not retain the new question fields.
+The web/source release is 1.3.1, which removes duplicate follow-up suggestions for the same question and source set. The signed Android APK is also **1.3.1**, using the same certificate as 1.2.0 after restoring the original signing backup. The hosting service now redirects the previous hostname to the new one. Browser storage does not migrate across hostnames: restore a previously exported full workspace backup on the new site; older apps do not retain the new question fields.
 
 **1.2.0: Handoff Change Review.** Local handoff checkpoints compare added, corrected and withdrawn source records with exact before/after wording. [Guide](docs/HANDOFF_CHANGES.md).
 
-[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.2.0) · [Try web example / 网页示例](https://care-notes.lthihuong602.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
+[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.3.1) · [Try web example / 网页示例](https://care-notes.lthihuong602.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
 
 Care Notes is for families whose care recipient cannot reliably keep a diary. Different people remember different pieces; dates can be unclear and an unobserved event is not necessarily an event that did not happen.
 
