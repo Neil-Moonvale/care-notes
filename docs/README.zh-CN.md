@@ -1,8 +1,8 @@
 # Care Notes · 照护手记
 
-**1.2.0 源码更新：交接变化核对。** 核对结果后保存本地交接基准，之后对照新增、更正、撤下的描述，逐条查看前后原话与版本。观察范围变化会单独提示，变化清单无需 AI 即可导出，基准随备份恢复。这里只比较资料变化，不判断病情变化，也不代表对方已收到交接。[使用说明与边界](HANDOFF_CHANGES.md)。下方 APK 和在线示例仍为已发布的 1.1.0。
+**1.2.0：交接变化核对。** 核对结果后保存本地交接基准，之后对照新增、更正、撤下的描述，逐条查看前后原话与版本。观察范围变化会单独提示，变化清单无需 AI 即可导出，基准随备份恢复。这里只比较资料变化，不判断病情变化，也不代表对方已收到交接。[使用说明与边界](HANDOFF_CHANGES.md)。安卓签名包和新网站均为 1.2.0。从旧网站迁移时，请在旧站导出完整备份，再到新站恢复；浏览器记录不会自动迁移。
 
-**[下载 Android APP 1.1.0](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.1.0)** · **[网页 Demo](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&lang=zh)** · **[使用说明](USER_GUIDE.md)**
+**[下载 Android APP 1.2.0](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.2.0)** · **[网页 Demo](https://care-notes.muddycandy7.chatgpt.site/?mode=demo&lang=zh)** · **[使用说明](USER_GUIDE.md)**
 
 当前主流程：描述 → AI 整理 → 整理结果 → 设置。AI 有独立的开始按钮、持久错误提示和结果界面。连接测试可选，真实整理需自己的 API 额度。
 
@@ -13,7 +13,7 @@
 
 结果页先给带来源的可读经过。展开每条可以看原话、不同说法、覆盖范围、观察空白和措辞原因。覆盖图扣除摄像头断线、设备未佩戴、停止上报及声明的时钟误差。存在冲突时保留不同候选经过；系统给出与缺失时段有关的问题，不擅自选择哪位家属正确。
 
-**[体验虚构多来源案例](https://care-notes-neil.moonenchanter.chatgpt.site/?mode=demo&case=coverage&lang=zh)**：两位家属、门锁、手表和临时断线的摄像头。无需密钥，不调用 AI，所有设备都是模拟资料。新功能完整支持中英文；其他界面语言的新内容回退到英文。
+**[体验虚构多来源案例](https://care-notes.muddycandy7.chatgpt.site/?mode=demo&case=coverage&lang=zh)**：两位家属、门锁、手表和临时断线的摄像头。无需密钥，不调用 AI，所有设备都是模拟资料。新功能完整支持中英文；其他界面语言的新内容回退到英文。
 
 模型仍负责提取候选信息；最终表述通过本地规则限制。任意模型段落不再直接当成已证实结论。原文、修改历史、依赖、备份恢复、自定义 API 和安卓加密密钥存储保留。
 

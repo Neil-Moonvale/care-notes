@@ -1,8 +1,8 @@
-# Care Notes 1.2.0 — Handoff Change Review (source update)
+# Care Notes 1.2.0 — Handoff Change Review
 
 Implemented: one explicit, device-local handoff checkpoint; new/corrected/withdrawn account comparison with exact historical wording and version references; declared-coverage change warning; independent text export; validated checkpoint restoration. Existing backups load without a checkpoint. English and Simplified Chinese copy; other languages fall back to English for this feature.
 
-Validation: 154 automated tests passed, Worker runtime test passed, Android asset preparation passed (45 assets). Chromium desktop and mobile interaction checks are recorded in docs/releases/1.2.0.md. Android CI compilation passed. No new signed APK, hosted deployment, physical-device test or live-model benchmark is claimed. Published download and hosted demo remain 1.1.0.
+Validation: 159 automated tests passed (154 application cases and 5 release-publishing cases), Worker runtime test passed, Android asset preparation passed (45 assets). Chromium desktop and mobile interaction checks are recorded in docs/releases/1.2.0.md. Android CI compilation passed. The 1.2.0 APK is signed with the same certificate as 1.1.0, verifies with APK signature schemes v2/v3, and all 45 bundled files match source. Replacement site: https://care-notes.muddycandy7.chatgpt.site . No physical-device test or new live-model benchmark is claimed.
 
 See [feature guide](HANDOFF_CHANGES.md) and [research notes](PRODUCT_RESEARCH_1.2.md).
 
