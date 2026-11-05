@@ -4,17 +4,17 @@ Review fragmented caregiving accounts without losing the original words, conflic
 
 **New in 1.3.0: Clarification notebook.** Keep questions linked to exact source versions, record attributed replies, and explicitly review them. Any source or observation-coverage change requests another check. Historical/current wording, backup/restore and handoff exports preserve the thread. No API call is required. [Guide](docs/CLARIFICATION_REVIEW.md) · [1.3.0 release](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.3.0).
 
-The web/source release is 1.3.0. The last signed Android APK is **1.2.0**; the original signing key was unavailable, so no signed 1.3.0 APK is claimed. Existing web records stay on the same origin. Export a full backup before upgrading; older apps do not retain the new question fields.
+The web/source release is 1.3.0. The last signed Android APK is **1.2.0**; the original signing key was unavailable, so no signed 1.3.0 APK is claimed. The hosting service now redirects the previous hostname to the new one. Browser storage does not migrate across hostnames: restore a previously exported full workspace backup on the new site; older apps do not retain the new question fields.
 
 **1.2.0: Handoff Change Review.** Local handoff checkpoints compare added, corrected and withdrawn source records with exact before/after wording. [Guide](docs/HANDOFF_CHANGES.md).
 
-[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.2.0) · [Try web example / 网页示例](https://care-notes.muddycandy7.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
+[Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.2.0) · [Try web example / 网页示例](https://care-notes.lthihuong602.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
 
 Care Notes is for families whose care recipient cannot reliably keep a diary. Different people remember different pieces; dates can be unclear and an unobserved event is not necessarily an event that did not happen.
 
 **1.1.0: Evidence Coverage Firewall.** Care Notes does not only track evidence. It tracks whether evidence could have existed. A deterministic layer checks observation capabilities, gaps, source clocks and reporting cadence before allowing absence-related wording. Results show attributed accounts first, then an inspectable coverage map, opposing evidence, alternative timelines and targeted questions. The model cannot grant itself observation coverage.
 
-[Try the fictional coverage case](https://care-notes.muddycandy7.chatgpt.site/?mode=demo&case=coverage) · [Architecture and limits](docs/EVIDENCE_COVERAGE_FIREWALL.md)
+[Try the fictional coverage case](https://care-notes.lthihuong602.chatgpt.site/?mode=demo&case=coverage) · [Architecture and limits](docs/EVIDENCE_COVERAGE_FIREWALL.md)
 
 The new report deliberately uses bounded wording instead of treating unconstrained AI prose as verified. “No medication event was observed” stays unknown. It does not become a missed-dose assertion. A reviewed explicit negation needs stricter, source-bounded observation support. No API key is needed for the authored demo.
 
