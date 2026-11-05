@@ -1,6 +1,6 @@
 # Current website
 
-Canonical public site: https://care-notes.muddycandy7.chatgpt.site
+Canonical public site: https://care-notes.lthihuong602.chatgpt.site
 
 Sites project identity is retained in `.openai/hosting.json`. The managed source repository is separate from GitHub. Publish the matching source state and Worker build through Sites, preserving that project identity. `npm run build` embeds all public assets into `dist/server/index.js`; package the generated Worker and hosting manifest. Source credentials are short-lived and must never be committed.
 

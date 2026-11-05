@@ -2,7 +2,7 @@ name: Publish source and portable web release
 on:
   push:
     branches: [main]
-    paths: [package.json]
+    paths: [package.json, docs/releases/**, .github/workflows/source-release.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -32,4 +32,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version=$(node -p 'JSON.parse(require("fs").readFileSync("package.json")).version')
+          if gh release view "v$version" --json assets > "$RUNNER_TEMP/care-notes-release.json" 2>/dev/null; then
+            if jq -e '.assets | any(.name | endswith(".apk"))' "$RUNNER_TEMP/care-notes-release.json" > /dev/null; then
+              echo "Signed release exists; retain its distribution metadata."
+            else
+              gh release edit "v$version" --notes-file "docs/releases/$version.md"
+            fi
+            exit 0
+          fi
           gh release create "v$version" "build/portable/Care-Notes-$version-web.zip" build/portable/SHA256SUMS-web.txt --target "$GITHUB_SHA" --title "Care Notes $version — Source & portable web / 源码与网页包" --notes-file "docs/releases/$version.md" --latest=false
