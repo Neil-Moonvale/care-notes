@@ -1,11 +1,11 @@
-# Care Notes 1.3.0 — Clarification notebook
+# Care Notes 1.3.1 — Clarification notebook
 
 Implemented: version-linked questions, attributed replies as independent sources,
 explicit human review, automatic recheck after source/coverage changes, historical
 wording comparison, reopening, validated backup/restore and handoff integration.
 Chinese/English copy; English fallback in the other four languages.
 
-173 automated tests passed. Worker runtime passed; Android asset preparation and
+174 automated tests passed, including duplicate-suggestion regression coverage. Worker runtime passed; Android asset preparation and
 portable packaging passed. Browser interaction verified capture, question, reply,
 review, correction, recheck and refresh persistence at a narrow viewport.
 No physical-device or live-model evaluation is claimed.
@@ -13,9 +13,9 @@ Android CI compilation and source/web release publication also passed. Current
 canonical site: https://care-notes.lthihuong602.chatgpt.site . The former hostname redirects;
 restore an existing workspace backup because browser storage is origin-specific.
 
-Web/source release is 1.3.0. The last signed APK remains 1.2.0: the original signing
+Web/source release is 1.3.1. The last signed APK remains 1.2.0: the original signing
 key was not available. Do not present the unsigned CI artifact as an installable
-release. [Release notes](releases/1.3.0.md) · [Guide](CLARIFICATION_REVIEW.md).
+release. [Release notes](releases/1.3.1.md) · [Guide](CLARIFICATION_REVIEW.md).
 
 ---
 Previous release state:
