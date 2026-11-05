@@ -69,4 +69,4 @@ The final report now uses audited, attributed wording. Expand a claim to inspect
 
 Open Results → Clarification notebook. Save a suggested or manual question with its source accounts, record a named reply, and review it explicitly. Any source or coverage change requests another review. Export separately or with the handoff. See [the full guide](CLARIFICATION_REVIEW.md).
 
-在“整理结果 → 待核对问题”保存问题与相关原话，记录回答者和原话，再人工核对。资料变化后会重新待查。完整备份保留问题，普通交接导出也包含问题和回答。网页版/源码为 1.3.0；签名安卓包仍为 1.2.0。
+在“整理结果 → 待核对问题”保存问题与相关原话，记录回答者和原话，再人工核对。资料变化后会重新待查。完整备份保留问题，普通交接导出也包含问题和回答。网页版/源码为 1.3.1；签名安卓包仍为 1.2.0。

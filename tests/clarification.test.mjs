@@ -98,3 +98,12 @@ test('deleting an answer preserves historical reply and prevents claiming it was
  const l=removeSource(reviewed(),'e2',1),html=renderClarifications(l,'en');
  assert.match(html,/Withdrawn source/);assert.match(html,/data-action="review-question"[^>]+disabled/);
 });
+
+test('opposing claims sharing the same question and source set produce one follow-up, with both accounts retained',()=>{
+ const l=coverageDemo('zh'),questions=clarificationCandidates(l,'zh');
+ const identity=q=>JSON.stringify([q.question,[...q.refs].sort((a,b)=>a.id.localeCompare(b.id))]);
+ assert.equal(new Set(questions.map(identity)).size,questions.length);
+ const opposing=questions.filter(q=>q.refs.some(r=>r.id==='f0')&&q.refs.some(r=>r.id==='f1'));
+ assert.equal(opposing.length,1);
+ assert.ok(questions.some(q=>q.refs.some(r=>r.id==='f2')),'a distinct observation-gap question remains');
+});
