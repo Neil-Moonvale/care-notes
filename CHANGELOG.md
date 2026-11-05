@@ -1,5 +1,13 @@
 # 1.2.0 — Handoff Change Review
 
+## 1.3.0 — 2026-11-05
+
+- Version-linked clarification questions, independently attributed replies and explicit human review.
+- Source/coverage changes invalidate prior reviews; historical wording, backups and handoff exports retain the thread.
+- Local HTTP source creation compatibility and repository scope check.
+- Source/web release; signed Android remains 1.2.0 pending the original signing key.
+
+
 - Save a reviewed local handoff checkpoint and compare exact source versions later.
 - Show added, corrected and withdrawn accounts, declared-coverage changes and pending organization count.
 - Export a separate change list without calling a model.
