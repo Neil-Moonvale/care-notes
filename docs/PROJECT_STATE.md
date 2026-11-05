@@ -13,9 +13,10 @@ Android CI compilation and source/web release publication also passed. Current
 canonical site: https://care-notes.lthihuong602.chatgpt.site . The former hostname redirects;
 restore an existing workspace backup because browser storage is origin-specific.
 
-Web/source release is 1.3.1. The last signed APK remains 1.2.0: the original signing
-key was not available. Do not present the unsigned CI artifact as an installable
-release. [Release notes](releases/1.3.1.md) · [Guide](CLARIFICATION_REVIEW.md).
+Web/source and signed Android distribution are 1.3.1. The original signing backup
+was restored and verified against 1.2.0. The APK verifies with v2/v3 signatures;
+all 47 bundled assets match source. Private signing files are kept outside the
+repository. [Release notes](releases/1.3.1.md) · [Guide](CLARIFICATION_REVIEW.md).
 
 ---
 Previous release state:

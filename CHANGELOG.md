@@ -11,7 +11,7 @@
 - Version-linked clarification questions, independently attributed replies and explicit human review.
 - Source/coverage changes invalidate prior reviews; historical wording, backups and handoff exports retain the thread.
 - Local HTTP source creation compatibility and repository scope check.
-- Source/web release; signed Android remains 1.2.0 pending the original signing key.
+- Source/web and original-key signed Android distribution; all platforms are versioned 1.3.1.
 
 
 - Save a reviewed local handoff checkpoint and compare exact source versions later.
