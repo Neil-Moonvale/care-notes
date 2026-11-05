@@ -1,3 +1,4 @@
+import {validateClarifications,clarificationText} from './clarification.js';
 import {validateCoverage} from './evidence-coverage.js';
 import {validateCheckpoint} from './handoff-changes.js';
 import {auditEpisode} from './claim-firewall.js';
@@ -40,6 +41,7 @@ export function restoreWorkspace(raw) {
     else if(!Array.isArray(r.sources))throw Error('invalid_backup');
   }
   if(saved.handoffCheckpoint!==undefined)ledger.handoffCheckpoint=validateCheckpoint(ledger,saved.handoffCheckpoint);
+  if(saved.clarifications!==undefined)ledger.clarifications=validateClarifications(ledger,saved.clarifications);
   reconstruct(ledger);
   return ledger;
 }
@@ -61,5 +63,6 @@ export function handoffText(ledger,copy,timeLabel) {
   for(const id of result.unanalysed)lines.push(`[${id}] ${copy.pending}`);
   lines.push('',copy.sources);
   for(const s of sources)lines.push(`[${s.id} v${s.version}] ${s.author}`,s.text,'');
+  if(ledger.clarifications?.length)lines.push('',clarificationText(ledger,copy.locale.split('-')[0]));
   lines.push(copy.scope);return lines.join('\n');
 }

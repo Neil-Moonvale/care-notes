@@ -1,3 +1,22 @@
+# Care Notes 1.3.0 — Clarification notebook
+
+Implemented: version-linked questions, attributed replies as independent sources,
+explicit human review, automatic recheck after source/coverage changes, historical
+wording comparison, reopening, validated backup/restore and handoff integration.
+Chinese/English copy; English fallback in the other four languages.
+
+173 automated tests passed. Worker runtime passed; Android asset preparation and
+portable packaging passed. Browser interaction verified capture, question, reply,
+review, correction, recheck and refresh persistence at a narrow viewport.
+No physical-device or live-model evaluation is claimed.
+
+Web/source release is 1.3.0. The last signed APK remains 1.2.0: the original signing
+key was not available. Do not present the unsigned CI artifact as an installable
+release. [Release notes](releases/1.3.0.md) · [Guide](CLARIFICATION_REVIEW.md).
+
+---
+Previous release state:
+
 # Care Notes 1.2.0 — Handoff Change Review
 
 Implemented: one explicit, device-local handoff checkpoint; new/corrected/withdrawn account comparison with exact historical wording and version references; declared-coverage change warning; independent text export; validated checkpoint restoration. Existing backups load without a checkpoint. English and Simplified Chinese copy; other languages fall back to English for this feature.

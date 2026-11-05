@@ -10,6 +10,15 @@ Care Notes should solve a difficult caregiving problem with the least required s
 
 Wearables, Health Connect, smart-home events, cameras and other integrations are optional later evidence sources. They are not the product and must not become prerequisites.
 
+## 1.3.0 shipped source/web workflow
+
+- [x] Version-linked questions, attributed replies, explicit review and correction-triggered recheck.
+- [x] Full-history backup/restore and question-inclusive handoffs.
+- [ ] Publish a compatible signed Android 1.3.0 APK once the original signing key is available.
+- [ ] Independent caregiver feedback and physical Android walkthrough.
+
+Historical planning below is retained for context; current status is in PROJECT_STATE.md.
+
 ## Working prototype on `main`
 
 - [x] Local recording, paragraph capture, original evidence, corrections and backups.
