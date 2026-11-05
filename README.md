@@ -2,9 +2,9 @@
 
 Review fragmented caregiving accounts without losing the original words, conflicting accounts or unknowns.
 
-**New in 1.3.0: Clarification notebook.** Keep questions linked to exact source versions, record attributed replies, and explicitly review them. Any source or observation-coverage change requests another check. Historical/current wording, backup/restore and handoff exports preserve the thread. No API call is required. [Guide](docs/CLARIFICATION_REVIEW.md) · [1.3.0 release](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.3.0).
+**New in 1.3.0: Clarification notebook.** Keep questions linked to exact source versions, record attributed replies, and explicitly review them. Any source or observation-coverage change requests another check. Historical/current wording, backup/restore and handoff exports preserve the thread. No API call is required. [Guide](docs/CLARIFICATION_REVIEW.md) · [1.3.1 release](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.3.1).
 
-The web/source release is 1.3.0. The last signed Android APK is **1.2.0**; the original signing key was unavailable, so no signed 1.3.0 APK is claimed. The hosting service now redirects the previous hostname to the new one. Browser storage does not migrate across hostnames: restore a previously exported full workspace backup on the new site; older apps do not retain the new question fields.
+The web/source release is 1.3.1, which removes duplicate follow-up suggestions for the same question and source set. The last signed Android APK is **1.2.0**; the original signing key was unavailable, so no signed 1.3.x APK is claimed. The hosting service now redirects the previous hostname to the new one. Browser storage does not migrate across hostnames: restore a previously exported full workspace backup on the new site; older apps do not retain the new question fields.
 
 **1.2.0: Handoff Change Review.** Local handoff checkpoints compare added, corrected and withdrawn source records with exact before/after wording. [Guide](docs/HANDOFF_CHANGES.md).
 

@@ -1,5 +1,11 @@
 # 1.2.0 — Handoff Change Review
 
+## 1.3.1 — 2026-11-05
+
+- Deduplicate identical follow-up suggestions arising from opposing claims while retaining both source references.
+- Preserve distinct questions and the original 1.3.0 release assets.
+
+
 ## 1.3.0 — 2026-11-05
 
 - Version-linked clarification questions, independently attributed replies and explicit human review.
