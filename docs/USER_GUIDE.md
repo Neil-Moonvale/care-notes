@@ -64,3 +64,9 @@ The report is composed locally from validated extraction, so viewing it does not
 可以在结果页底部「补充观察范围」选择一条原文，填写实际观察对象和时段。对象标识需与提取结果一致；不确定就暂不声明。该表单不会让“没看见”自动升级成“没发生”。点击「体验观察覆盖防火墙」可查看虚构的多来源案例，不消耗 API。
 
 The final report now uses audited, attributed wording. Expand a claim to inspect evidence, conflicts, coverage and why the wording is limited. Stripes mean no direct observation, not that nothing happened. Observation declarations are not independently verified. Model drafts remain in backups but are not presented as verified conclusions.
+
+## 1.3.0: clarification notebook / 待核对问题
+
+Open Results → Clarification notebook. Save a suggested or manual question with its source accounts, record a named reply, and review it explicitly. Any source or coverage change requests another review. Export separately or with the handoff. See [the full guide](CLARIFICATION_REVIEW.md).
+
+在“整理结果 → 待核对问题”保存问题与相关原话，记录回答者和原话，再人工核对。资料变化后会重新待查。完整备份保留问题，普通交接导出也包含问题和回答。网页版/源码为 1.3.0；签名安卓包仍为 1.2.0。

@@ -1,5 +1,8 @@
 name: Publish source and portable web release
 on:
+  push:
+    branches: [main]
+    paths: [package.json]
   workflow_dispatch:
 permissions:
   contents: read

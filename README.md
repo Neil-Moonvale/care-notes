@@ -2,9 +2,11 @@
 
 Review fragmented caregiving accounts without losing the original words, conflicting accounts or unknowns.
 
-**New in 1.2.0: Handoff Change Review.** Save a local checkpoint after reviewing Results, then compare added, corrected and withdrawn accounts against that checkpoint. Exact before/after wording and source versions remain visible, observation-coverage edits are flagged, and a separate change list can be exported without an AI call. Checkpoints survive workspace backup/restore. This compares records, not clinical changes or AI report differences; it does not confirm delivery. [Guide and limits](docs/HANDOFF_CHANGES.md).
+**New in 1.3.0: Clarification notebook.** Keep questions linked to exact source versions, record attributed replies, and explicitly review them. Any source or observation-coverage change requests another check. Historical/current wording, backup/restore and handoff exports preserve the thread. No API call is required. [Guide](docs/CLARIFICATION_REVIEW.md) · [1.3.0 release](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.3.0).
 
-The signed Android APK and current hosted example both use 1.2.0. When moving from the previous website, export a full workspace backup there and restore it on the new site; browser storage does not move automatically.
+The web/source release is 1.3.0. The last signed Android APK is **1.2.0**; the original signing key was unavailable, so no signed 1.3.0 APK is claimed. Existing web records stay on the same origin. Export a full backup before upgrading; older apps do not retain the new question fields.
+
+**1.2.0: Handoff Change Review.** Local handoff checkpoints compare added, corrected and withdrawn source records with exact before/after wording. [Guide](docs/HANDOFF_CHANGES.md).
 
 [Download APK / 安卓下载](https://github.com/Neil-Moonvale/care-notes/releases/tag/v1.2.0) · [Try web example / 网页示例](https://care-notes.muddycandy7.chatgpt.site/?mode=demo) · [中文](docs/README.zh-CN.md) · [User guide / 使用说明](docs/USER_GUIDE.md) · [Model setup](docs/MOBILE_AI.md) · [Android](docs/ANDROID.md) · [Project status](docs/PROJECT_STATE.md) · [Contributing](CONTRIBUTING.md)
 
