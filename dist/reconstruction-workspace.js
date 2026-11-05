@@ -1,4 +1,5 @@
 import {validateCoverage} from './evidence-coverage.js';
+import {validateCheckpoint} from './handoff-changes.js';
 import {auditEpisode} from './claim-firewall.js';
 import {attachReport} from './narrative-report.js';
 import {reportText} from './care-report.js';
@@ -38,6 +39,7 @@ export function restoreWorkspace(raw) {
     if(JSON.stringify(snapshot)===JSON.stringify(r.sources))ledger={...attachReport(ledger,r.report,r),report:{...r}};
     else if(!Array.isArray(r.sources))throw Error('invalid_backup');
   }
+  if(saved.handoffCheckpoint!==undefined)ledger.handoffCheckpoint=validateCheckpoint(ledger,saved.handoffCheckpoint);
   reconstruct(ledger);
   return ledger;
 }

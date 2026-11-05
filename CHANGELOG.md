@@ -1,3 +1,12 @@
+# 1.2.0 — Handoff Change Review (source update)
+
+- Save a reviewed local handoff checkpoint and compare exact source versions later.
+- Show added, corrected and withdrawn accounts, declared-coverage changes and pending organization count.
+- Export a separate change list without calling a model.
+- Restore validated checkpoints with existing workspace backups; reject invalid historical references.
+- Add English/Chinese UI, offline assets, regression tests and guide.
+- Published APK and hosted demo remain 1.1.0 pending distribution validation.
+
 # 1.1.0 — Evidence Coverage Firewall
 
 - Added deterministic observation coverage with capability/subject checks, outages, cadence, blind spots and clock uncertainty.
